@@ -6,7 +6,7 @@
 
 [Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
 
-Natalia Escribano Romera. Nataliaes
+Natalia Escribano Romera. Nataliaescri
 
 Alejandra Alonso Pérez. aleealoonso
 
