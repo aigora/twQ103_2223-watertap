@@ -5,6 +5,8 @@
 ## Integrantes del equipo
 
 [Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
+Natalia Escribano Romera. Nataliaes
+
 
 ## Objetivos del trabajo
 
