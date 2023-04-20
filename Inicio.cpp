@@ -8,10 +8,11 @@ struct Tfuente {
 
 
 int main() {
-//ALMACENAMOS DATOS DADOS:
+//ALMACENAMOS DATOS DADOS
+//al añadir variables de mes y año(para que al introducir datos nuevos se distingan entre ellos, establecemos los datos iniciales dados, con mes y año abril 2023
 	int numfuente, conductividad, turbidez, coliformes;
 	float ph; 
-	int ndatos, i;
+	int ndatos, i, mes, annyo;
 	struct Tfuente fuente[NUM_MAX_FUENTES];
 	
 	//Abrimos el archivo de datos
@@ -25,9 +26,7 @@ int main() {
 	//leemos el archivo
 	fscanf(fichero, "%d", &ndatos); //habra este numero de datos en total
 	for(i=0; i<ndatos; i++) {
-		fuente[i].mes=3;
-		fuente[i].annyo=2023;
-		fscanf(fichero,"%d %f %d %d %d", &fuente[i].numfuente, &fuente[i].ph,&fuente[i].conductividad, &fuente[i].turbidez, &fuente[i].coliformes); 
+		fscanf(fichero,"%d %f %d %d %d %d %d", &fuente[i].numfuente, &fuente[i].ph,&fuente[i].conductividad, &fuente[i].turbidez, &fuente[i].coliformes, &fuente[i].mes, &fuente[i].annyo); 
 	}
 	fclose(fichero);
 	
@@ -40,7 +39,10 @@ int main() {
 		contador++;
 		switch (a) {
 			case(1): {
-				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x;
+				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
+				printf("Ha seleccionado annyadir nuevos datos, se le crearan nuevos documentos de texto para almacenar estos datos.\n");
+				printf("Puede decidir si quiere guardar los datos para la proxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): ");
+				scanf("%d", &b); 
 				FILE *fsalida;
 				fsalida= fopen("trabajodatos_nuevos.txt",  "w");
 				if(fsalida==NULL) {
@@ -75,6 +77,29 @@ int main() {
 				}
 				ndatos+=ndatos_nuevo;
 				fclose(fsalida);
+				/*Si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
+				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada mas comenzar*/
+				if(b==1) {      		
+					FILE *fsalida;
+					fsalida= fopen("trabajodatos.txt", "w");
+					if(fsalida==NULL) {
+						printf("Error, no se puede crear el fichero.\n");
+						return 0;
+					}
+					int j;
+					fprintf(fsalida, "%d\n", ndatos);
+					for(j=0; j<ndatos; j++) {
+						fprintf(fsalida, "%d\t", fuente[j].numfuente);
+						fprintf(fsalida, "%f\t", fuente[j].ph);
+						fprintf(fsalida, "%d\t", fuente[j].conductividad);
+						fprintf(fsalida, "%d\t", fuente[j].turbidez);
+						fprintf(fsalida, "%d\t", fuente[j].coliformes);
+						fprintf(fsalida, "%d\t", fuente[j].mes);
+						fprintf(fsalida, "%d\t", fuente[j].annyo);
+						fprintf(fsalida, "\n");
+					}
+					fclose(fsalida);
+				}
 				break;
 			}
 		}
