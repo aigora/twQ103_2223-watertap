@@ -40,7 +40,7 @@ int main() {
 		switch (a) {
 			case(1): {
 				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
-				printf("Ha seleccionado annyadir nuevos datos, se le crearan nuevos documentos de texto para almacenar estos datos.\n");
+				printf("Ha seleccionado annyadir nuevos datos, se le crearan nuevos documentos de texto para almacenar estos datos.\n\n");
 				printf("Puede decidir si quiere guardar los datos para la proxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): ");
 				scanf("%d", &b); 
 				FILE *fsalida;
