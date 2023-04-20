@@ -40,7 +40,7 @@ int main() {
 		contador++;
 		switch (a) {
 			case(1): {
-				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, contador;
+				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x;
 				FILE *fsalida;
 				fsalida= fopen("trabajodatos_nuevos.txt",  "w");
 				if(fsalida==NULL) {
