@@ -4,7 +4,10 @@ struct Tfuente {
 	int numfuente;
 	float ph;	
 	int conductividad, turbidez, coliformes, mes, annyo;
+	int incluido; //Sera 0 predeterminado. Si la fuente se usara para alguna estdistica, se cambiara incluido=1.
 }; 
+
+void reset(struct Tfuente[], int); //Funcion para resetear la variable "incluido", usada para estadisticas
 
 
 int main() {
@@ -14,7 +17,7 @@ int main() {
 	float ph; 
 	int ndatos, i, mes, annyo;
 	struct Tfuente fuente[NUM_MAX_FUENTES];
-	
+	reset(fuente,NUM_MAX_FUENTES);
 	//Abrimos el archivo de datos
 	FILE *fichero;
 	fichero=fopen("trabajodatos.txt", "r");
@@ -34,17 +37,19 @@ int main() {
 //COMIENZA EL PROGRAMA:
 	int a, contador=0; 
 	do{
-		printf("seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre años\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
+		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre años\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
 		scanf("%d", &a);
 		contador++;
 		switch (a) {
 			case(1): {
 				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
+				char nombreFichero[250];
+				sprintf(nombreFichero, "trabajodatos%d_nuevos.txt",contador);
+				FILE *fsalida;
+				fsalida= fopen(nombreFichero, "w");
 				printf("Ha seleccionado annyadir nuevos datos, se le crearan nuevos documentos de texto para almacenar estos datos.\n\n");
 				printf("Puede decidir si quiere guardar los datos para la proxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): ");
 				scanf("%d", &b); 
-				FILE *fsalida;
-				fsalida= fopen("trabajodatos_nuevos.txt",  "w");
 				if(fsalida==NULL) {
 					printf("Error, no se puede crear el fichero.\n");
 					return 0;
@@ -78,7 +83,7 @@ int main() {
 				ndatos+=ndatos_nuevo;
 				fclose(fsalida);
 				/*Si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
-				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada mas comenzar*/
+				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada más comenzar*/
 				if(b==1) {      		
 					FILE *fsalida;
 					fsalida= fopen("trabajodatos.txt", "w");
@@ -102,9 +107,46 @@ int main() {
 				}
 				break;
 			}
+			case(4): {
+				int s, non; 
+				for(s=0; s<ndatos; s++) {
+					printf("introduzca el numero de la fuente de cuyo PH desea calcular la media, si no quiere introducir mas introduzca 0: "); 
+					scanf("%d", &non); 
+					if(non==0) {
+						break; 
+					}
+					else{
+						non--; 
+						fuente[non].incluido=1;
+					}
+				}
+				int z; 
+				float media=0, cantidad=0; 
+				for(z=0; z<ndatos; z++) {
+					if(fuente[z].incluido==1) {
+					cantidad++;
+					media+=fuente[z].ph;
+					}
+				}
+				printf("la media es %f",media/cantidad); 
+				
+				break;
+			}
 		}
 	}while(a!=6);
 	printf("FIN DEL PROGRAMA"); 
 	
 	return 0;
 }
+
+
+
+
+void reset (struct Tfuente matriz[], int num) {
+	int i; 
+	for(i=0; i<num; i++) {
+		matriz[i].incluido=0;
+	}
+}
+
+
