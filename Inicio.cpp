@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <cmath>
 #define NUM_MAX_FUENTES 1000
 struct Tfuente {
 	int numfuente;
@@ -8,7 +9,7 @@ struct Tfuente {
 }; 
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
-
+float fdispersionPh(int, struct Tfuente[]);
 
 int main() 
 {
@@ -39,7 +40,7 @@ int main()
 	int a, contador=0; 
 	do{
 		printf("==============MENU PRINCIPAL==============\n");
-		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre annyos\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
+		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre annyos\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n 7-Dispersion acido/base");
 		scanf("%d", &a);
 		switch (a) {
 			case(1): {
@@ -733,6 +734,38 @@ int main()
 				break;
 			}case(6): {
 				break;
+			} case(7): {
+				int h, A, M, valorEncontrado=0, n7=0;
+				printf("Ha seleccionado medir la dispersion de los ph respecto a un ph neutro\n");		
+				printf("Introduzca el numero de la fuente cuyo ph desea comparar\n");
+				scanf("%d", &h);
+				do{
+					n7++;
+					if(n7>1) {
+						printf("La fuente seleccionada no tiene datos registrados para dicho mes y annyo, introduzca valores de nuevo\n");
+					}	
+					printf("introduzca de que mes desea coger el dato: ");
+					scanf("%d", &M);
+					printf("introduzca de que annyo desea coger el dato:");
+					scanf("%d", &A);
+					if(fuente[h-1].annyo==A) {
+						if (fuente[h-1].mes==M) {
+							if(fuente[h-1].numfuente==h) {
+								valorEncontrado=1;	
+							} 
+						}
+					}
+				} while (valorEncontrado==0);
+				h--;
+				printf("La dispersion del ph con respecto a un ph neutro es %.2f por ciento\n",fdispersionPh(h, fuente));	
+				if(fuente[h].ph>7) {
+					printf("La fuente tiene un ph basico");
+				} else if (fuente[h].ph<7) {
+					printf("la fuente tiene un ph acido");
+				} else {
+					printf("La fuente tiene un ph neutro");
+				}
+				break;
 			}
 			default: {
 				printf("El valor introducido es incorrecto, por favor vuelva a introducirlo:");
@@ -747,7 +780,13 @@ int main()
 
 }
 
-
+float fdispersionPh(int n, struct Tfuente fuente[]) {
+	if(fuente[n].ph<7) {
+		return ((7-fuente[n].ph)*100)/7;
+	} else {
+		return ((fuente[n].ph-7)*100)/7;	
+	}
+}
 
 
 void reset (struct Tfuente matriz[], int num, int a) {
