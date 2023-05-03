@@ -10,7 +10,8 @@ struct Tfuente {
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
 
 
-int main() {
+int main() 
+{
 //ALMACENAMOS DATOS DADOS
 //al añadir variables de mes y año(para que al introducir datos nuevos se distingan entre ellos, establecemos los datos iniciales dados, con mes y año abril 2023
 	int numfuente, conductividad, turbidez, coliformes;
@@ -596,31 +597,141 @@ int main() {
 				break;
 			}
 			case(4): {
-				int s, non; 
-				for(s=0; s<ndatos; s++) {
-					printf("introduzca el numero de la fuente de cuyo PH desea calcular la media, si no quiere introducir mas introduzca 0: "); 
-					scanf("%d", &non); 
-					if(non==0) {
-						break; 
-					}
-					else{
-						non--; 
-						fuente[non].incluido=1;
-					}
+				int opcion;
+				int salirDelPrograma;
+				int md, sobremd, est;
+				float media, mediana, b;
+				printf("Ha seleccionado la opcion de las estadisticas.\n");
+				printf("========= MENU ESTADISTICAS =========\n");
+				FILE *fsalida;
+				fsalida= fopen("trabajodatos.txt", "r");
+				if(fsalida==NULL) {
+					printf("Error, no se puede abrir el fichero.\n");
+					return 0;
 				}
-				int z; 
-				float media=0, cantidad=0; 
-				for(z=0; z<ndatos; z++) {
-					if(fuente[z].incluido==1) {
-					cantidad++;
-					media+=fuente[z].ph;
+				do { 
+    				printf("Elige una opcion que desee\n");
+    				printf("1: Ver todas las estadisticas\n");
+    				printf("2: Media \n");
+    				printf("3: Mediana \n");
+    				printf("4: Salir de estadisticas.\n");
+    				scanf("%d", &opcion);
+					
+					switch (opcion) {
+						case 1:
+							printf("========= TODAS LAS ESTADISTICAS =========  \n");
+							printf("Puede ser de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3) \n");
+							scanf("%d", &est);
+							break;
+						case 2:
+							printf("========= MEDIA =========  \n");
+							printf("Puede ver la media de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
+							scanf("%d", &md);
+							int s, non;
+							printf("Puede calcular la media de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
+							scanf("%d", &sobremd);
+							//ph 1
+							if(md == 1 && sobremd == 1) {
+								int z; 
+								float phMax=0, media, cantidad=0;	
+								for(z=0; z<ndatos; z++) {
+									cantidad++;
+									media+=fuente[z].ph;
+									if (fuente[z].ph > phMax) {
+										phMax = fuente[z].ph;
+									}	
+								}
+								printf("La media de pH es: %.2f\n", media / ndatos);
+								printf("El pH maximo es: %.2f\n", phMax);
+							}
+							//ph 2
+							if(md == 2 && sobremd == 1) {
+								for (i=0; i<ndatos; i++) {
+									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									scanf("%d", &non);
+									if(non==0) {
+										break;
+									} else {
+										non--;
+										fuente[non].incluido=1;									
+									}
+								}
+								int z; 
+								float phMax=0, media, cantidad=0;	
+								for(z=0; z<ndatos; z++) {
+									if (fuente[z].incluido==1) {
+										cantidad++;
+										media+=fuente[z].ph;
+										if (fuente[z].ph > phMax) {
+											phMax = fuente[z].ph;
+										}	
+									}	
+								}
+								printf("La media de pH es: %.2f\n", media / cantidad);
+								printf("El pH maximo es: %.2f\n", phMax);
+							}
+							//conductividad 1
+							if(md == 1 && sobremd == 2) {
+								int z; 
+								float condMax=0, media, cantidad=0;	
+								for(z=0; z<ndatos; z++) {
+									cantidad++;
+									media+=fuente[z].conductividad;
+									if (fuente[z].conductividad > condMax) {
+										condMax = fuente[z].conductividad;
+									}	
+								}
+								printf("La media de conductividad es: %.2f\n", media / ndatos);
+								printf("La conductividad maxima es: %.2f\n", condMax);
+							}
+							//turbidez 1
+							if(md == 1 && sobremd == 2) {
+								int z; 
+								float turMax=0, media, cantidad=0;	
+								for(z=0; z<ndatos; z++) {
+									cantidad++;
+									media+=fuente[z].turbidez;
+									if (fuente[z].turbidez > turMax) {
+										turMax = fuente[z].turbidez;
+									}	
+								}
+								printf("La media de turbidez es: %.2f\n", media / ndatos);
+								printf("La turbidez maxima es: %.2f\n", turMax);
+							}
+							//coliformes 1
+							if(md == 1 && sobremd == 2) {
+								int z; 
+								float coliMax=0, media, cantidad=0;	
+								for(z=0; z<ndatos; z++) {
+									cantidad++;
+									media+=fuente[z].coliformes;
+									if (fuente[z].coliformes > coliMax) {
+										coliMax = fuente[z].coliformes;
+									}	
+								}
+								printf("La media de coliformes es: %.2f\n", media / ndatos);
+								printf("El coliforme maximo es: %.2f\n", coliMax);
+							}
+							break;
+						case 3:
+							printf("========= MEDIANA =========  \n");
+							printf("Puede ver la mediana de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3)\n");
+							break;
+						case 4:
+							printf("Ha salido de estadisticas\n");
+							break;
+						default:{
+							printf("ERROR, la opcion no es valida\n");
+							break;
+						}
 					}
-				}
-				printf("la media es %f",media/cantidad); 
+				} while (opcion != 4);
+				
+					//scanf("%d", &b);	
+					break;
 				
 				break;
-			}
-			case(6): {
+			}case(6): {
 				break;
 			}
 			default: {
@@ -633,6 +744,7 @@ int main() {
 	printf("FIN DEL PROGRAMA"); 
 	
 	return 0;
+
 }
 
 
