@@ -821,7 +821,7 @@ int main()
 	
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
-					printf("Seleccione que datos quiere comparar: \n 1: ph\n 2: conductividad \n 3:turbidez\n 4:coliformes\n"); // creo que esto iria dentro del switch case
+					printf("Seleccione que datos quiere comparar: \n 1: pH\n 2: conductividad \n 3:turbidez\n 4:coliformes\n"); // creo que esto iria dentro del switch case
 					scanf("%d", &opcion); 
 					if (opcion<1 && opcion>4) {
 						printf(" ERROR. Esa opcion no esta disponible, pruebe otra vez por favor \n"); 
@@ -831,16 +831,18 @@ int main()
 			switch (opcion)  {
 				case (1): 
 					printf("Has seleccionado comparar datos de ph entre fuentes \n"); 
-					printf ("Escriba 1 si quiere comparar los datos de ph de mayor a menor o 2 si los quiere de menor a mayor \n"); 
-					printf("Escriba 3 si quiere comparar los datos de ph por años \n"); 
+					printf ("Escriba 1 si quiere comparar los datos de pH de mayor a menor o 2 si los quiere de menor a mayor \n"); 
+					printf("Escriba 3 si quiere comparar los datos de pH por años \n"); 
 					scanf("%d", &n);
 					if (opcion==1){
-						printf("Datos de ph ordenados de mayor a menor \n"); 
+						printf("Datos de pH ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de pH es: %f", comparacion);
 					} 
 					if(opcion==2) {
 						printf("Datos de ph ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de conductividad es: %d", comparacion);
 					}
 					if (opcion==3){
 						printf("introduzca el primer anno a comparar \n"); 
@@ -851,21 +853,23 @@ int main()
 					}
 				break;
 				case (2) : 
-					printf ("Escriba 1 si quiere comparar los datos de conductividad de mayor a menor o 2 si los quiere de menor a mayor \n"); 
+					printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
 					printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
 					scanf("%d", &n);
 					if (opcion==1){
 						printf("Datos de conductividad ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de conductividad es: %d", comparacion);
 					} 
 					if(opcion==2) {
 						printf("Datos de conductividad ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de conductividad es: %d", comparacion);
 					}
 					if (opcion==3){
-						printf("introduzca el primer anno a comparar \n"); 
+						printf("introduzca la primera fuente a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("introduzca el segundo anno a comparar \n");
+						printf ("introduzca  la segunda fuente a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
 					}	
@@ -877,10 +881,12 @@ int main()
 					if (opcion==1){
 						printf("Datos de turbidez ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de turbidez es: %d", comparacion);
 					} 
 					if(opcion==2) {
 						printf("Datos de turbidez ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de turbidez es: %d", comparacion);
 					}
 					if (opcion==3){
 						printf("introduzca el primer anno a comparar \n"); 
@@ -898,18 +904,19 @@ int main()
 					if (opcion==1){
 						printf("Datos de coliformes ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de coliformes es: %d", comparacion);
 					} 
 					if(opcion==2) {
 						printf("Datos de coliformes ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de coliformes es: %d", comparacion);
 					}
 					if (opcion==3){
 						printf("introduzca la primera fuente a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("introduzca la segundo feunte a comparar \n");
+						printf ("introduzca la segundo fuente a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
-				
 					}
 				break;
 			}
