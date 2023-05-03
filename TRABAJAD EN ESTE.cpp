@@ -822,11 +822,11 @@ int main()
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
 					printf("Seleccione que datos quiere comparar: \n 1: ph\n 2: conductividad \n 3:turbidez\n 4:coliformes\n"); // creo que esto iria dentro del switch case
-					scanf("%d", &n); 
-					if (n!=1 && n!=2 && n!=3 && n!=4 && n!=5) {
+					scanf("%d", &opcion); 
+					if (opcion<1 && opcion>4) {
 						printf(" ERROR. Esa opcion no esta disponible, pruebe otra vez por favor \n"); 
 					}
-			} while (n!=1 && n!=2 && n!=3 && n!=4 && n!=5); 
+			} while (n<1 && n>4); 
 		//menu de opciones para seleccionar qué quiere hacer el usuario 
 			switch (opcion)  {
 				case (1): 
