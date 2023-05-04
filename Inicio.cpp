@@ -8,7 +8,7 @@ struct Tfuente {
 }; 
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
-
+void fpotable(struct Tfuente[],int);
 
 int main() 
 {
@@ -39,7 +39,7 @@ int main()
 	int a, contador=0; 
 	do{
 		printf("==============MENU PRINCIPAL==============\n");
-		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre annyos\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
+		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Potabilidad\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
 		scanf("%d", &a);
 		switch (a) {
 			case(1): {
@@ -597,6 +597,10 @@ int main()
 				}while(valor!=0);
 				reset(fuente, ndatos, 0);
 				break;
+			}case(3):{
+			fpotable(fuente,ndatos);
+			
+			//Es potable o no
 			}
 			case(4): {
 				int opcion;
@@ -841,6 +845,22 @@ void reset (struct Tfuente matriz[], int num, int a) {
 	int i; 
 	for(i=0; i<num; i++) {
 		matriz[i].incluido=a;
+	}
+}
+void fpotable (struct Tfuente fuente[], int ndatos){
+	int i;
+	for(i=0;i<ndatos;i++){
+		if(fuente[i].coliformes<=2){
+			if(fuente[i].turbidez<5){
+				if(fuente[i].conductividad>=50 && fuente[i].conductividad<=500){
+					if(fuente[i].ph>=6.5 &&fuente[i].ph<=9.5){
+						fuente[i].incluido=1;
+						printf("Es potable\n");
+					}
+				}
+			}
+		}
+		
 	}
 }
 
