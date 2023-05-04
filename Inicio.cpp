@@ -796,6 +796,13 @@ int main()
 						case 3:
 							printf("========= MEDIANA =========  \n");
 							printf("Puede ver la mediana de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3)\n");
+							scanf("%d",&tipomediana);
+							//Ordenar vector
+							
+							if(tipomediana==1){
+								
+							}
+							
 							break;
 						case 4:
 							printf("Ha salido de estadisticas\n");
@@ -803,7 +810,7 @@ int main()
 						default:{
 							printf("ERROR, la opcion no es valida\n");
 							break;
-						}
+						}	
 					}
 				} while (opcion != 4);
 				
