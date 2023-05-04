@@ -34,11 +34,11 @@ int main()
 	}
 	fclose(fichero);
 	
-	
+
 //COMIENZA EL PROGRAMA:
 	int a, contador=0; 
 	do{
-		printf("==============MENU PRINCIPAL==============\n");
+		printf("============== MENU PRINCIPAL ==============\n");
 		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre annyos\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
 		scanf("%d", &a);
 		switch (a) {
@@ -626,7 +626,7 @@ int main()
 							scanf("%d", &est);
 							break;
 						case 2:
-							printf("========= MEDIA =========  \n");
+							printf("============ MEDIA ============  \n");
 							printf("Puede ver la media de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
 							scanf("%d", &md);
 							int s, non;
@@ -647,12 +647,12 @@ int main()
 								printf("El pH maximo es: %.2f\n", phMax);
 							}
 							//ph 2
-							if(md == 2 && sobremd == 1) {
+							else if(md == 2 && sobremd == 1) {
 								for (i=0; i<ndatos; i++) {
 									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
 									scanf("%d", &non);
 									if(non==0) {
-										break;
+										i=ndatos;
 									} else {
 										non--;
 										fuente[non].incluido=1;									
@@ -673,9 +673,9 @@ int main()
 								printf("El pH maximo es: %.2f\n", phMax);
 							}
 							//conductividad 1
-							if(md == 1 && sobremd == 2) {
-								int z; 
-								float condMax=0, media, cantidad=0;	
+							else if(md == 1 && sobremd == 2) {
+								int z, condMax=0; 
+								float media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
 									cantidad++;
 									media+=fuente[z].conductividad;
@@ -687,9 +687,9 @@ int main()
 								printf("La conductividad maxima es: %.2f\n", condMax);
 							}
 							//condutividad 2
-							if(md == 2 && sobremd == 1) {
+							else if(md == 2 && sobremd == 2) {
 								for (i=0; i<ndatos; i++) {
-									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									printf("Introduzca el numero de la fuente cuya conductividad desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
 									scanf("%d", &non);
 									if(non==0) {
 										break;
@@ -698,8 +698,8 @@ int main()
 										fuente[non].incluido=1;									
 									}
 								}
-								int z; 
-								float condMax=0, media, cantidad=0;	
+								int z, condMax=0; 
+								float media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
 									if (fuente[z].incluido==1) {
 										cantidad++;
@@ -713,9 +713,9 @@ int main()
 								printf("La conductividad maxima es: %.2f\n", condMax);
 							}
 							//turbidez 1
-							if(md == 1 && sobremd == 3) {
-								int z; 
-								float turMax=0, media, cantidad=0;	
+							else if(md == 1 && sobremd == 3) {
+								int z, turMax=0; 
+								float media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
 									cantidad++;
 									media+=fuente[z].turbidez;
@@ -727,9 +727,9 @@ int main()
 								printf("La turbidez maxima es: %.2f\n", turMax);
 							}
 							//turbidez 2
-							if(md == 2 && sobremd == 3) {
+							else if(md == 2 && sobremd == 3) {
 								for (i=0; i<ndatos; i++) {
-									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									printf("Introduzca el numero de la fuente cuya turbidez desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
 									scanf("%d", &non);
 									if(non==0) {
 										break;
@@ -738,8 +738,8 @@ int main()
 										fuente[non].incluido=1;									
 									}
 								}
-								int z; 
-								float turMax=0, media, cantidad=0;	
+								int z, turMax=0; 
+								float media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
 									if (fuente[z].incluido==1) {
 										cantidad++;
@@ -753,9 +753,9 @@ int main()
 								printf("La turbidez maxima es: %.2f\n", turMax);
 							}
 							//coliformes 1
-							if(md == 1 && sobremd == 4) {
-								int z; 
-								float coliMax=0, media, cantidad=0;	
+							else if(md == 1 && sobremd == 4) {
+								int z, coliMax=0; 
+								float media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
 									cantidad++;
 									media+=fuente[z].coliformes;
@@ -767,9 +767,9 @@ int main()
 								printf("El coliforme maximo es: %.2f\n", coliMax);
 							}
 							//coliformes 2
-							if(md == 2 && sobremd == 4) {
+							else if(md == 2 && sobremd == 4) {
 								for (i=0; i<ndatos; i++) {
-									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									printf("Introduzca el numero de la fuente cuyo coliforme desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
 									scanf("%d", &non);
 									if(non==0) {
 										break;
@@ -778,8 +778,8 @@ int main()
 										fuente[non].incluido=1;									
 									}
 								}
-								int z; 
-								float coliMax=0, media, cantidad=0;	
+								int z, coliMax=0; 
+								float media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
 									if (fuente[z].incluido==1) {
 										cantidad++;

@@ -9,10 +9,22 @@ struct Tfuente {
 }; 
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
+<<<<<<< Updated upstream
 float fdispersionPh(int, struct Tfuente[]);
+=======
+float fmedia1(struct Tfuente[], float, int );
+>>>>>>> Stashed changes
 
 int main() 
 {
+	//preguntar el nombre
+	char nombre[50];
+	char apellido[50];
+	printf("Buenas, ¿Cual es su nombre y apellido? \n");
+	scanf("%s %s", nombre, apellido);
+	fflush(stdin);
+	printf("Buenas, %s %s  \n", nombre, apellido);
+	printf("\n");	
 //ALMACENAMOS DATOS DADOS
 //al añadir variables de mes y año(para que al introducir datos nuevos se distingan entre ellos, establecemos los datos iniciales dados, con mes y año abril 2023
 	int numfuente, conductividad, turbidez, coliformes;
@@ -636,21 +648,22 @@ int main()
 							//ph 1
 							if(md == 1 && sobremd == 1) {
 								int z; 
-								float phMax=0, media, cantidad=0;	
-								for(z=0; z<ndatos; z++) {
+								float phMax=0, media, cantidad=0;
+								media=fmedia1(fuentes, ndatos); 	
+							/*	for(z=0; z<ndatos; z++) {
 									cantidad++;
 									media+=fuente[z].ph;
 									if (fuente[z].ph > phMax) {
 										phMax = fuente[z].ph;
 									}	
-								}
-								printf("La media de pH es: %.2f\n", media / ndatos);
+								} */
+								printf("La media de pH es: %.2f\n", fmedia1 / ndatos);
 								printf("El pH maximo es: %.2f\n", phMax);
 							}
 							//ph 2
-							if(md == 2 && sobremd == 1) {
+							else if(md == 2 && sobremd == 1) {
 								for (i=0; i<ndatos; i++) {
-									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									printf("Introduzca el numero de la fuente cuyo pH desea calcular LA media (minimo 2), si no quiere introducir mas pulse el 0. \n");
 									scanf("%d", &non);
 									if(non==0) {
 										break;
@@ -674,7 +687,7 @@ int main()
 								printf("El pH maximo es: %.2f\n", phMax);
 							}
 							//conductividad 1
-							if(md == 1 && sobremd == 2) {
+							else if(md == 1 && sobremd == 2) {
 								int z; 
 								float condMax=0, media, cantidad=0;	
 								for(z=0; z<ndatos; z++) {
@@ -686,11 +699,9 @@ int main()
 								}
 								printf("La media de conductividad es: %.2f\n", media / ndatos);
 								printf("La conductividad maxima es: %.2f\n", condMax);
-							}
-							//condutividad 2
-							if(md == 2 && sobremd == 1) {
+							}else if(md==2 && sobremd==2) {
 								for (i=0; i<ndatos; i++) {
-									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									printf("Introduzca el numero de la fuente cuya conductividad desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
 									scanf("%d", &non);
 									if(non==0) {
 										break;
@@ -875,5 +886,13 @@ void reset (struct Tfuente matriz[], int num, int a) {
 		matriz[i].incluido=a;
 	}
 }
-
+float fmedia1(float fuente[z].ph, int ndatos ) {
+	for(z=0; z<ndatos; z++) {
+		cantidad++;
+		media+=fuente[z].ph;
+		if (fuente[z].ph > phMax) {
+		phMax = fuente[z].ph;
+		}	
+	}	
+}
 
