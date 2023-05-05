@@ -23,6 +23,14 @@ void fmediacoliformes2(struct Tfuente[],int ndatos);
 
 int main() 
 {
+	//preguntar el nombre y apellido
+	char nombre[50];
+	char apellido[50];
+	printf("Buenas, ?Cual es su nombre y apellido? \n");
+	scanf("%s %s", nombre, apellido);
+	fflush(stdin);
+	printf("Buenas, %s %s  \n", nombre, apellido);
+	printf("\n");	
 //ALMACENAMOS DATOS DADOS
 //al añadir variables de mes y año(para que al introducir datos nuevos se distingan entre ellos, establecemos los datos iniciales dados, con mes y año abril 2023
 	int numfuente, conductividad, turbidez, coliformes;
@@ -910,6 +918,7 @@ int main()
 		}
 		printf("\n");
 	}while(a!=6);
+	printf("Hasta la proxima %s %s \n", nombre, apellido); 
 	printf("FIN DEL PROGRAMA"); 
 	
 	return 0;
