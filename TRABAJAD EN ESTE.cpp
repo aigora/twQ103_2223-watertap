@@ -49,11 +49,12 @@ int main()
 //COMIENZA EL PROGRAMA:
 	int a, contador=0; 
 	do{
-		printf("==============MENU PRINCIPAL==============\n");
+		printf("*************** MENU PRINCIPAL ***************\n");
 		printf("Seleccione una opcion:\n 1-Annyadir nuevos datos\n 2-Busqueda de datos\n 3-Diferencia entre annyos\n 4-Estadisticas\n 5-Comparacion\n 6-Salir \n");
 		scanf("%d", &a);
 		switch (a) {
 			case(1): {
+				printf("=========* ANNYADIR NUEVOS DATOS *=========\n");
 				int n=0, n1=0, n2=0, n3=0;
 				contador++;
 				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
@@ -89,7 +90,7 @@ int main()
 					if(n2>1) {
 						printf("Error, debe introducir al menos 1 dato nuevo\n");
 					}
-					printf("introduzca el numero de fuentes sobre el que va a introducir datos: ");
+					printf("Introduzca el numero de fuentes sobre el que va a introducir datos: ");
 					scanf("%d", &ndatos_nuevo);
 				}while (ndatos_nuevo<=0);
 				fprintf(fsalida, "DATOS %d-%d\n", mes_nuevo, annyo_nuevo);
@@ -103,17 +104,17 @@ int main()
 						if(n3>1) {
 							printf("Error, el valor de ph solo puede estar entre 0 y 14. Por favor, introduzcalo de nuevo\n");
 						}
-						printf("introduzca el ph de la fuente %d: ", x+1);
+						printf("Introduzca el ph de la fuente %d: ", x+1);
 						scanf("%f", &fuente[ndatos+x].ph);
 					} while (fuente[ndatos+x].ph<0 || fuente[ndatos+x].ph>14);
 					fprintf(fsalida, "%f\t", fuente[ndatos+x].ph);
-					printf("introduzca la conductividad de la fuente %d: ", x+1);
+					printf("Introduzca la conductividad de la fuente %d: ", x+1);
 					scanf("%d", &fuente[ndatos+x].conductividad);
 					fprintf(fsalida, "%d\t", fuente[ndatos+x].conductividad);
-					printf("introduzca la turbidez de la fuente %d: ", x+1);
+					printf("Introduzca la turbidez de la fuente %d: ", x+1);
 					scanf("%d", &fuente[ndatos+x].turbidez);
 					fprintf(fsalida, "%d\t", fuente[ndatos+x].turbidez);
-					printf("introduzca los coliformes de la fuente %d: ", x+1);
+					printf("Introduzca los coliformes de la fuente %d: ", x+1);
 					scanf("%d", &fuente[ndatos+x].coliformes);
 					fprintf(fsalida, "%d\t", fuente[ndatos+x].coliformes);
 					fprintf(fsalida, "\n"); 
@@ -149,188 +150,188 @@ int main()
 				int decision, valor=1;
 				reset(fuente, ndatos, 1);
 				do {
-						int n=0, n1=0, n2=0, n3=0;
-						printf("Ha seleccionado la opcion de busqueda de datos.\n");
-						do {
-							n++;
-							if(n>1) {
-								printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
-							}
-							printf("Seleccione en funcion de que parametro desea buscar el dato:\n 1-PH\n 2-Turbidez\n 3-Coliformes\n 4-Numero de fuente\n 5-Conductividad\n 6-Mes\n 7-Annyo\n");
-							scanf("%d", &decision);
-						} while (decision<1 || decision>7);
-						switch(decision) {
-							case(1): {
-								float phBuscado; 
-								int a;
-								int decision2;
-								do {
-									n1++;
-									if(n1>1) {
-										printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
-									}
-									printf("si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
-									scanf("%d", &decision2);
-								} while (decision2!=1 && decision2!=2);
-								switch(decision2) {
-									case(1): {
-										int encontrado=0;
-										printf("Introduzca el ph que desea buscar: ");
-										scanf("%f", &phBuscado);
-										for(a=0; a<ndatos; a++) {
-											if(fuente[a].ph==phBuscado && fuente[a].incluido==1) {
-												encontrado=1; 
-												printf("Se encontro que la fuente %d tiene el ph buscado %.2f: \n", fuente[a].numfuente, phBuscado);
-												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
-												printf("\n");
-											} else {
-												fuente[a].incluido=0;
-											}
-										}
-										if(encontrado==0) {
-											printf("No se ha encontrado ninguna fuente con dicho Ph");
-										}
-										break;
-									}
-									case(2): {
-										float min, max;
-										int x, encontrado=0;
-										do {
-											n2++;
-											if(n2>1) {
-												printf("Error, el valor maximo es menor al valor minimo indicado.Por favor, introduzcalo de nuevo\n");
-											}
-											printf("Introduzca el minimo del intervalo que desea buscar:");
-											scanf("%f", &min);
-											printf("Introduzca el maximo del intervalo que desea buscar: ");
-											scanf("%f", &max);
-										} while (max<min);
-										for(x=0; x<ndatos; x++) {
-											if(fuente[x].ph>=min && fuente[x].ph<=max && fuente[x].incluido==1) {
-												encontrado=1;
-												printf("Se encontro que la fuente %d esta en el intervalo de ph buscado, con un ph %.2f: \n", fuente[x].numfuente, fuente[x].ph );
-												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].turbidez, fuente[x].coliformes, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
-												printf("\n");
-											} else {
-												fuente[x].incluido=0;
-											}
-										}
-										if(encontrado==0) {
-											printf("no se ha encontrado ninguna fuente con un ph entre los valores indicados");
-										}
-										break;
-									}
+					int n=0, n1=0, n2=0, n3=0;
+					printf("Ha seleccionado la opcion de busqueda de datos.\n");
+					do {
+						n++;
+						if(n>1) {
+							printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
+						}
+						printf("Seleccione en funcion de que parametro desea buscar el dato:\n 1-PH\n 2-Turbidez\n 3-Coliformes\n 4-Numero de fuente\n 5-Conductividad\n 6-Mes\n 7-Annyo\n");
+						scanf("%d", &decision);
+					} while (decision<1 || decision>7);
+					switch(decision) {
+						case(1): {
+							float phBuscado; 
+							int a;
+							int decision2;
+							do {
+								n1++;
+								if(n1>1) {
+									printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
 								}
-								break;
-							}
-							case(2): {
-								int turbidezBuscada, a;
-								int decision2;
-								do {
-									n1++;
-									if(n1>1) {
-										printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
+								printf("Si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+								scanf("%d", &decision2);
+							} while (decision2!=1 && decision2!=2);
+							switch(decision2) {
+								case(1): {
+									int encontrado=0;
+									printf("Introduzca el ph que desea buscar: ");
+									scanf("%f", &phBuscado);
+									for(a=0; a<ndatos; a++) {
+										if(fuente[a].ph==phBuscado && fuente[a].incluido==1) {
+											encontrado=1; 
+											printf("Se encontro que la fuente %d tiene el ph buscado %.2f: \n", fuente[a].numfuente, phBuscado);
+											printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
+											printf("\n");
+										} else {
+											fuente[a].incluido=0;
+										}
 									}
-									printf("si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
-									scanf("%d", &decision2);
-								} while (decision2!=1 && decision2!=2);
-								switch(decision2) {
-									case(1): {
-										int encontrado=0;
-										printf("Introduzca la turbidez que desea buscar: ");
-										scanf("%d", &turbidezBuscada);
-										for(a=0; a<ndatos; a++) {
-											if(fuente[a].turbidez==turbidezBuscada && fuente[a].incluido==1) {
-												encontrado=1; 
-												printf("se encontro que la fuente %d tiene la turbidez buscada %d: \n", fuente[a].numfuente, turbidezBuscada);
-												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].ph, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
-												printf("\n");
-											} else {
-												fuente[a].incluido=0;
-											}
-										}
-										if(encontrado==0) {
-											printf("No se ha encontrado ninguna fuente con dicha Turbidez");
-										}
-										break;
+									if(encontrado==0) {
+										printf("No se ha encontrado ninguna fuente con dicho Ph");
 									}
-									case(2): {
-										int min, max;
-										int x, encontrado=0;
-										do {
-											n2++;
-											if(n2>1) {
-												printf("Error, el valor maximo es menor al valor minimo indicado.Por favor, introduzcalo de nuevo\n");
-											}
-											printf("Introduzca el minimo del intervalo que desea buscar:");
-											scanf("%d", &min);
-											printf("Introduzca el maximo del intervalo que desea buscar: ");
-											scanf("%d", &max);
-										} while (max<min);
-										for(x=0; x<ndatos; x++) {
-											if(fuente[x].turbidez>=min && fuente[x].turbidez<=max && fuente[x].incluido==1) {
-												encontrado=1;
-												printf("se encontro que la fuente %d esta en el intervalo de turbidez buscado, con una turbidez %d: \n", fuente[x].numfuente, fuente[x].turbidez );
-												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
-												printf("\n");
-											} else {
-												fuente[x].incluido=0;
-											}
-										}
-										if(encontrado==0) {
-											printf("no se ha encontrado ninguna fuente con una turbidez entre los valores indicados");
-										}
-										break;
-									}
+									break;
 								}
-								break;
+								case(2): {
+									float min, max;
+									int x, encontrado=0;
+									do {
+										n2++;
+										if(n2>1) {
+											printf("Error, el valor maximo es menor al valor minimo indicado.Por favor, introduzcalo de nuevo\n");
+										}
+										printf("Introduzca el minimo del intervalo que desea buscar:");
+										scanf("%f", &min);
+										printf("Introduzca el maximo del intervalo que desea buscar: ");
+										scanf("%f", &max);
+									} while (max<min);
+									for(x=0; x<ndatos; x++) {
+										if(fuente[x].ph>=min && fuente[x].ph<=max && fuente[x].incluido==1) {
+											encontrado=1;
+											printf("Se encontro que la fuente %d esta en el intervalo de ph buscado, con un ph %.2f: \n", fuente[x].numfuente, fuente[x].ph );
+											printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].turbidez, fuente[x].coliformes, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
+											printf("\n");
+										} else {
+											fuente[x].incluido=0;
+										}
+									}
+									if(encontrado==0) {
+										printf("No se ha encontrado ninguna fuente con un ph entre los valores indicados");
+									}
+									break;
+								}
 							}
-							case(3): {
-								int ColBuscado, a;
-								int decision2;
-								do {
-									n1++;
-									if(n1>1) {
-										printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
-									}
-									printf("si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
-									scanf("%d", &decision2);
-								} while (decision2!=1 && decision2!=2);
-								switch(decision2) {
-									case(1):{
-										int encontrado=0;
-										printf("Introduzca el numero de coliformes que desea buscar: ");
-										scanf("%f", &ColBuscado);
-										for(a=0; a<ndatos; a++) {
-											if(fuente[a].coliformes==ColBuscado && fuente[a].incluido==1) {
-												encontrado=1; 
-												printf("se encontro que la fuente %d tiene los coliformes buscados %d: \n", fuente[a].numfuente, ColBuscado);
-												printf("\tFuente %d\t Turbidez %d\t Ph %.2f\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].ph, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
-												printf("\n");
-											} else {
-												fuente[a].incluido=0;
-											}
+							break;
+						}
+						case(2): {
+							int turbidezBuscada, a;
+							int decision2;
+							do {
+								n1++;
+								if(n1>1) {
+									printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
+								}
+								printf("Si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+								scanf("%d", &decision2);
+							} while (decision2!=1 && decision2!=2);
+							switch(decision2) {
+								case(1): {
+									int encontrado=0;
+									printf("Introduzca la turbidez que desea buscar: ");
+									scanf("%d", &turbidezBuscada);
+									for(a=0; a<ndatos; a++) {
+										if(fuente[a].turbidez==turbidezBuscada && fuente[a].incluido==1) {
+											encontrado=1; 
+											printf("Se encontro que la fuente %d tiene la turbidez buscada %d: \n", fuente[a].numfuente, turbidezBuscada);
+											printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].ph, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
+											printf("\n");
+										} else {
+											fuente[a].incluido=0;
 										}
-										if(encontrado==0) {
-											printf("No se ha encontrado ninguna fuente con dicho numero de coliformes");
-										}
-										break;
 									}
-									case(2): {
-										int min, max;
-										int x, encontrado=0;
-										do {
-											n2++;
-											if(n2>1) {
-												printf("Error, el valor maximo es menor al valor minimo indicado.Por favor, introduzcalo de nuevo\n");
-											}
-											printf("Introduzca el minimo del intervalo que desea buscar:");
-											scanf("%d", &min);
-											printf("Introduzca el maximo del intervalo que desea buscar: ");
-											scanf("%d", &max);
-										} while (max<min);
-										for(x=0; x<ndatos; x++) {
-											if(fuente[x].coliformes>=min && fuente[x].coliformes<=max && fuente[x].incluido==1) {
+									if(encontrado==0) {
+										printf("No se ha encontrado ninguna fuente con dicha Turbidez");
+									}
+									break;
+								}
+								case(2): {
+									int min, max;
+									int x, encontrado=0;
+									do {
+										n2++;
+										if(n2>1) {
+											printf("Error, el valor maximo es menor al valor minimo indicado.Por favor, introduzcalo de nuevo\n");
+										}
+										printf("Introduzca el minimo del intervalo que desea buscar:");
+										scanf("%d", &min);
+										printf("Introduzca el maximo del intervalo que desea buscar: ");
+										scanf("%d", &max);
+									} while (max<min);
+									for(x=0; x<ndatos; x++) {
+										if(fuente[x].turbidez>=min && fuente[x].turbidez<=max && fuente[x].incluido==1) {
+											encontrado=1;
+											printf("Se encontro que la fuente %d esta en el intervalo de turbidez buscado, con una turbidez %d: \n", fuente[x].numfuente, fuente[x].turbidez );
+											printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
+											printf("\n");
+										} else {
+											fuente[x].incluido=0;
+										}
+									}
+									if(encontrado==0) {
+										printf("No se ha encontrado ninguna fuente con una turbidez entre los valores indicados");
+									}
+									break;
+								}
+							}
+							break;
+						}
+						case(3): {
+							int ColBuscado, a;
+							int decision2;
+							do {
+								n1++;
+								if(n1>1) {
+									printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
+								}
+								printf("Si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+								scanf("%d", &decision2);
+							} while (decision2!=1 && decision2!=2);
+							switch(decision2) {
+								case(1):{
+									int encontrado=0;
+									printf("Introduzca el numero de coliformes que desea buscar: ");
+									scanf("%f", &ColBuscado);
+									for(a=0; a<ndatos; a++) {
+										if(fuente[a].coliformes==ColBuscado && fuente[a].incluido==1) {
+											encontrado=1; 
+											printf("Se encontro que la fuente %d tiene los coliformes buscados %d: \n", fuente[a].numfuente, ColBuscado);
+											printf("\tFuente %d\t Turbidez %d\t Ph %.2f\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].ph, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
+											printf("\n");
+										} else {
+											fuente[a].incluido=0;
+										}
+									}
+									if(encontrado==0) {
+										printf("No se ha encontrado ninguna fuente con dicho numero de coliformes");
+									}
+									break;
+								}
+								case(2): {
+									int min, max;
+									int x, encontrado=0;
+									do {
+										n2++;
+										if(n2>1) {
+											printf("Error, el valor maximo es menor al valor minimo indicado.Por favor, introduzcalo de nuevo\n");
+										}
+										printf("Introduzca el minimo del intervalo que desea buscar:");
+										scanf("%d", &min);
+										printf("Introduzca el maximo del intervalo que desea buscar: ");
+										scanf("%d", &max);
+									} while (max<min);
+									for(x=0; x<ndatos; x++) {
+										if(fuente[x].coliformes>=min && fuente[x].coliformes<=max && fuente[x].incluido==1) {
 												encontrado=1;
 												printf("se encontro que la fuente %d esta en el intervalo de coliformes buscado, con unos coliformes %d: \n", fuente[x].numfuente, fuente[x].coliformes );
 												printf("\tFuente %d\t Ph %.2f\t Turbidez %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].turbidez, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
@@ -340,7 +341,7 @@ int main()
 											}
 										}
 										if(encontrado==0) {
-											printf("no se ha encontrado ninguna fuente con coliformes entre los valores indicados");
+											printf("No se ha encontrado ninguna fuente con coliformes entre los valores indicados");
 										}
 										break;
 									}	
@@ -355,7 +356,7 @@ int main()
 									if(n1>1) {
 										printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
 									}
-									printf("si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+									printf("Si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
 									scanf("%d", &decision2);
 								} while (decision2!=1 && decision2!=2);
 								switch(decision2) {
@@ -367,7 +368,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].numfuente==numBuscado && fuente[a].incluido==1) {
 												encontrado=1; 
-												printf("se encontro que la fuente %d\n", fuente[a].numfuente);
+												printf("Se encontro que la fuente %d\n", fuente[a].numfuente);
 												printf("\tFuente %d\t Ph %.2f\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].ph, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
 											} else {
@@ -396,7 +397,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].numfuente>=min && fuente[x].numfuente<=max && fuente[x].incluido==1) {
 												encontrado=1;
-												printf("se encontro la fuente %d en el intervalo buscado\n", fuente[x].numfuente );
+												printf("Se encontro la fuente %d en el intervalo buscado\n", fuente[x].numfuente );
 												printf("\tFuente %d\t Ph %.2f\t coliformes %d\t Conductividad %d\t Turbidez %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].conductividad, fuente[x].turbidez, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
 											} else {
@@ -404,7 +405,7 @@ int main()
 											}
 										}
 										if(encontrado==0) {
-											printf("no se ha encontrado ninguna fuente entre los valores indicados");
+											printf("No se ha encontrado ninguna fuente entre los valores indicados");
 										}
 										break;
 									}	
@@ -419,7 +420,7 @@ int main()
 									if(n1>1) {
 										printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
 									}
-									printf("si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+									printf("Si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
 									scanf("%d", &decision2);
 								} while (decision2!=1 && decision2!=2);
 								switch(decision2) {
@@ -430,7 +431,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].conductividad==conBuscado && fuente[a].incluido==1) {
 												encontrado=1; 
-												printf("se encontro que la fuente %d tiene la conductividad buscada %d: \n", fuente[a].numfuente, conBuscado);
+												printf("Se encontro que la fuente %d tiene la conductividad buscada %d: \n", fuente[a].numfuente, conBuscado);
 												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Ph %.2f\t Mes %d\t Annyo %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].ph, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
 											} else {
@@ -458,7 +459,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].conductividad>=min && fuente[x].conductividad<=max && fuente[x].incluido==1) {
 												encontrado=1;
-												printf("se encontro que la fuente %d esta en el intervalo de conducctividad buscado, con una conductividad %d: \n", fuente[x].numfuente, fuente[x].conductividad );
+												printf("Se encontro que la fuente %d esta en el intervalo de conducctividad buscado, con una conductividad %d: \n", fuente[x].numfuente, fuente[x].conductividad );
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Turbidez %d\t Mes %d\t Annyo %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].turbidez, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
 											} else {
@@ -466,7 +467,7 @@ int main()
 											}
 										}
 										if(encontrado==0) {
-											printf("no se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
+											printf("No se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
 										}
 										break;
 									}
@@ -481,7 +482,7 @@ int main()
 									if(n1>1) {
 										printf("Error, el valor introducido es incorrecto. Por favor, introduzcalo de nuevo.\n");
 									}
-									printf("si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+									printf("Si desea buscar un dato especifico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
 									scanf("%d", &decision2);
 								} while (decision2!=1 && decision2!=2);
 								switch(decision2) {
@@ -615,7 +616,7 @@ int main()
 				int md, sobremd, est;
 				float media, mediana, b;
 				printf("Ha seleccionado la opcion de las estadisticas.\n");
-				printf("========= MENU ESTADISTICAS =========\n");
+				printf("=========* MENU ESTADISTICAS *=========\n");
 				FILE *fsalida;
 				fsalida= fopen("trabajodatos.txt", "r");
 				if(fsalida==NULL) {
@@ -635,14 +636,38 @@ int main()
 							printf("========= TODAS LAS ESTADISTICAS =========  \n");
 							printf("Puede ser de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3) \n");
 							scanf("%d", &est);
+							if(est==1) {
+								/*printf("La media de pH %.2f\n", media / ndatos);
+								printf("La media de conductividad %.2f\n", media / ndatos);
+								printf("La media de turbidez %.2f\n", media / ndatos);
+								printf("La media de coliformes %.2f\n", media / ndatos);
+								printf("El pH maximo es: %.2f\n", phMax);
+								printf("La conductividad maxima es: %.2f\n", condMax);
+								printf("La turbidez maxima es: %.2f\n", turMax);
+								printf("El coliforme maximo es: %.2f\n", coliMax);
+								*/	
+							}
+							else if(est==2) {
+								/*printf("La media de pH %.2f\n", media / cantidad);
+								printf("La media de conductividad %.2f\n", media / cantidad);
+								printf("La media de turbidez %.2f\n", media / cantidad);
+								printf("La media de coliformes %.2f\n", media / cantidad);
+								printf("El pH maximo es: %.2f\n", phMax);
+								printf("La conductividad maxima es: %.2f\n", condMax);
+								printf("La turbidez maxima es: %.2f\n", turMax);
+								printf("El coliforme maximo es: %.2f\n", coliMax);
+								*/
+							}								
 							break;
 						case 2:
+							//dentro de la media decides primero sobre que fuentes y seguido sobre qué dato
 							printf("========= MEDIA =========  \n");
 							printf("Puede ver la media de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
 							scanf("%d", &md);
 							int s, non;
 							printf("Puede calcular la media de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
 							scanf("%d", &sobremd);
+							//está organizado por datos y seguido el numero que indica sobre qué fuentes se trata
 							//ph 1
 							if(md == 1 && sobremd == 1) {
 								fmediaph11(fuente,ndatos);
@@ -651,6 +676,38 @@ int main()
 							if(md == 2 && sobremd == 1) {
 								fmediaph21(fuente,ndatos);
 							}
+							//ph 3
+							if(md == 1 && sobremd == 3) {
+								//opción 3
+								int min, max;
+								do {
+									printf("Introduzca el minimo del intervalo que desea buscar:");
+									scanf("%d", &min);
+									printf("Introduzca el maximo del intervalo que desea buscar: ");
+									scanf("%d", &max);
+									if (max<min) {
+										printf("ERROR, el min tiene que ser menor que el máximo \n");
+									}
+								} while (max<min);
+								int z; 
+								float phMax=0, media, cantidad=0;
+								for (i=min; i<max; i++) {
+									fuente[i].incluido=1;									
+								}	
+								for(z=0; z<ndatos; z++) {
+									if(fuente[z].ph>=min && fuente[z].ph<=max && fuente[z].incluido==1) {
+										cantidad++;
+										media+=fuente[z].ph;
+										if (fuente[z].ph > phMax) {
+											phMax = fuente[z].ph;
+										}
+									} else {
+										fuente[z].incluido=0;
+									}
+								}
+								printf("La media de pH es: %.2f\n", media / cantidad);
+								printf("El pH maximo es: %.2f\n", phMax);
+							}
 							//conductividad 1
 							if(md == 1 && sobremd == 2) {
 								fmediacond1(fuente,ndatos);
@@ -658,7 +715,29 @@ int main()
 							//condutividad 2
 							if(md == 2 && sobremd == 2) {
 								fmediacond2(fuente, ndatos);
-								
+								for (i=0; i<ndatos; i++) {
+									printf("Introduzca el numero de la fuente cuyo pH desea calcular la media (minimo 2), si no quiere introducir mas pulse el 0. \n");
+									scanf("%d", &non);
+									if(non==0) {
+										break;
+									} else {
+										non--;
+										fuente[non].incluido=1;									
+									}
+								}
+								int z; 
+								float condMax=0, media, cantidad=0;	
+								for(z=0; z<ndatos; z++) {
+									if (fuente[z].incluido==1) {
+										cantidad++;
+										media+=fuente[z].conductividad;
+										if (fuente[z].conductividad > condMax) {
+											condMax = fuente[z].conductividad;
+										}	
+									}	
+								}
+								printf("La media de conductividad es: %.2f\n", media / cantidad);
+								printf("La conductividad maxima es: %.2f\n", condMax);
 							}
 							//turbidez 1
 							if(md == 1 && sobremd == 3) {
@@ -721,51 +800,56 @@ int main()
 	
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
-					printf("Seleccione que datos quiere comparar: \n 1: ph\n 2: conductividad \n 3:turbidez\n 4:coliformes\n"); // creo que esto iria dentro del switch case
+					printf("========= COMPARACIONES =========");
+					printf("Seleccione que datos quiere comparar: \n 1: pH\n 2: conductividad \n 3:turbidez\n 4:coliformes\n"); // creo que esto iria dentro del switch case
 					scanf("%d", &opcion); 
 					if (opcion<1 && opcion>4) {
 						printf(" ERROR. Esa opcion no esta disponible, pruebe otra vez por favor \n"); 
 					}
-			} while (n<1 && n>4); 
+			} while (opcion<1 && opcion>4); 
 		//menu de opciones para seleccionar qué quiere hacer el usuario 
 			switch (opcion)  {
 				case (1): 
 					printf("Has seleccionado comparar datos de ph entre fuentes \n"); 
-					printf ("Escriba 1 si quiere comparar los datos de ph de mayor a menor o 2 si los quiere de menor a mayor \n"); 
-					printf("Escriba 3 si quiere comparar los datos de ph por años \n"); 
+					printf ("Escriba 1 si quiere comparar los datos de pH de mayor a menor o 2 si los quiere de menor a mayor \n"); 
+					printf("Escriba 3 si quiere comparar los datos de pH por años \n"); 
 					scanf("%d", &n);
-					if (n==1){
-						printf("Datos de ph ordenados de mayor a menor \n"); 
+					if (opcion==1){
+						printf("Datos de pH ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de pH es: %f", comparacion);
 					} 
-					if(n==2) {
+					if(opcion==2) {
 						printf("Datos de ph ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de conductividad es: %d", comparacion);
 					}
-					if (n==3){
-						printf("introduzca el primer anno a comparar \n"); 
+					if (opcion==3){
+						printf("Introduzca el primer anno a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("introduzca el segundo anno a comparar \n");
+						printf ("Introduzca el segundo anno a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
 					}
 				break;
 				case (2) : 
-					printf ("Escriba 1 si quiere comparar los datos de conductividad de mayor a menor o 2 si los quiere de menor a mayor \n"); 
+					printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
 					printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
 					scanf("%d", &n);
-					if (n==1){
+					if (opcion==1){
 						printf("Datos de conductividad ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de conductividad es: %d", comparacion);
 					} 
-					if(n==2) {
+					if(opcion==2) {
 						printf("Datos de conductividad ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de conductividad es: %d", comparacion);
 					}
-					if (n==3){
-						printf("introduzca el primer anno a comparar \n"); 
+					if (opcion==3){
+						printf("Introduzca la primera fuente a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("introduzca el segundo anno a comparar \n");
+						printf ("Introduzca  la segunda fuente a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
 					}	
@@ -774,18 +858,20 @@ int main()
 					printf ("Escriba 1 si quiere comparar los datos de turbidez de mayor a menor o 2 si los quiere de menor a mayor \n"); 
 					printf("Escriba 3 si quiere comparar los datos de turbidez por años \n"); 
 					scanf("%d", &n);
-					if (n==1){
+					if (opcion==1){
 						printf("Datos de turbidez ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de turbidez es: %d", comparacion);
 					} 
-					if(n==2) {
+					if(opcion==2) {
 						printf("Datos de turbidez ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de turbidez es: %d", comparacion);
 					}
-					if (n==3){
-						printf("introduzca el primer anno a comparar \n"); 
+					if (opcion==3){
+						printf("Introduzca el primer anno a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("introduzca el segundo anno a comparar \n");
+						printf ("Introduzca el segundo anno a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
 					
@@ -795,21 +881,22 @@ int main()
 					printf ("Escriba 1 si quiere comparar los datos de coliformes de mayor a menor o 2 si los quiere de menor a mayor \n"); 
 					printf("Escriba 3 si quiere comparar los datos de coliformes por años \n"); 
 					scanf("%d", &n);
-					if (n==1){
+					if (opcion==1){
 						printf("Datos de coliformes ordenados de mayor a menor \n"); 
 						comparacion=fcomparacionmayor(fuente); 
+						printf("El mayor valor de coliformes es: %d", comparacion);
 					} 
-					if(n==2) {
+					if(opcion==2) {
 						printf("Datos de coliformes ordenados de menor a mayor \n"); 
 						comparacion=fcomparacionmenor(fuente); 
+						printf("El menor valor de coliformes es: %d", comparacion);
 					}
-					if (n==3){
-						printf("introduzca la primera fuente a comparar \n"); 
+					if (opcion==3){
+						printf("Introduzca la primera fuente a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("introduzca la segundo feunte a comparar \n");
+						printf ("Introduzca la segundo fuente a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
-				
 					}
 				break;
 			}
