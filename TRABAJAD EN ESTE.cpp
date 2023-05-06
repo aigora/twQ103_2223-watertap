@@ -6,6 +6,7 @@ struct Tfuente {
 	float ph;	
 	int conductividad, turbidez, coliformes, mes, annyo;
 	int incluido; //Sera 0 predeterminado. Si la fuente se usara para alguna estdistica, se cambiara incluido=1.
+	int esNuevo;
 }; 
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
@@ -68,7 +69,9 @@ int main()
 		fscanf(fichero,"%d %f %d %d %d %d %d", &fuente[i].numfuente, &fuente[i].ph,&fuente[i].conductividad, &fuente[i].turbidez, &fuente[i].coliformes, &fuente[i].mes, &fuente[i].annyo); 
 	}
 	fclose(fichero);
-	
+	for(i=0; i<ndatos; i++) {
+		fuente[i].esNuevo=0;
+	}
 	
 //COMIENZA EL PROGRAMA:
 	int a, contador=0; 
@@ -79,7 +82,7 @@ int main()
 		switch (a) {
 			case(1): {
 				printf("=========* ANNYADIR NUEVOS DATOS *=========\n");
-				int n=0, n1=0, n2=0, n3=0;
+				int n=0, n1=0, n2=0, n3=0, numeroDatos=0, k;
 				contador++;
 				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
 				char nombreFichero[250];
@@ -145,12 +148,22 @@ int main()
 					fprintf(fsalida, "%d\t", fuente[ndatos+x].coliformes);
 					fprintf(fsalida, "\n"); 
 					fuente[ndatos+x].incluido=0;
+					if(b==1){
+						fuente[ndatos+x].esNuevo=0;
+					} else {
+						fuente[ndatos+x].esNuevo=1;
+					}
 				}
 				ndatos+=ndatos_nuevo;
 				fclose(fsalida);
 				/*Si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
 				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada más comenzar*/
-				if(b==1) {      		
+				for(k=0;k<ndatos; k++) {
+					if(fuente[k].esNuevo==0) {
+						numeroDatos++;
+					}
+				}
+				if(b==1) {    		
 					FILE *fsalida;
 					fsalida= fopen("trabajodatos.txt", "w");
 					if(fsalida==NULL) {
@@ -158,16 +171,18 @@ int main()
 						return 0;
 					}
 					int j;
-					fprintf(fsalida, "%d\n", ndatos);
+					fprintf(fsalida, "%d\n", numeroDatos);
 					for(j=0; j<ndatos; j++) {
-						fprintf(fsalida, "%d\t", fuente[j].numfuente);
-						fprintf(fsalida, "%f\t", fuente[j].ph);
-						fprintf(fsalida, "%d\t", fuente[j].conductividad);
-						fprintf(fsalida, "%d\t", fuente[j].turbidez);
-						fprintf(fsalida, "%d\t", fuente[j].coliformes);
-						fprintf(fsalida, "%d\t", fuente[j].mes);
-						fprintf(fsalida, "%d\t", fuente[j].annyo);
-						fprintf(fsalida, "\n");
+						if(fuente[j].esNuevo==0) {
+							fprintf(fsalida, "%d\t", fuente[j].numfuente);
+							fprintf(fsalida, "%f\t", fuente[j].ph);
+							fprintf(fsalida, "%d\t", fuente[j].conductividad);
+							fprintf(fsalida, "%d\t", fuente[j].turbidez);
+							fprintf(fsalida, "%d\t", fuente[j].coliformes);
+							fprintf(fsalida, "%d\t", fuente[j].mes);
+							fprintf(fsalida, "%d\t", fuente[j].annyo);
+							fprintf(fsalida, "\n");
+						}
 					}
 					fclose(fsalida);
 				}
