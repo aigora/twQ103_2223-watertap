@@ -7,28 +7,35 @@ struct Tfuente {
 	float ph;	
 	int conductividad, turbidez, coliformes, mes, annyo;
 	int incluido; //Sera 0 predeterminado. Si la fuente se usara para alguna estdistica, se cambiara incluido=1.
-	int esNuevo;
+	int esVolatil; //Bulleano para saber si es guardado o no para todos los programas
 }; 
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
+//Funciones comparacion
 float fcomparacionmayor (struct Tfuente[]);
 float fcomparacionmenor (struct Tfuente[]);
 void fcomparacionfuentes (struct Tfuente[]); 
+
 float fdispersionPh(int, struct Tfuente[]);
+//Funciones medias variables al cuadrado
 float fmedia2ph(struct Tfuente[], int);
 float fmedia2cond(struct Tfuente[],int);
 float fmedia2turb(struct Tfuente[], int);
 float fmedia2colif(struct Tfuente[], int);
+//Funiones de medias de dos variables
 float fmediaCondPh(struct Tfuente[], int);
 float fmediaTurbPh(struct Tfuente[], int);
 float fmediaColifPh(struct Tfuente[], int);
 float fmediaCondTurb(struct Tfuente[], int);
 float fmediaCondColif(struct Tfuente[], int);
 float fmediaTurbColif(struct Tfuente[], int);
+//Funciones valor de la media
 float fmediaCond(struct Tfuente[], int);
 float fmediaPh(struct Tfuente[], int);
 float fmediaTurb(struct Tfuente[], int);
 float fmediaCol(struct Tfuente[], int);
+
+//Funciones media para estadisticas
 void fmediaph11(struct Tfuente[],int ndatos);
 void fmediacond2(struct Tfuente[],int ndatos);
 void fmediaturb2(struct Tfuente[], int ndatos);
@@ -57,7 +64,7 @@ int main()
 	FILE *fichero;
 	fichero=fopen("trabajodatos.txt", "r");
 	if (fichero==NULL) {
-		printf("error, no puede abrir el fichero.\n");
+		printf("Error, no puede abrir el fichero.\n");
 		return 0;
 	}
 	
@@ -68,14 +75,14 @@ int main()
 	}
 	fclose(fichero);
 	for(i=0; i<ndatos; i++) {
-		fuente[i].esNuevo=0;
+		fuente[i].esVolatil=0;
 	}
 	
 //COMIENZA EL PROGRAMA:
 	int a, contador=0; 
 	do{
-		printf("*************** MENÚ PRINCIPAL ***************\n");
-		printf("Seleccione una opcion:\n 1-Añadir nuevos datos\n 2-Búsqueda de datos\n 3-Diferencia entre años\n 4-Estadísticas\n 5-Comparación\n 6-Salir\n 7-Dispersión PH\n 8-Pronósticos\n \n");
+		printf("****************************** MENÚ PRINCIPAL ******************************\n");
+		printf("Seleccione una opcion:\n \t\t\t1-Añadir nuevos datos\n \t\t\t2-Búsqueda de datos\n \t\t\t3-Diferencia entre años\n \t\t\t4-Estadísticas\n \t\t\t5-Comparación\n \t\t\t6-Dispersión PH\n \t\t\t7-Pronósticos\n \t\t\t8-Salir\n\n");
 		scanf("%d", &a);
 		switch (a) {
 			case(1): {
@@ -147,9 +154,9 @@ int main()
 					fprintf(fsalida, "\n"); 
 					fuente[ndatos+x].incluido=0;
 					if(b==1){
-						fuente[ndatos+x].esNuevo=0;
+						fuente[ndatos+x].esVolatil=0;
 					} else {
-						fuente[ndatos+x].esNuevo=1;
+						fuente[ndatos+x].esVolatil=1;
 					}
 				}
 				ndatos+=ndatos_nuevo;
@@ -157,7 +164,7 @@ int main()
 				/*Si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
 				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada más comenzar*/
 				for(k=0;k<ndatos; k++) {
-					if(fuente[k].esNuevo==0) {
+					if(fuente[k].esVolatil==0) {
 						numeroDatos++;
 					}
 				}
@@ -171,7 +178,7 @@ int main()
 					int j;
 					fprintf(fsalida, "%d\n", numeroDatos);
 					for(j=0; j<ndatos; j++) {
-						if(fuente[j].esNuevo==0) {
+						if(fuente[j].esVolatil==0) {
 							fprintf(fsalida, "%d\t", fuente[j].numfuente);
 							fprintf(fsalida, "%f\t", fuente[j].ph);
 							fprintf(fsalida, "%d\t", fuente[j].conductividad);
@@ -1025,9 +1032,9 @@ int main()
 					} 
 				break;
 			}
-			case(6): 
+			case(8): 
 				break;
-			case(7): {
+			case(6): {
 				int h, A, M, valorEncontrado=0, n7=0;
 				printf("Ha seleccionado medir la dispersión de los ph respecto a un ph neutro\n");		
 				printf("Introduzca el numero de la fuente cuyo ph desea comparar\n");
@@ -1060,7 +1067,7 @@ int main()
 				}
 				break;
 			}
-			case 8: {
+			case 7: {
 				int dato1, dato2, dato3;
 				float dt, cv, b, beta, r;
 				reset(fuente, ndatos, 0);
