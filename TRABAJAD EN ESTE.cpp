@@ -1733,25 +1733,24 @@ void reset (struct Tfuente matriz[], int num, int a) {
 	}
 }
 float fcomparacionmayor (struct Tfuente fuente[], int ndatos) {
-		int i; 
-		float phmayor=0; 
-		for(i=0; i<ndatos; i++){
-			if(fuente[i].ph>phmayor){
-				phmayor=fuente[i].ph; 
-			}
+	int i; 
+	float phmayor=0; 
+	for(i=0; i<ndatos; i++){
+		if(fuente[i].ph>phmayor){
+			phmayor=fuente[i].ph; 
 		}
-		return phmayor; 
-
+	}
+	return phmayor; 
 }
 float fcomparacionmenor (struct Tfuente fuente[], int ndatos){
-		int i; 
-		float phmenor=0; 
-		for(i=0; i<ndatos; i++) {
-			if (fuente[i].ph<phmenor){
-				phmenor=fuente[i].ph; 
-			}
+	int i; 
+	float phmenor=0; 
+	for(i=0; i<ndatos; i++) {
+		if (fuente[i].ph<phmenor){
+			phmenor=fuente[i].ph; 
 		}
-		return phmenor; 
+	}
+	return phmenor; 
 }
 void fcomparacionfuentes (struct Tfuente fuente[]) {
 	int i,a,b;
