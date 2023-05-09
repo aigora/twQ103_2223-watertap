@@ -1147,12 +1147,13 @@ int main()
 		//menu de opciones para seleccionar qué quiere hacer el usuario 
 			switch (opcion)  {
 				case (1): 
+					int n;
 					printf("Has seleccionado comparar datos de ph entre fuentes \n"); 
 					do {
 						printf ("Escriba 1 si quiere comparar los datos de pH de mayor a menor o 2 si los quiere de menor a mayor \n"); 
 						printf("Escriba 3 si quiere comparar los datos de pH por años \n"); 
 						scanf("%d", &n);
-						if(n<1 || n>3) {
+						if(n<1 && n>3) {
 							printf("Error, el valor introducido es incorrecto. Porfavor, introduzcalo de nuevo.");
 						}
 					} while(n!=1 && n!=2 && n!=3);
