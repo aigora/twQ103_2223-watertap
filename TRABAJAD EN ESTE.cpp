@@ -7,28 +7,35 @@ struct Tfuente {
 	float ph;	
 	int conductividad, turbidez, coliformes, mes, annyo;
 	int incluido; //Sera 0 predeterminado. Si la fuente se usara para alguna estdistica, se cambiara incluido=1.
-	int esNuevo;
+	int esVolatil; //Bulleano para saber si es guardado o no para todos los programas
 }; 
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
+//Funciones comparacion
 float fcomparacionmayor (struct Tfuente[]);
 float fcomparacionmenor (struct Tfuente[]);
 void fcomparacionfuentes (struct Tfuente[]); 
+
 float fdispersionPh(int, struct Tfuente[]);
+//Funciones medias variables al cuadrado
 float fmedia2ph(struct Tfuente[], int);
 float fmedia2cond(struct Tfuente[],int);
 float fmedia2turb(struct Tfuente[], int);
 float fmedia2colif(struct Tfuente[], int);
+//Funiones de medias de dos variables
 float fmediaCondPh(struct Tfuente[], int);
 float fmediaTurbPh(struct Tfuente[], int);
 float fmediaColifPh(struct Tfuente[], int);
 float fmediaCondTurb(struct Tfuente[], int);
 float fmediaCondColif(struct Tfuente[], int);
 float fmediaTurbColif(struct Tfuente[], int);
+//Funciones valor de la media
 float fmediaCond(struct Tfuente[], int);
 float fmediaPh(struct Tfuente[], int);
 float fmediaTurb(struct Tfuente[], int);
 float fmediaCol(struct Tfuente[], int);
+
+//Funciones media para estadisticas
 void fmediaph11(struct Tfuente[],int ndatos);
 void fmediacond2(struct Tfuente[],int ndatos);
 void fmediaturb2(struct Tfuente[], int ndatos);
@@ -57,7 +64,7 @@ int main()
 	FILE *fichero;
 	fichero=fopen("trabajodatos.txt", "r");
 	if (fichero==NULL) {
-		printf("error, no puede abrir el fichero.\n");
+		printf("Error, no puede abrir el fichero.\n");
 		return 0;
 	}
 	
@@ -68,18 +75,18 @@ int main()
 	}
 	fclose(fichero);
 	for(i=0; i<ndatos; i++) {
-		fuente[i].esNuevo=0;
+		fuente[i].esVolatil=0;
 	}
 	
 //COMIENZA EL PROGRAMA:
 	int a, contador=0; 
 	do{
-		printf("*************** MENÚ PRINCIPAL ***************\n");
-		printf("Seleccione una opcion:\n 1-Añadir nuevos datos\n 2-Búsqueda de datos\n 3-Diferencia entre años\n 4-Estadísticas\n 5-Comparación\n 6-Salir\n 7-Dispersión PH\n 8-Pronósticos\n \n");
+		printf("****************************** MENÚ PRINCIPAL ******************************\n");
+		printf("Seleccione una opcion:\n \t\t\t1-Añadir nuevos datos\n \t\t\t2-Búsqueda de datos\n \t\t\t3-Dispersión\n \t\t\t4-Estadísticas\n \t\t\t5-Comparación\n \t\t\t6-Pronósticos\n \t\t\t7-Cambios entre meses\n\t\t\t8-Salir\n\n");
 		scanf("%d", &a);
 		switch (a) {
 			case(1): {
-				printf("=========* AÑADIR NUEVOS DATOS *=========\n");
+				printf("=======================* AÑADIR NUEVOS DATOS *=======================\n");
 				int n=0, n1=0, n2=0, n3=0, numeroDatos=0, k;
 				contador++;
 				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
@@ -147,9 +154,9 @@ int main()
 					fprintf(fsalida, "\n"); 
 					fuente[ndatos+x].incluido=0;
 					if(b==1){
-						fuente[ndatos+x].esNuevo=0;
+						fuente[ndatos+x].esVolatil=0;
 					} else {
-						fuente[ndatos+x].esNuevo=1;
+						fuente[ndatos+x].esVolatil=1;
 					}
 				}
 				ndatos+=ndatos_nuevo;
@@ -157,7 +164,7 @@ int main()
 				/*Si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
 				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada más comenzar*/
 				for(k=0;k<ndatos; k++) {
-					if(fuente[k].esNuevo==0) {
+					if(fuente[k].esVolatil==0) {
 						numeroDatos++;
 					}
 				}
@@ -171,7 +178,7 @@ int main()
 					int j;
 					fprintf(fsalida, "%d\n", numeroDatos);
 					for(j=0; j<ndatos; j++) {
-						if(fuente[j].esNuevo==0) {
+						if(fuente[j].esVolatil==0) {
 							fprintf(fsalida, "%d\t", fuente[j].numfuente);
 							fprintf(fsalida, "%f\t", fuente[j].ph);
 							fprintf(fsalida, "%d\t", fuente[j].conductividad);
@@ -192,6 +199,7 @@ int main()
 				do {
 						int n=0, n1=0, n2=0, n3=0;
 						printf("Ha seleccionado la opción de busqueda de datos.\n");
+						printf("=======================* BUSQUEDA DE DATOS *=======================\n");
 						do {
 							n++;
 							if(n>1) {
@@ -650,19 +658,180 @@ int main()
 				reset(fuente, ndatos, 0);
 				break;
 			}
+			case 7: {
+				reset(fuente, ndatos, 0);
+				int mes1, mes2, annyo1, annyo2, j, existe=0, q, r;
+				float mediaPh1, mediaPh2, mediaConductividad1, mediaConductividad2, mediaTurbidez1, mediaTurbidez2, mediaColiformes1, mediaColiformes2;
+				float diferenciaPh, diferenciaCol, diferenciaCond, diferenciaTurb;
+				do {
+					printf("si desea hacer la diferencia de todas las fuentes, introduzca 1, si desea hacer la diferencia de una en concreto, introduzca 2\n");
+					scanf("%d", &q);
+					if(q!=1 && q!=2) {
+						printf("error el valor introducido es incorrecto, introduzcalo de nuevo\n");
+					}
+				} while(q!=1 && q!=2);
+				do {
+					printf("Introduzca el primer mes que desea comparar\n");
+					scanf("%d", &mes1);
+					printf("Introduzca el año del primer mes que desea comparar\n");
+					scanf("%d", &annyo1);
+					if(q==2) {
+						printf("Introduzca el numero de la fuente que desea comparar:\n ");
+						scanf("%d", &r);
+					}
+					for(j=0; j<ndatos; j++) {
+						if(fuente[j].mes==mes1 && fuente[j].annyo==annyo1) {
+							if(q==2) {
+								if(fuente[j].numfuente==r) {
+									fuente[j].incluido=1;
+									existe=1;
+								}
+							} else {
+								fuente[j].incluido=1;
+								existe=1;	
+							}
+						}
+					}
+					if(existe==0) {
+						printf("No se han encontrado registros de fuentes para dicho mes y año, introduzcalos de nuevo\n");
+					} 
+				} while (existe==0);
+				mediaConductividad1=fmediaCond(fuente, ndatos);
+				mediaTurbidez1=fmediaTurb(fuente, ndatos);
+				mediaColiformes1=fmediaCol(fuente, ndatos);
+				mediaPh1=fmediaPh(fuente, ndatos);
+				reset(fuente, ndatos, 0);
+				existe=0;
+				do {
+					printf("Introduzca el segundo mes que desea comparar\n");
+					scanf("%d", &mes2);
+					printf("Introduzca el año del segundo mes que desea comparar\n");
+					scanf("%d", &annyo2);
+					for(j=0; j<ndatos;j++) {
+						if(fuente[j].mes==mes2 && fuente[j].annyo==annyo2) {
+							if(q==2) {
+								if(fuente[j].numfuente==r) {
+									fuente[j].incluido=1;
+									existe=1;	
+								}
+							} else {
+								fuente[j].incluido=1;
+								existe=1;
+							}	
+						}
+					}
+					if(existe==0) {
+						printf("No se han encontrado registros de fuentes para dicho mes y año, introduzcalos de nuevo\n");
+					} 
+				} while (existe==0);
+				mediaConductividad2=fmediaCond(fuente, ndatos);
+				mediaTurbidez2=fmediaTurb(fuente, ndatos);
+				mediaColiformes2=fmediaCol(fuente, ndatos);
+				mediaPh2=fmediaPh(fuente, ndatos);
+				reset(fuente, ndatos, 0);
+				diferenciaPh= (mediaPh2*100)/(mediaPh1);
+				diferenciaCol=(mediaColiformes2*100)/(mediaColiformes1);
+				diferenciaCond=(mediaConductividad2*100)/(mediaConductividad1);
+				diferenciaTurb=(mediaTurbidez2*100)/(mediaTurbidez1);
+				printf("Del mes %d y año %d al mes %d y año %d:\n", mes1, annyo1, mes2, annyo2);
+				//Ph
+				if(mediaPh1==mediaPh2) {
+					printf("El ph no ha cambiado\n");
+				}
+				else if(mediaPh1==0) {
+					printf("No se puede saber en que cantidad ha aumentado el ph, puesto que el dato del primer mes y año es 0\n");	
+				}
+				else if(diferenciaPh>100) {
+					diferenciaPh=diferenciaPh-100;
+					printf("El ph ha aumentado un %f por ciento\n", diferenciaPh);
+				} else if (diferenciaPh<100) {
+					diferenciaPh=100-diferenciaPh;
+					printf("El ph ha disminuido un %f por ciento\n", diferenciaPh);
+				} 
+				//Coliformes
+				if(mediaColiformes1==mediaColiformes2) {
+					printf("Los coliformes no han cambiado\n");
+				}
+				else if(mediaColiformes1==0) {
+					printf("No se puede saber en que cantidad han aumentado los coliformes, puesto que el dato del primer mes y año es 0\n");	
+				}
+				else if(diferenciaCol>100) {
+					diferenciaCol=diferenciaCol-100;
+					printf("Los coliformes han aumentado un %f por ciento\n", diferenciaCol);
+				} else if (diferenciaCol<100) {
+					diferenciaCol=100-diferenciaCol;
+					printf("Los coliformes han disminuido un %f por ciento\n", diferenciaCol);
+				}
+				//Conductividad
+				if(mediaConductividad1==mediaConductividad2) {
+					printf("La conductividad no ha cambiado\n");
+				}
+				else if(mediaConductividad1==0) {
+					printf("No se puede saber en que cantidad ha aumentado la conductividad, puesto que el dato del primer mes y año es 0\n");	
+				}
+				else if(diferenciaCond>100) {
+					diferenciaCond=diferenciaCond-100;
+					printf("La conductividad ha aumentado un %f por ciento\n", diferenciaCond);
+				} else if (diferenciaCond<100) {
+					diferenciaCond=100-diferenciaCond;
+					printf("La conductividad ha disminuido un %f por ciento\n",  diferenciaCond);
+				} 
+				//Turbidez
+				if(mediaTurbidez1==mediaTurbidez2) {
+					printf("la turbidez no ha cambiado\n");
+				}
+				else if(mediaTurbidez1==0) {
+					printf("No se puede saber en que cantidad ha aumentado la turbidez, puesto que el dato del primer mes y año es 0\n");	
+				}
+				else if(diferenciaTurb>100) {
+					diferenciaTurb=diferenciaTurb-100;
+					printf("La turbidez ha aumentado un %f por ciento\n", diferenciaTurb);
+				} else if (diferenciaTurb<100) {
+					diferenciaTurb=100-diferenciaTurb;
+					printf("La turbidez ha disminuido un %f por ciento\n", diferenciaTurb);
+				} 
+			}
+			case(3): {
+				int h, A, M, valorEncontrado=0, n7=0;
+				printf("=======================* DISPERSIÓN pH *=======================\n");
+				printf("Ha seleccionado medir la dispersión de los ph respecto a un ph neutro\n");		
+				printf("Introduzca el numero de la fuente cuyo ph desea comparar\n");
+				scanf("%d", &h);
+				do{
+					n7++;
+					if(n7>1) {
+						printf("La fuente seleccionada no tiene datos registrados para dicho mes y año, introduzca valores de nuevo\n");
+					}	
+					printf("Introduzca de que mes desea coger el dato: ");
+					scanf("%d", &M);
+					printf("Introduzca de que año desea coger el dato:");
+					scanf("%d", &A);
+					if(fuente[h-1].annyo==A) {
+						if (fuente[h-1].mes==M) {
+							if(fuente[h-1].numfuente==h) {
+								valorEncontrado=1;	
+							} 
+						}
+					}
+				} while (valorEncontrado==0);
+				h--;
+				printf("La dispersión del ph con respecto a un ph neutro es %.2f por ciento\n",fdispersionPh(h, fuente));	
+				if(fuente[h].ph>7) {
+					printf("La fuente tiene un ph básico");
+				} else if (fuente[h].ph<7) {
+					printf("la fuente tiene un ph ácido");
+				} else {
+					printf("La fuente tiene un ph neutro");
+				}
+				break;
+			}
 			case(4): {
 				int opcion;
-				int salirDelPrograma;
-				int md, sobremd, est;
+				int salirDelPrograma, i, j;
+				int md, sobremd, tipomediana, sobremdN, est;
 				float media, mediana, b;
-				printf("Ha seleccionado la opcion de las estadísticas.\n");
-				printf("=========* MENU ESTADÍSTICAS *=========\n");
-				FILE *fsalida;
-				fsalida= fopen("trabajodatos.txt", "r");
-				if(fsalida==NULL) {
-					printf("Error, no se puede abrir el fichero.\n");
-					return 0;
-				}
+				printf("Ha seleccionado la opción de las estadísticas.\n");
+				printf("=======================* ESTADÍSTICAS *=======================\n");
 				do { 
     				printf("Elige una opción que desee\n");
     				printf("1: Ver todas las estadísticas\n");
@@ -674,19 +843,25 @@ int main()
 					switch (opcion) {
 						case 1:
 							printf("========= TODAS LAS ESTADÍSTICAS =========  \n");
-							printf("Puede ser de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3) \n");
-							scanf("%d", &est);
+							do {
+								printf("Puede ser de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3) \n");
+								scanf("%d", &est);
+								if(est<1 || est>3) {
+									printf("El valor intruducido es incorrecto, por favor introduzcalo de nuevo");
+								}
+							} while (est!=1 && est!=2 && est!=3);
 							if(est==1) {
 								reset(fuente, ndatos, 1);
-								/*printf("La media de pH %.2f\n", media / ndatos);
-								printf("La media de conductividad %.2f\n", media / ndatos);
-								printf("La media de turbidez %.2f\n", media / ndatos);
-								printf("La media de coliformes %.2f\n", media / ndatos);
+								printf("La media de pH %.2f\n", fmediaPh);
+								printf("La media de conductividad %.2f\n", fmediaCond);
+								printf("La media de turbidez %.2f\n", fmediaTurb);
+								printf("La media de coliformes %.2f\n", fmediaCol);
+								/*
 								printf("El pH maximo es: %.2f\n", phMax);
 								printf("La conductividad maxima es: %.2f\n", condMax);
 								printf("La turbidez maxima es: %.2f\n", turMax);
-								printf("El coliforme maximo es: %.2f\n", coliMax);
-								*/	
+								printf("El coliforme maximo es: %.2f\n", coliMax);*/
+									
 							}
 							else if(est==2) {
 								int a;
@@ -717,7 +892,7 @@ int main()
 								if(c1>1) {
 									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
 								}
-								printf("Puede ver la media de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
+								printf("Puede ver la MEDIA de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
 								scanf("%d", &md);
 							} while (md!=1 && md!=2 && md!=3);
 							do {
@@ -737,7 +912,7 @@ int main()
 							//ph 2
 							if(md == 2 && sobremd == 1) {
 								do{
-									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
+									printf("Introduzca el número de la fuente seleccionada, si no desea añadir más introduzca 0");
 									scanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;	
@@ -771,7 +946,7 @@ int main()
 							//condutividad 2
 							if(md == 2 && sobremd == 2) {
 								do{
-									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
+									printf("Introduzca el número de la fuente seleccionada, si no desea añadir más introduzca 0");
 									scanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
@@ -812,6 +987,7 @@ int main()
 								}while(a!=0);
 								fmediaturb2(fuente, ndatos);
 							}
+							//turbidez 3
 							if(md==3 && sobremd==3) {
 								int min, max;
 								do {
@@ -866,11 +1042,59 @@ int main()
 						}
 						case 3: 
 							printf("========= MEDIANA =========  \n");
-							int tipomediana, i,j;
+							int tipomediana, sobremdN, i,j;
 							float aux; 
-							printf("Puede ver la mediana de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3)\n");
-							scanf("%d",&tipomediana);
-							
+						//	int c1=0, c2=0;
+						//	do {
+						//		c1++;
+						//		if(c1>1) {
+						//			printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+						//		}
+								printf("Puede ver la mediana de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3)\n");
+								scanf("%d",&tipomediana);
+						//	} while (tipomediana!=1 && tipomediana!=2 && tipomediana!=3);
+						//	do {
+						//		c2++;
+						//		if(c2>1) {
+						//			printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+						//		}
+								printf("Puede calcular la MEDIANA de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
+								scanf("%d", &sobremdN);
+						//	} while (sobremdN!=1 && sobremdN!=2 && sobremdN!=3 && sobremdN!=4);
+							//pH 1
+							/*if(tipomediana == 1 && sobremdN == 1) {
+								reset(fuente, ndatos, 1);
+								fmediacoliformes2(fuente, ndatos);
+							}
+							//pH 2
+							if(tipomediana == 2 && sobremdN == 1) {
+								do{
+									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
+									scanf("%d", &a);
+									if(a!=0) {
+										fuente[a-1].incluido=1;
+									}
+								}while(a!=0);
+								fmediaturb2(fuente, ndatos);
+							}
+							//pH 3
+							if(tipomediana == 3 && sobremdN == 1) {
+								int min, max;
+								do {
+									printf("Introduzca el minimo del intervalo que desea buscar:");
+									scanf("%d", &min);
+									printf("Introduzca el maximo del intervalo que desea buscar: ");
+									scanf("%d", &max);
+									if (max<min) {
+										printf("ERROR, el min tiene que ser menor que el máximo \n");
+									}
+								} while (max<min);
+								for (i=min; i<max; i++) {
+									fuente[i].incluido=1;									
+								}
+								fmediacoliformes2(fuente, ndatos);
+							}
+							*/
 							for(i = 0; i < ndatos; i++){
     							for(j = i+1; j < ndatos; j++){
        								 if(fuente[i].ph > fuente[j].ph){
@@ -883,13 +1107,13 @@ int main()
   							float m;
   							if(ndatos%2==0){
   								m=(fuente[ndatos/2].ph+fuente[(ndatos/2)+1].ph)/2;
-  								printf("La mediana es %f",m);
+  								printf("La mediana es: %f",m);
 							  }
 							if(ndatos%2!=0){
 								m=fuente[(ndatos/2)].ph;
 								printf("La mediana es: %f\n", m);
-
 							}
+							break;
 						case 4:
 							printf("Ha salido de estadísticas\n");
 							break;
@@ -898,7 +1122,6 @@ int main()
 							break;
 						}
 					}
-					
 				} while (opcion != 4);
 				
 					//scanf("%d", &b);	
@@ -906,7 +1129,7 @@ int main()
 				
 				break;
 			}	case (5): 
-				printf ("Has seleccionado la opcion de comparar datos \n"); 
+				printf ("Has seleccionado la opción de comparar datos \n"); 
 				float n,a, ph; 
 				int fuente1, fuente2, opcion;
 				float phmayor, phmenor, comparacion; 
@@ -914,28 +1137,36 @@ int main()
 	
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
-					printf("========= COMPARACIONES ========= \n");
+					printf("=======================* COMPARACIONES *=======================\n");
 					printf("Seleccione que datos quiere comparar: \n 1: pH\n 2: conductividad \n 3: turbidez\n 4: coliformes\n"); // creo que esto iria dentro del switch case
 					scanf("%d", &opcion); 
-					if (opcion<1 && opcion>4) {
+					if (opcion<1 || opcion>4) {
 						printf(" ERROR. Esa opción no está disponible, pruebe otra vez por favor \n"); 
 					}
-			} while (opcion<1 && opcion>4); 
+				}while(opcion<1 || opcion>4); 
 		//menu de opciones para seleccionar qué quiere hacer el usuario 
 			switch (opcion)  {
 				case (1): 
+					int n;
 					printf("Has seleccionado comparar datos de ph entre fuentes \n"); 
-					printf ("Escriba 1 si quiere comparar los datos de pH de mayor a menor o 2 si los quiere de menor a mayor \n"); 
-					printf("Escriba 3 si quiere comparar los datos de pH por años \n"); 
-					scanf("%d", &opcion);
-					if (opcion==1){
+					do {
+						printf ("Escriba 1 si quiere comparar los datos de pH de mayor a menor o 2 si los quiere de menor a mayor \n"); 
+						printf("Escriba 3 si quiere comparar los datos de pH por años \n"); 
+						scanf("%d", &n);
+						if(n<1 && n>3) {
+							printf("Error, el valor introducido es incorrecto. Porfavor, introduzcalo de nuevo.");
+						}
+					} while(n!=1 && n!=2 && n!=3);
+					if (n==1){
 						phmayor=fcomparacionmayor(fuente); 
 						printf("El mayor valor de pH es: %f", phmayor);
-					}else if(opcion==2) {
+					} 
+					else if(n==2) {
 						phmenor=fcomparacionmenor(fuente); 
 						printf("El menor valor de pH es: %f", phmenor);
-					}else if (opcion==3){
-			    		printf("Introduzca el primer año a comparar \n"); 
+					}
+					else if (n==3){
+						printf("Introduzca el primer año a comparar \n"); 
 						scanf("%d", &fuente1); 
 						printf ("Introduzca el segundo año a comparar \n");
 						scanf("%d", &fuente2);
@@ -991,10 +1222,11 @@ int main()
 						printf("Datos de turbidez ordenados de menor a mayor \n"); 
 						//comparacion=fcomparacionmenor(fuente); 
 						printf("El menor valor de turbidez es: %d", comparacion);
-					}else if (opcion==3){
-						printf("Introduzca el primer anno a comparar \n"); 
+					}
+					else if (opcion==3){
+						printf("Introduzca el primer año a comparar \n"); 
 						scanf("%d", &fuente1); 
-						printf ("Introduzca el segundo anno a comparar \n");
+						printf ("Introduzca el segundo año a comparar \n");
 						scanf("%d", &fuente2);
 						fcomparacionfuentes; 
 					
@@ -1023,58 +1255,26 @@ int main()
 					} 
 				break;
 			}
-			case(6): 
+			case(8): 
 				break;
-			case(7): {
-				int h, A, M, valorEncontrado=0, n7=0;
-				printf("Ha seleccionado medir la dispersión de los ph respecto a un ph neutro\n");		
-				printf("Introduzca el numero de la fuente cuyo ph desea comparar\n");
-				scanf("%d", &h);
-				do{
-					n7++;
-					if(n7>1) {
-						printf("La fuente seleccionada no tiene datos registrados para dicho mes y año, introduzca valores de nuevo\n");
-					}	
-					printf("introduzca de que mes desea coger el dato: ");
-					scanf("%d", &M);
-					printf("introduzca de que año desea coger el dato:");
-					scanf("%d", &A);
-					if(fuente[h-1].annyo==A) {
-						if (fuente[h-1].mes==M) {
-							if(fuente[h-1].numfuente==h) {
-								valorEncontrado=1;	
-							} 
-						}
-					}
-				} while (valorEncontrado==0);
-				h--;
-				printf("La dispersión del ph con respecto a un ph neutro es %.2f por ciento\n",fdispersionPh(h, fuente));	
-				if(fuente[h].ph>7) {
-					printf("La fuente tiene un ph básico");
-				} else if (fuente[h].ph<7) {
-					printf("la fuente tiene un ph ácido");
-				} else {
-					printf("La fuente tiene un ph neutro");
-				}
-				break;
-			}
-			case 8: {
+			case (6): {
 				int dato1, dato2, dato3;
 				float dt, cv, b, beta, r;
 				reset(fuente, ndatos, 0);
-				printf("Se le dirá el pronóstico esperado de un dato en funcion de otro");
+				printf("=======================* PRONÓSTICOS *=======================\n");
+				printf("Se le dirá el pronóstico esperado de un dato en funcion de otro. ");
 				printf("Seleccione en función de que dato desea realizar el pronóstico: \n 1-Ph\n 2-Conductividad\n 3-Coliformes\n 4-turbidez\n");
 				scanf("%d", &dato1);
-				printf("Seleccione una opcion:\n 1-Pronosticos pra todas las fuentes\n 2-Pronosticos para una fuente en concreto\n");
+				printf("Seleccione una opción:\n 1-Pronósticos para todas las fuentes.\n 2-Pronósticos para una fuente en concreto.\n");
 				scanf("%d", &dato3);
 				switch(dato1) {
 					case 1: {
 						float phEsperado;
-						printf("seleccione en función de que dato desea hacer la predicción:\n 1-Conductividad\n 2-turbidez\n 3-Coliformes\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Conductividad\n 2-turbidez\n 3-Coliformes\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
 							int ConductividadDada;
-							printf("Para qué valor de conductividad desea hacer la predicción del ph: \n");
+							printf("Para qué valor de conductividad desea hacer la predicción del pH: \n");
 							scanf("%d", &ConductividadDada);
 							if(dato3==2) {
 								int dato4, s;
@@ -1099,14 +1299,14 @@ int main()
 							beta=cv/(fmedia2ph(fuente, ndatos)-(fmediaPh(fuente, ndatos)*fmediaPh(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlación es significativa puesto que es %f", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlación no es significativa, puesto que es %f", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
 							int TurbidezDada;
-							printf("Para qué valor de turbidez desea hacer la predicción del ph: \n");
+							printf("Para qué valor de turbidez desea hacer la predicción del pH: \n");
 							scanf("%d", &TurbidezDada);
 							if(dato3==2) {
 								int dato4, s;
@@ -1131,14 +1331,14 @@ int main()
 							beta=cv/(fmedia2ph(fuente, ndatos)-(fmediaPh(fuente, ndatos)*fmediaPh(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlación es significativa puesto que es %f", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlación no es significativa, puesto que es %f", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
 							int ColDada;
-							printf("Para qué valor de coliformes desea hacer la predicción del ph: \n");
+							printf("Para qué valor de coliformes desea hacer la predicción del pH: \n");
 							scanf("%d", &ColDada);
 							if(dato3==2) {
 								int dato4, s;
@@ -1163,16 +1363,16 @@ int main()
 							beta=cv/(fmedia2ph(fuente, ndatos)-(fmediaPh(fuente, ndatos)*fmediaPh(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlación es significativa puesto que es %f", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlación no es significativa, puesto que es %f", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} 
 						break;
 					} case 2: {
 						float CondEsperado;
-						printf("seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Coliformes\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-pH\n 2-turbidez\n 3-Coliformes\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
 							float PhDado;
@@ -1201,11 +1401,11 @@ int main()
 							beta=cv/(fmedia2cond(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaCond(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlación es significativa puesto que es %f \n" , r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlación no es significativa, puesto que es \n%f", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f" , r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
 							int TurbidezDada;
 							printf("Para qué valor de turbidez desea hacer la predicción de conductividad: \n");
@@ -1233,11 +1433,11 @@ int main()
 							beta=cv/(fmedia2cond(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaCond(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlación es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlación no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f \n", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
 							int ColDada;
 							printf("Para qué valor de coliformes desea hacer la predicción de conductividad: \n");
@@ -1265,16 +1465,16 @@ int main()
 							beta=cv/(fmedia2cond(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaCond(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlación es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlación no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f \n", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} 
 						break;
 					} case 3: {
 						float ColEsperado;
-						printf("seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
 							float PhDado;
@@ -1303,11 +1503,11 @@ int main()
 							beta=cv/(fmedia2colif(fuente, ndatos)-(fmediaCol(fuente, ndatos)*fmediaCol(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlacion es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlacion no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f \n", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
 							int TurbidezDada;
 							printf("Para qué valor de turbidez desea hacer la predicción de los coliformes: \n");
@@ -1335,18 +1535,18 @@ int main()
 							beta=cv/(fmedia2colif(fuente, ndatos)-(fmediaCol(fuente, ndatos)*fmediaCol(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlacion es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlacion no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
 							int ConDada;
-							printf("Para que valor de conductividad desea hacer la prediccion de los coliformes: \n");
+							printf("Para que valor de conductividad desea hacer la predicción de los coliformes: \n");
 							scanf("%d", &ConDada);
 							if(dato3==2) {
 								int dato4, s;
-								printf("Introduzca el numero de la fuente para el que desea el pronostico: \n");
+								printf("Introduzca el número de la fuente para el que desea el pronóstico: ");
 								scanf("%d", &dato4);
 								for(s=0; s<ndatos; s++) {
 									if(fuente[s].numfuente==dato4) {
@@ -1362,29 +1562,28 @@ int main()
 							}
 							cv=fmediaCondColif(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaCol(fuente, ndatos));
 							ColEsperado=((cv*(ConDada-fmediaCond(fuente, ndatos)))/dt)+fmediaCol(fuente, ndatos);
-							printf("Los coliformes esperados para este valor es %f\n", ColEsperado);
+							printf("Los coliformes esperados para este valor son %f\n", ColEsperado);
 							b=cv/dt;
 							beta=cv/(fmedia2colif(fuente, ndatos)-(fmediaCol(fuente, ndatos)*fmediaCol(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlacion es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlacion no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f \n", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} 
 						break; 
 					} case 4: {
 						float TurEsperado;
-						printf("seleccione en funcion de que dato desea hacer la prediccion:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
 							float PhDado;
-							printf("Para que valor de ph desea hacer la prediccion de la turbidez: \n");
+							printf("Para que valor de ph desea hacer la predicción de la turbidez: \n");
 							scanf("%f", &PhDado);
 							if(dato3==2) {
 								int dato4, s;
-								printf("Introduzca el numero de la fuente para el que desea el pronostico: \n");
 								scanf("%d", &dato4);
 								for(s=0; s<ndatos; s++) {
 									if(fuente[s].numfuente==dato4) {
@@ -1405,18 +1604,18 @@ int main()
 							beta=cv/(fmedia2turb(fuente, ndatos)-(fmediaTurb(fuente, ndatos)*fmediaTurb(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlacion es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlacion no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
 							int ColDada;
-							printf("Para que valor de coliformes desea hacer la prediccion de la  turbidez: \n");
+							printf("Para que valor de coliformes desea hacer la prediccion de la turbidez: \n");
 							scanf("%d", &ColDada);
 							if(dato3==2) {
 								int dato4, s;
-								printf("Introduzca el numero de la fuente para el que desea el pronostico: \n");
+								printf("Introduzca el número de la fuente para el que desea el pronóstico: ");
 								scanf("%d", &dato4);
 								for(s=0; s<ndatos; s++) {
 									if(fuente[s].numfuente==dato4) {
@@ -1437,18 +1636,18 @@ int main()
 							beta=cv/(fmedia2turb(fuente, ndatos)-(fmediaTurb(fuente, ndatos)*fmediaTurb(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlacion es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlacion no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
 							int ConDada;
-							printf("Para que valor de conductividad desea hacer la prediccion de la turbidez: \n");
+							printf("Para que valor de conductividad desea hacer la predicción de la turbidez: \n");
 							scanf("%d", &ConDada);
 							if(dato3==2) {
 								int dato4, s;
-								printf("Introduzca el numero de la fuente para el que desea el pronostico: \n");
+								printf("Introduzca el número de la fuente para el que desea el pronóstico: ");
 								scanf("%d", &dato4);
 								for(s=0; s<ndatos; s++) {
 									if(fuente[s].numfuente==dato4) {
@@ -1469,11 +1668,11 @@ int main()
 							beta=cv/(fmedia2turb(fuente, ndatos)-(fmediaTurb(fuente, ndatos)*fmediaTurb(fuente, ndatos))+0.000001);
 							r=sqrt(b*beta);
 							if(r>0.5) {
-								printf("La correlacion es significativa puesto que es %f \n", r);
+								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
-								printf("La correlacion no es significativa, puesto que es %f \n", r);
+								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
-							printf("El porcentaje aproximado de fiabilidad es %f \n", r*100);
+							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						}
 						break;
 					}
@@ -1487,8 +1686,8 @@ int main()
 			}
 		}
 		printf("\n");
-	}while(a!=6);
-	printf("Hasta la proxima %s %s \n", nombre, apellido); 
+	}while(a!=8);
+	printf("Hasta la próxima %s %s \n", nombre, apellido); 
 	printf("FIN DEL PROGRAMA"); 
 	
 	return 0;
@@ -1553,7 +1752,7 @@ void fmediaph11(struct Tfuente fuente[], int ndatos){
 		}		
 	}
 	printf("La media de pH es: %.2f\n", media / cantidad);
-	printf("El pH maximo es: %.2f\n", phMax);	
+	printf("El pH máximo es: %.2f\n", phMax);	
 }
 //media 21
 /*
@@ -1779,7 +1978,7 @@ void fmediacond2(struct Tfuente fuente[],int ndatos){
 		}	
 	}
 	printf("La media de conductividad es: %.2f\n", media / cantidad);
-	printf("La conductividad maxima es: %.2f\n", condMax);
+	printf("La conductividad máxima es: %.2f\n", condMax);
 }
 /*
 void fmediaturb1(struct Tfuente fuente[], int ndatos){
@@ -1809,7 +2008,7 @@ void fmediaturb2(struct Tfuente fuente[],int ndatos){
 		}	
 	}
 	printf("La media de turbidez es: %.2f\n", media / cantidad);
-	printf("La turbidez maxima es: %.2f\n", turMax);
+	printf("La turbidez máxima es: %.2f\n", turMax);
 	
 }
 /*
@@ -1840,6 +2039,6 @@ void fmediacoliformes2(struct Tfuente fuente[],int ndatos){
 		}	
 	}
 	printf("La media de coliformes es: %.2f\n", media / cantidad);
-	printf("El coliforme maximo es: %.2f\n", coliMax);
+	printf("El coliforme máximo es: %.2f\n", coliMax);
 }
 
