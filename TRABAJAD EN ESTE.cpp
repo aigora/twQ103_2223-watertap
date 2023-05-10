@@ -1172,7 +1172,6 @@ int main()
 				break;
 			}	case (5): { 
 				printf ("Has seleccionado la opción de comparar datos \n"); 
-				float n,a, ph; 
 				int fuente1, fuente2, opcion;
 				float phmayor, phmenor, comparacion; 
 				int condmayor=0, condmenor=500, turmayor=0, turmenor=10, colimayor=0, colimenor=2;   
@@ -1212,7 +1211,7 @@ int main()
 				break;
 			}
 				case (2) : {
-					int i,a,b, mes1, mes2, annyo1,annyo2, cond1, cond2;
+					int i,a,b,n, mes1, mes2, annyo1,annyo2, cond1, cond2;
 					printf("Has seleccionado comparar datos de conductividad entre fuentes \n"); 
 					printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
 					printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
@@ -1262,7 +1261,7 @@ int main()
 					break;
 				}
 				case(3):{
-					int i,a,b, mes1, mes2, annyo1,annyo2, tur1, tur2;
+					int i,a,b,n, mes1, mes2, annyo1,annyo2, tur1, tur2;
 					printf("Has seleccionado comparar los datos de turbidez \n"); 
 					printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
 					printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n"); 
@@ -1314,7 +1313,7 @@ int main()
 					break;  
 				}
 				case (4): {
-					int i,a,b, mes1, mes2, annyo1,annyo2, coli1, coli2;
+					int i,a,b,n, mes1, mes2, annyo1,annyo2, coli1, coli2;
 					printf ("Escriba 1 si quiere el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
 					printf("Escriba 3 si quiere comparar los datos de coliformes de dos fuentes específicas  \n"); 
 					scanf("%d", &n);
