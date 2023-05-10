@@ -12,8 +12,8 @@ struct Tfuente {
 
 void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "incluido", usada para estadisticas
 //Funciones comparacion
-float fcomparacionmayor (struct Tfuente[]);
-float fcomparacionmenor (struct Tfuente[]);
+float fcomparacionmayor (struct Tfuente[], int);
+float fcomparacionmenor (struct Tfuente[], int);
 void fcomparacionfuentes (struct Tfuente[]); 
 
 float fdispersionPh(int, struct Tfuente[]);
@@ -1158,11 +1158,11 @@ int main()
 						}
 					} while(n!=1 && n!=2 && n!=3);
 					if (n==1){
-						phmayor=fcomparacionmayor(fuente); 
+						phmayor=fcomparacionmayor(fuente, ndatos); 
 						printf("El mayor valor de pH es: %.2f", phmayor);
 					} 
 					else if(n==2) {
-						phmenor=fcomparacionmenor(fuente); 
+						phmenor=fcomparacionmenor(fuente, ndatos); 
 						printf("El menor valor de pH es: %.2f", phmenor);
 					}
 					else if (n==3){
