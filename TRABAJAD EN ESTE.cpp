@@ -48,11 +48,16 @@ int main()
 	//preguntar el nombre y apellido
 	char nombre[50];
 	char apellido[50];
-	printf("Buenas, ¿Cuál es su nombre y apellido? \n");
+	printf("\n");
+	printf("······················································ BIENVENIDO A WATERTAP ····················································· \n\n");
+	printf(" Buenas, ¿Cuál es su nombre y apellido? \n");
 	scanf("%s %s", nombre, apellido);
 	fflush(stdin);
-	printf("Buenas, %s %s  \n", nombre, apellido);
+	printf(" Buenas, %s %s  \n", nombre, apellido);
 	printf("\n");	
+	printf(" SE TRATA DE UN PROGRAMA QUE ANALIZA LOS DATOS DE DIFERENTES FUENTES Y PROPORCIONA INFORMACIÓN ADICIONAL SOBRE SUS CARACTERÍSTICAS\n\n");
+	printf(" Creado por: Nayade García, Alejandra Alonso, Natalia Escribano y Marina Donalonso\n\n\n");
+
 //ALMACENAMOS DATOS DADOS
 //al añadir variables de mes y año(para que al introducir datos nuevos se distingan entre ellos, establecemos los datos iniciales dados, con mes y año abril 2023
 	int numfuente, conductividad, turbidez, coliformes;
@@ -84,6 +89,7 @@ int main()
 		printf("****************************** MENÚ PRINCIPAL ******************************\n");
 		printf("Seleccione una opcion:\n \t\t\t1-Añadir nuevos datos\n \t\t\t2-Búsqueda de datos\n \t\t\t3-Dispersión\n \t\t\t4-Estadísticas\n \t\t\t5-Comparación\n \t\t\t6-Pronósticos\n \t\t\t7-Cambios entre meses\n\t\t\t8-Salir\n\n");
 		scanf("%d", &a);
+		//desarrollamos los casos citados en el menú principal
 		switch (a) {
 			case(1): {
 				printf("=======================* AÑADIR NUEVOS DATOS *=======================\n");
@@ -208,6 +214,7 @@ int main()
 							printf("Seleccione en función de que parámetro desea buscar el dato:\n 1-PH\n 2-Turbidez\n 3-Coliformes\n 4-Número de fuente\n 5-Conductividad\n 6-Mes\n 7-Año\n");
 							scanf("%d", &decision);
 						} while (decision<1 && decision>7);
+						//se desarrollan la variable decision a partir de un switch case
 						switch(decision) {
 							case(1): {
 								float phBuscado; 
@@ -223,8 +230,11 @@ int main()
 								} while (decision2!=1 && decision2!=2);
 								switch(decision2) {
 									case(1): {
+										//Se crea la variable encontrado que permite buscar en el fichero el dato introducido.
+										// En caso de ser verdadero (=1) se muestra por pantalla el valor. En el caso de no encontrarse dicho valor (falso-> =0) se imprime por pantalla un mensaje) 					
 										int encontrado=0;
 										printf("Introduzca el ph que desea buscar: ");
+										//En este caso se busca un valor específico
 										scanf("%f", &phBuscado);
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].ph==phBuscado && fuente[a].incluido==1) {
@@ -242,6 +252,7 @@ int main()
 										break;
 									}
 									case(2): {
+										//Para desarrollar la búsqueda de datos en un intevalo se crea las variables min y max para acotar el intervalo deseado.
 										float min, max;
 										int x, encontrado=0;
 										do {
@@ -254,6 +265,7 @@ int main()
 											printf("Introduzca el máximo del intervalo que desea buscar: ");
 											scanf("%f", &max);
 										} while (max<min);
+										//Se ejecuta el bucle para poder imprimer los datos de dicho intervalo
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].ph>=min && fuente[x].ph<=max && fuente[x].incluido==1) {
 												encontrado=1;
@@ -273,6 +285,7 @@ int main()
 							break;	
 						}
 						case(2): {
+							//Este caso es igual que el anterior lo único que la opción seleccionada en el primer menú de opciones de busqueda de datos es distinto
 							int turbidezBuscada, a;
 							int decision2;
 							do {
@@ -335,6 +348,7 @@ int main()
 							break;
 						}
 						case(3): {
+							//Este caso es igual que el anterior lo único que la opción seleccionada en el primer menú de opciones de busqueda de datos es distinto
 							int ColBuscado, a;
 							int decision2;
 							do {
@@ -397,6 +411,7 @@ int main()
 								break;
 							}
 							case(4): {
+								//Este caso es igual que el anterior lo único que la opción seleccionada en el primer menú de opciones de busqueda de datos es distinto
 								int numBuscado, a;
 								int decision2;
 								do {
@@ -461,6 +476,7 @@ int main()
 								break;
 							}
 							case(5): {
+								//Este caso es igual que el anterior lo único que la opción seleccionada en el primer menú de opciones de busqueda de datos es distinto
 								int conBuscado, a;
 								int decision2;
 								do {
@@ -523,6 +539,7 @@ int main()
 								break;
 							}
 							case(6): {
+								//Este caso es igual que el anterior lo único que la opción seleccionada en el primer menú de opciones de busqueda de datos es distinto
 								int mesBuscado, a;
 								int decision2;
 								do {
@@ -585,6 +602,7 @@ int main()
 								break;
 							}
 							case(7): {
+								//Este caso es igual que el anterior lo único que la opción seleccionada en el primer menú de opciones de busqueda de datos es distinto
 								int decision2;
 								do {
 									n1++;
@@ -651,9 +669,11 @@ int main()
 						if(n3>1) {
 							printf("Error, el valor introducido es incorrecto. Por favor, introdúzcalo de nuevo\n");
 						}
+						// Si desea hacer otra búsqueda con lo valores ya seleccionados la función incluida se queda guardada y se realizan nuevas busquedas a partir de dichos valores
 						printf("\nSi desea realizar una búsqueda dentro de la ya hecha, introduzca 1, si desea por el contrario volver al menú principal introduzca 0: ");
 						scanf("%d", &valor);
 					} while (valor!=1 && valor!=0);
+				//En el caso de querer volver al menú principal se resetean los que tienen la funcion incluido y el break le devuelve al menú.
 				}while(valor!=0);
 				reset(fuente, ndatos, 0);
 				break;
@@ -793,10 +813,12 @@ int main()
 			}
 			case(3): {
 				int h, A, M, valorEncontrado=0, n7=0;
+				//Se trata de una búsqueda de pH por lo que se solicita mediante la función scanf.
 				printf("=======================* DISPERSIÓN pH *=======================\n");
 				printf("Ha seleccionado medir la dispersión de los ph respecto a un ph neutro\n");		
 				printf("Introduzca el numero de la fuente cuyo ph desea comparar\n");
 				scanf("%d", &h);
+				//el do-while te permite evitar el error de introducir un valor incorrecto
 				do{
 					n7++;
 					if(n7>1) {
@@ -806,6 +828,7 @@ int main()
 					scanf("%d", &M);
 					printf("Introduzca de que año desea coger el dato:");
 					scanf("%d", &A);
+					//mediante la funcion valorEncontrado se buscan en el fichero los datos introducidos. En el caso de encontrarse(verdadero) se emplean en las funciones.
 					if(fuente[h-1].annyo==A) {
 						if (fuente[h-1].mes==M) {
 							if(fuente[h-1].numfuente==h) {
@@ -826,6 +849,7 @@ int main()
 				break;
 			}
 			case(4): {
+				//se declaran las variables.
 				int opcion;
 				int salirDelPrograma, i, j;
 				int md, sobremd, tipomediana, sobremdN, est;
@@ -882,7 +906,7 @@ int main()
 								*/
 							}								
 							break;
-						case 2: {
+						case (2): {
 							//dentro de la media decides primero sobre que fuentes y seguido sobre qué dato
 							reset(fuente, ndatos, 0);
 							printf("========= MEDIA =========  \n");
@@ -903,7 +927,7 @@ int main()
 								printf("Puede calcular la media de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
 								scanf("%d", &sobremd);
 							} while (sobremd!=1 && sobremd!=2 && sobremd!=3 && sobremd!=4);
-							//está organizado por datos y seguido el numero que indica sobre qué fuentes se trata
+							//está organizado por datos y seguido el numero que indica sobre qué fuentes se trata.
 							//ph 1
 							if(md == 1 && sobremd == 1) {
 								reset(fuente, ndatos, 1);
@@ -1040,27 +1064,27 @@ int main()
 							reset(fuente, ndatos, 0);
 							break;
 						}
-						case 3: 
+						case (3): {
 							printf("========= MEDIANA =========  \n");
 							int tipomediana, sobremdN, i,j;
 							float aux; 
-						//	int c1=0, c2=0;
-						//	do {
-						//		c1++;
-						//		if(c1>1) {
-						//			printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
-						//		}
+							int c1=0, c2=0;
+							do {
+								c1++;
+								if(c1>1) {
+									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+								}
 								printf("Puede ver la mediana de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3)\n");
 								scanf("%d",&tipomediana);
-						//	} while (tipomediana!=1 && tipomediana!=2 && tipomediana!=3);
-						//	do {
-						//		c2++;
-						//		if(c2>1) {
-						//			printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
-						//		}
+							} while (tipomediana!=1 && tipomediana!=2 && tipomediana!=3);
+							do {
+								c2++;
+								if(c2>1) {
+									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+								}
 								printf("Puede calcular la MEDIANA de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
 								scanf("%d", &sobremdN);
-						//	} while (sobremdN!=1 && sobremdN!=2 && sobremdN!=3 && sobremdN!=4);
+							} while (sobremdN!=1 && sobremdN!=2 && sobremdN!=3 && sobremdN!=4);
 							//pH 1
 							/*if(tipomediana == 1 && sobremdN == 1) {
 								reset(fuente, ndatos, 1);
@@ -1114,6 +1138,7 @@ int main()
 								printf("La mediana es: %f\n", m);
 							}
 							break;
+						}
 						case 4:
 							printf("Ha salido de estadísticas\n");
 							break;
