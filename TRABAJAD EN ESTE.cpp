@@ -55,7 +55,8 @@ int main()
 	fflush(stdin);
 	printf(" Buenas, %s %s  \n", nombre, apellido);
 	printf("\n");	
-	printf(" SE TRATA DE UN PROGRAMA QUE ANALIZA LOS DATOS DE DIFERENTES FUENTES Y PROPORCIONA INFORMACIÓN ADICIONAL SOBRE SUS CARACTERÍSTICAS\n\n");
+	printf("  WATERTAP TRATA DE UN PROGRAMA QUE ANALIZA LOS DATOS DE DIFERENTES FUENTES Y PROPORCIONA INFORMACIÓN ADICIONAL SOBRE SUS CARACTERÍSTICAS\n\n");
+	printf("  A PARTIR DE UN MENÚ PRINCIPAL, EL USUARIO TIENE VARIAS OPCIONES PARA QUE DECIDA QUÉ QUIERE SABER ACERCA DE DICHAS FUENTES.\n\n"); 
 	printf(" Creado por: Nayade García, Alejandra Alonso, Natalia Escribano y Marina Donalonso\n\n\n");
 
 //ALMACENAMOS DATOS DADOS
@@ -1173,13 +1174,13 @@ int main()
 			}	case (5): { 
 				printf ("Has seleccionado la opción de comparar datos \n"); 
 				int fuente1, fuente2, opcion;
-				float phmayor, phmenor, comparacion; 
-				int condmayor=0, condmenor=500, turmayor=0, turmenor=10, colimayor=0, colimenor=2;   
+				float phmayor, phmenor; 
+				int condmayor=0, condmenor=500, turmayor=0, turmenor=12, colimayor=0, colimenor=5;   
 	
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
 					printf("=======================* COMPARACIONES *=======================\n");
-					printf("Seleccione qué datos quiere comparar: \n 1: pH\n 2: conductividad \n 3: turbidez\n 4: coliformes\n"); // creo que esto iria dentro del switch case
+					printf("Selecciona qué datos quiere comparar: \n 1: pH\n 2: conductividad \n 3: turbidez\n 4: coliformes\n"); 
 					scanf("%d", &opcion); 
 					if (opcion<1 || opcion>4) {
 						printf(" ERROR. Esa opción no está disponible, pruebe otra vez por favor \n"); 
@@ -1192,7 +1193,8 @@ int main()
 					printf("Has seleccionado comparar datos de pH entre fuentes \n"); 
 					do {
 						printf ("Escriba 1 si quieres el máximo valor de ph o 2 si quieres el mínimo \n"); 
-						printf("Escriba 3 si quieres comparar los datos de ph de dos fuentes en específico \n"); 
+						printf("Escriba 3 si quieres comparar los datos de pH de dos fuentes en específico \n"); 
+						printf("")
 						scanf("%d", &n);
 						if(n<1 && n>3) {
 							printf("Error, el valor introducido es incorrecto. Porvfavor, introdúzcalo de nuevo.");
