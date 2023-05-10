@@ -14,7 +14,7 @@ void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "inc
 //Funciones comparacion
 float fcomparacionmayor (struct Tfuente[], int);
 float fcomparacionmenor (struct Tfuente[], int);
-void fcomparacionfuentes (struct Tfuente[]); 
+void fcomparacionfuentes (struct Tfuente[], int); 
 
 float fdispersionPh(int, struct Tfuente[]);
 //Funciones medias variables al cuadrado
@@ -1128,12 +1128,12 @@ int main()
 					break;
 				
 				break;
-			}	case (5): 
+			}	case (5): { 
 				printf ("Has seleccionado la opción de comparar datos \n"); 
 				float n,a, ph; 
 				int fuente1, fuente2, opcion;
 				float phmayor, phmenor, comparacion; 
-				int mayor, menor;  
+				int condmayor=0, condmenor=500, turmayor=0, turmenor=10, colimayor=0, colimenor=2;   
 	
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
@@ -1146,12 +1146,12 @@ int main()
 				}while(opcion<1 || opcion>4); 
 		//menu de opciones para seleccionar qué quiere hacer el usuario 
 			switch (opcion)  {
-				case (1): 
+				case (1): {
 					int n;
 					printf("Has seleccionado comparar datos de pH entre fuentes \n"); 
 					do {
-						printf ("Escriba 1 si quiere comparar los datos de pH de mayor a menor o 2 si los quiere de menor a mayor \n"); 
-						printf("Escriba 3 si quiere comparar los datos de pH por años \n"); 
+						printf ("Escriba 1 si quieres el máximo valor de ph o 2 si quieres el mínimo \n"); 
+						printf("Escriba 3 si quieres comparar los datos de ph de dos fuentes en específico \n"); 
 						scanf("%d", &n);
 						if(n<1 && n>3) {
 							printf("Error, el valor introducido es incorrecto. Porvfavor, introdúzcalo de nuevo.");
@@ -1162,128 +1162,166 @@ int main()
 						printf("El mayor valor de pH es: %.2f", phmayor);
 					} 
 					else if(n==2) {
-						phmenor=fcomparacionmenor(fuente, ndatos); 
-						printf("El menor valor de pH es: %.2f", phmenor);
+						printf("El menor valor de pH es: %.2f",fcomparacionmenor(fuente, ndatos) );
 					}
 					else if (n==3){
-						printf("Introduzca el primer año a comparar \n"); 
-						scanf("%d", &fuente1); 
-						printf ("Introduzca el segundo año a comparar \n");
-						scanf("%d", &fuente2);
-						fcomparacionfuentes; 
+						fcomparacionfuentes (fuente, ndatos); 
 					}
 				break;
-				case (2) : 
-				
+			}
+				case (2) : {
+					int i,a,b, mes1, mes2, annyo1,annyo2, cond1, cond2;
 					printf("Has seleccionado comparar datos de conductividad entre fuentes \n"); 
 					printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
 					printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
 					scanf("%d", &n);
 					if (n==1){
-							for(i=0; i<25; i++){
-								if(fuente[i].conductividad>mayor){
-									mayor=fuente[i].conductividad; 
+							for(i=0; i<ndatos; i++){
+								if(fuente[i].conductividad>condmayor){
+									condmayor=fuente[i].conductividad; 
 								}
 							}
-						printf("Valor máximo de conductividad: %d \n", mayor);
+						printf("Valor máximo de conductividad: %d \n", condmayor);
 					} else if(n==2) {
-						for(i=0; i<25; i++){
-								if(fuente[i].conductividad<menor){
-									menor=fuente[i].conductividad; 
+						for(i=0; i<ndatos; i++){
+								if(fuente[i].conductividad<condmenor){
+									condmenor=fuente[i].conductividad; 
 								}
 							}
-						printf("Valor mínimo de conductividad: %d \n", menor); 
+						printf("Valor mínimo de conductividad: %d \n", condmenor); 
 					}else if (n==3){
-						printf("Introduzca la primera fuente a comparar \n"); 
-						scanf("%d", &fuente1); 
-						printf ("Introduzca  la segunda fuente a comparar \n");
-						scanf("%d", &fuente2);
-						for(i=0; i<25; i++){
-							if (fuente[fuente1].conductividad>fuente[fuente2].conductividad){
-								printf("La conductividad de la primera fuente introducida es mayor a la conductividad de la segunda fuente \n"); 
-							} else if( fuente[fuente1].conductividad<fuente[fuente2].conductividad){
-								printf("La conductividad de la segunda fuente introducida es mayor a la conductividad de la primera fuente \n"); 
-							}else if(fuente[fuente1].conductividad==fuente[fuente2].conductividad){
-								printf("Ambas fuentes tienen las mismas conductividades \n"); 
-							}	
-						}	
-					}
-					break;
-				case(3):
-					 
-					printf("Has seleccionado comparar los datos de turbidez \n"); 
-					printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
-					printf("Escriba 3 si quiere comparar los datos de turbidez por fuentes\n"); 
-					scanf("%d", &n);
-					if (n==1){
-						for(i=0; i<25; i++){
-							if(fuente[i].conductividad>mayor){
-								mayor=fuente[i].conductividad; 
+						printf("Introduce el número de la fuente 1 \n"); 
+						scanf("%d", &a); 
+						printf("Introduce de qué mes quieres comparar la fuente 1 \n"); 
+						scanf("%d", &mes1); 
+						printf("Introduce en qué año quieres comparar la fuente 1 \n"); 
+						scanf("%d", &annyo1); 
+						printf("Introduce el número de la fuente 2 \n"); 
+						scanf("%d", &b); 
+						printf("Introduce en qué mes quieres comparar la fuente 2 \n"); 
+						scanf("%d", &mes2); 
+						printf("Introduce en qué año quieres comparar la fuente 2 \n"); 
+						scanf("%d", &annyo2); 
+						for(i=0; i<ndatos; i++) {
+							if(fuente[i].numfuente==a && fuente[i].mes==mes1 && fuente[i].annyo==annyo1){
+								cond1=fuente[i].conductividad; 
+							}else if (fuente[i].numfuente==b && fuente[i].mes==mes2 && fuente[i].annyo==annyo2){
+								cond2=fuente[i].conductividad; 
 							}
 						}
-						printf("Valor máximo de turbidez : %d\n", mayor); 
+						if(cond1>cond2){
+							printf("La conductividad de la fuente 1 es mayor que la de la fuente 2 ");
+						}else if(cond1<cond2){
+							printf("La conductividad de la fuente 2 es mayor que la de la fuente 1"); 
+						}else if (cond1==cond2) {
+							printf("Ambas fuentes tienen la misma conductividad \n"); 
+						}
+					}
+					break;
+				}
+				case(3):{
+					int i,a,b, mes1, mes2, annyo1,annyo2, tur1, tur2;
+					printf("Has seleccionado comparar los datos de turbidez \n"); 
+					printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
+					printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n"); 
+					scanf("%d", &n);
+					if (n==1){
+						for(i=0; i<ndatos; i++){
+							if(fuente[i].turbidez>turmayor){
+								turmayor=fuente[i].turbidez; 
+							}
+						}
+						printf("Valor máximo de turbidez : %d\n", turmayor); 
 					}else if(n==2) {
 						printf("Datos de turbidez ordenados de menor a mayor \n"); 
-						for(i=0; i<25; i++){
-								if(fuente[i].conductividad<menor){
-									menor=fuente[i].conductividad; 
+						for(i=0; i<ndatos; i++){
+								if(fuente[i].turbidez<turmenor){
+									turmenor=fuente[i].turbidez; 
 								}
 							}
-						printf("El menor valor de turbidez es: %d", menor);
+						printf("El menor valor de turbidez es: %d", turmenor);
 					}
 					else if (n==3){
-						printf("Introduzca el primer año a comparar \n"); 
-						scanf("%d", &fuente1); 
-						printf ("Introduzca el segundo año a comparar \n");
-						scanf("%d", &fuente2);
-						for(i=0; i<25; i++){
-							if (fuente[fuente1].conductividad>fuente[fuente2].conductividad){
-								printf("La conductividad de la primera fuente introducida es mayor a la conductividad de la segunda fuente \n"); 
-							} else if( fuente[fuente1].conductividad<fuente[fuente2].conductividad){
-								printf("La conductividad de la segunda fuente introducida es mayor a la conductividad de la primera fuente \n"); 
-							}else if(fuente[fuente1].conductividad==fuente[fuente2].conductividad){
-								printf("Ambas fuentes tienen las mismas conductividades \n"); 
-							}	
-						}	
+						printf("Introduce el número de la fuente 1 \n"); 
+						scanf("%d", &a); 
+						printf("Introduce de qué mes quieres comparar la fuente 1 \n"); 
+						scanf("%d", &mes1); 
+						printf("Introduce en qué año quieres comparar la fuente 1 \n"); 
+						scanf("%d", &annyo1); 
+						printf("Introduce el número de la fuente 2 \n"); 
+						scanf("%d", &b); 
+						printf("Introduce en qué mes quieres comparar la fuente 2 \n"); 
+						scanf("%d", &mes2); 
+						printf("Introduce en qué año quieres comparar la fuente 2 \n"); 
+						scanf("%d", &annyo2); 
+						for(i=0; i<ndatos; i++) {
+							if(fuente[i].numfuente==a && fuente[i].mes==mes1 && fuente[i].annyo==annyo1){
+								tur1=fuente[i].turbidez; 
+							}else if (fuente[i].numfuente==b && fuente[i].mes==mes2 && fuente[i].annyo==annyo2){
+								tur2=fuente[i].turbidez; 
+							}
+						}
+						if(tur1>tur2){
+							printf("La turbidez de la fuente 1 es mayor que la de la fuente 2 ");
+						}else if(tur1<tur2){
+							printf("La turbidez de la fuente 2 es mayor que la de la fuente 1"); 
+						}else if (tur1==tur2) {
+							printf("Ambas fuentes tienen la misma turbidez \n"); 
+						}
 					}
-				break;  
-				case (4): 
+					break;  
+				}
+				case (4): {
+					int i,a,b, mes1, mes2, annyo1,annyo2, coli1, coli2;
 					printf ("Escriba 1 si quiere el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
 					printf("Escriba 3 si quiere comparar los datos de coliformes de dos fuentes específicas  \n"); 
 					scanf("%d", &n);
 					if (n==1){ 
-						 for(i=0; i<25; i++){
-								if(fuente[i].coliformes>mayor){
-									mayor=fuente[i].coliformes; 
+						 for(i=0; i<ndatos; i++){
+								if(fuente[i].coliformes>colimayor){
+									colimayor=fuente[i].coliformes; 
 								}
 							}
-						printf("El mayor valor de coliformes es: %d", mayor);
-					} 
-					else if(n==2) {
-						for(i=0; i<25; i++){
-								if(fuente[i].coliformes<menor){
-									menor=fuente[i].coliformes; 
+						printf("El mayor valor de coliformes es: %d", colimayor);
+					}else if(n==2) {
+						for(i=0; i<ndatos; i++){
+								if(fuente[i].coliformes<colimenor){
+									colimenor=fuente[i].coliformes; 
 								}
 							}
-						printf("El menor valor de coliformes es: %d", menor);
+						printf("El menor valor de coliformes es: %d", colimenor);
+					}else if (n==3){
+						printf("Introduce el número de la fuente 1 \n"); 
+						scanf("%d", &a); 
+						printf("Introduce de qué mes quieres comparar la fuente 1 \n"); 
+						scanf("%d", &mes1); 
+						printf("Introduce en qué año quieres comparar la fuente 1 \n"); 
+						scanf("%d", &annyo1); 
+						printf("Introduce el número de la fuente 2 \n"); 
+						scanf("%d", &b); 
+						printf("Introduce en qué mes quieres comparar la fuente 2 \n"); 
+						scanf("%d", &mes2); 
+						printf("Introduce en qué año quieres comparar la fuente 2 \n"); 
+						scanf("%d", &annyo2); 
+						for(i=0; i<ndatos; i++) {
+							if(fuente[i].numfuente==a && fuente[i].mes==mes1 && fuente[i].annyo==annyo1){
+								coli1=fuente[i].coliformes; 
+							}else if (fuente[i].numfuente==b && fuente[i].mes==mes2 && fuente[i].annyo==annyo2){
+								coli2=fuente[i].coliformes; 
+							}
+						}
+						if(coli1>coli2){
+							printf("Los coliformes de la fuente 1 son mayores que los de la fuente 2 ");
+						}else if(coli1<coli2){
+							printf("Los coliformes de la fuente 2 son mayores que la de la fuente 1"); 
+						}else if (coli1==coli2) {
+							printf("Ambas fuentes tienen el mismo número de coliformes \n"); 
+						}
 					}
-					else if (n==3){
-						printf("Introduzca la primera fuente a comparar \n"); 
-						scanf("%d", &fuente1); 
-						printf ("Introduzca la segundo fuente a comparar \n");
-						scanf("%d", &fuente2);
-						 for(i=0; i<25; i++){
-							if (fuente[fuente1].coliformes>fuente[fuente2].coliformes){
-								printf("El número de coliformes de la primera fuente introducida es mayor al número de coliformes de la segunda fuente \n"); 
-							} else if( fuente[fuente1].coliformes<fuente[fuente2].coliformes){
-								printf("El número de coliformes de la segunda fuente introducida es mayor al número de coliformes de la primera fuente \n"); 
-							}else if(fuente[fuente1].coliformes==fuente[fuente2].coliformes){
-								printf("Ambas fuentes tienen el mismo nnúmero de coliformes  \n"); 
-							}	
-						}	
-					}
-					} 
 				break;
+				}
+			}
+		}
 			case(8): 
 				break;
 			case (6): {
@@ -1742,9 +1780,9 @@ float fcomparacionmayor (struct Tfuente fuente[], int ndatos) {
 	}
 	return phmayor; 
 }
-float fcomparacionmenor (struct Tfuente fuente[], int ndatos){
+float fcomparacionmenor (struct Tfuente fuente[], int ndatos) {
 	int i; 
-	float phmenor=0; 
+	float phmenor=14; 
 	for(i=0; i<ndatos; i++) {
 		if (fuente[i].ph<phmenor){
 			phmenor=fuente[i].ph; 
@@ -1752,18 +1790,33 @@ float fcomparacionmenor (struct Tfuente fuente[], int ndatos){
 	}
 	return phmenor; 
 }
-void fcomparacionfuentes (struct Tfuente fuente[]) {
-	int i,a,b;
-	for(i=0; i<25; i++) {
-		printf("Introduce el numero de la fuente 1"); 
-		scanf("%d", &a); 
-		printf("Introduce el numero de la fuente 2"); 
-		scanf("%d", &b); 
-		if(fuente[a-1].ph> fuente[b-1].ph){
-			printf("El ph de la fuente 1 es mayor que el de la fuente 2 ");
-		}else {
-			printf("El ph de la fuente 2 es mayor que el de la fuente 1"); 
-		}
+void fcomparacionfuentes (struct Tfuente fuente[], int ndatos) {
+	int i,j,a,b, mes1, mes2, annyo1,annyo2, ph1, ph2;
+	printf("Introduce el numero de la fuente 1 \n"); 
+	scanf("%d", &a); 
+	printf("Introduce de qué mes quieres comparar la fuente 1 \n"); 
+	scanf("%d", &mes1); 
+	printf("Introduce el año de la fuente 1 que quieres comparar \n"); 
+	scanf("%d", &annyo1); 
+	printf("Introduce el numero de la fuente 2 \n"); 
+	scanf("%d", &b); 
+	printf("Introduce en qué mes quieres comparar la fuente 2 \n"); 
+	scanf("%d", &mes2); 
+	printf("Introduce en qué año quieres comparar la fuente 2 \n"); 
+	scanf("%d", &annyo2); 
+	for(i=0; i<ndatos; i++) {
+			if(fuente[i].numfuente==a && fuente[i].mes==mes1 && fuente[i].annyo==annyo1){
+				ph1=fuente[i].ph; 
+			}else if (fuente[i].numfuente==b && fuente[i].mes==mes2 && fuente[i].annyo==annyo2){
+				ph2=fuente[i].ph; 
+			}
+	}
+	if(ph1>ph2){
+		printf("El ph de la fuente 1 es mayor que el de la fuente 2 ");
+	}else if(ph1<ph2){
+		printf("El ph de la fuente 2 es mayor que el de la fuente 1"); 
+	}else if (ph1==ph2) {
+		printf("Ambas fuentes tienen el mismo pH \n"); 
 	}
 }
 //media ph11
