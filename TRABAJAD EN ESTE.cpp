@@ -80,7 +80,7 @@ int main()
 	}
 	fclose(fichero);
 	for(i=0; i<ndatos; i++) {
-		fuente[i].esVolatil=0;
+		fuente[i].esVolatil=0; //Como queremos que todos estos datos se guarden siempre, no son volatiles, y la variable es falso (por tanto 0)
 	}
 	
 //COMIENZA EL PROGRAMA:
@@ -93,11 +93,15 @@ int main()
 		switch (a) {
 			case(1): {
 				printf("=======================* AÑADIR NUEVOS DATOS *=======================\n");
+				//Declaramos las variables.
 				int n=0, n1=0, n2=0, n3=0, numeroDatos=0, k;
-				contador++;
 				int mes_nuevo, annyo_nuevo, ndatos_nuevo, x, b;
-				char nombreFichero[250];
-				sprintf(nombreFichero, "trabajodatos%d_nuevos.txt",contador);
+				/*Por cada vez que se introduzcan datos, se crea un fichero para almacenarlos, que tendra un nombre distinto en funcion
+				de las veces que se introduzca los datos: La primera vez se llama trabajodatos1_nuevos, la segunda trabajodatos2_nuevos y asi sucesivamente*/ 
+				char nombreFichero[250]; //variable del nombre del fichero
+				contador++; //numero de veces que se ha repetido el proceso de añadir datos nuevos
+				sprintf(nombreFichero, "trabajodatos%d_nuevos.txt",contador); //se almacena en la memoria el nombre del fichero
+				//Abrimos/creamos el fichero
 				FILE *fsalida;
 				fsalida= fopen(nombreFichero, "w");
 				do {
@@ -113,6 +117,7 @@ int main()
 					printf("Error, no se puede crear el fichero.\n");
 					return 0;
 				}
+				//Pedimos los datos nuevos al usuario, se asume que al introducirse mensualmente, el año y mes de las fuentes nuevas son los mismos.
 				printf("Introduzca el año de los datos a introducir: ");
 				scanf("%d", &annyo_nuevo);
 				do {
@@ -123,6 +128,7 @@ int main()
 					printf("Introduzca el numero de mes de los datos a introducir: ");
 					scanf("%d", &mes_nuevo);
 				}while (mes_nuevo>12 && mes_nuevo<1); 
+				//se pregunta al usuario  cuantas fuentes nuevas se van a introducir, para saber cuantas veces realizar el proceso de preguntar los datos
 				do {
 					n2++;
 					if(n2>1) {
@@ -130,8 +136,9 @@ int main()
 					}
 					printf("Introduzca el numero de fuentes sobre el que va a introducir datos: ");
 					scanf("%d", &ndatos_nuevo);
-				}while (ndatos_nuevo<=0);
+				}while (ndatos_nuevo<=0); //numero de datos nuevos a introducirse
 				fprintf(fsalida, "DATOS %d-%d\n", mes_nuevo, annyo_nuevo);
+				//los datos son preguntados al usuario, almacenados en el vector de estructuras, e impresos en el nuevo fichero
 				for(x=0;x<ndatos_nuevo; x++) {
 					fuente[ndatos+x].mes=mes_nuevo;
 					fuente[ndatos+x].annyo=annyo_nuevo;
@@ -159,22 +166,25 @@ int main()
 					fprintf(fsalida, "%d\t", fuente[ndatos+x].coliformes);
 					fprintf(fsalida, "\n"); 
 					fuente[ndatos+x].incluido=0;
+					//si se ha seleccionado solo usar los datos para esta vez (opcion b=1), el bulleano esVolatil es igual a 1, al ser verdadero, si no, se establecera como falso.
 					if(b==1){
 						fuente[ndatos+x].esVolatil=0;
 					} else {
 						fuente[ndatos+x].esVolatil=1;
 					}
 				}
-				ndatos+=ndatos_nuevo;
+				ndatos+=ndatos_nuevo; //el numero de datos nuevo con el que trabajara el programa (los anteriores mas los antiguos)
+				//CERRAMOS EL FICHERO NUEVO
 				fclose(fsalida);
-				/*Si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
+				/*Solo si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
 				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada más comenzar*/
 				for(k=0;k<ndatos; k++) {
 					if(fuente[k].esVolatil==0) {
-						numeroDatos++;
+						numeroDatos++;//numero de datos NO volatiles (que necesitan ser guardados en el fichero principal)
 					}
 				}
-				if(b==1) {    		
+				if(b==1) {    	
+					//Abrimos el fichero principal	
 					FILE *fsalida;
 					fsalida= fopen("trabajodatos.txt", "w");
 					if(fsalida==NULL) {
@@ -182,7 +192,8 @@ int main()
 						return 0;
 					}
 					int j;
-					fprintf(fsalida, "%d\n", numeroDatos);
+					fprintf(fsalida, "%d\n", numeroDatos); //imprimimos el numero de datos lo primero
+					//Imprimimos los datos de todas las fuentes
 					for(j=0; j<ndatos; j++) {
 						if(fuente[j].esVolatil==0) {
 							fprintf(fsalida, "%d\t", fuente[j].numfuente);
@@ -195,6 +206,7 @@ int main()
 							fprintf(fsalida, "\n");
 						}
 					}
+					//cerramos el fichero
 					fclose(fsalida);
 				}
 				break;
@@ -679,8 +691,8 @@ int main()
 				break;
 			}
 			case 7: {
-				reset(fuente, ndatos, 0);
-				int mes1, mes2, annyo1, annyo2, j, existe=0, q, r;
+				reset(fuente, ndatos, 0); //Como precaución, reseteamos a incluido=0 todas las fuentes, puesto que vamos a trabjar con ello
+				int mes1, mes2, annyo1, annyo2, j, existe=0, q, r; //existe es un bulleano para saber si la fuente del mes y año que se desea comparar se encuentra en la base de datos
 				float mediaPh1, mediaPh2, mediaConductividad1, mediaConductividad2, mediaTurbidez1, mediaTurbidez2, mediaColiformes1, mediaColiformes2;
 				float diferenciaPh, diferenciaCol, diferenciaCond, diferenciaTurb;
 				do {
@@ -701,6 +713,7 @@ int main()
 					}
 					for(j=0; j<ndatos; j++) {
 						if(fuente[j].mes==mes1 && fuente[j].annyo==annyo1) {
+							//si el usuario introduce 1, incluiremos todas las fuentes (restearemos a 1 todas las fuentes), si no, solo pondremos incluido=1 para las fuentes seleccionadas
 							if(q==2) {
 								if(fuente[j].numfuente==r) {
 									fuente[j].incluido=1;
@@ -715,13 +728,15 @@ int main()
 					if(existe==0) {
 						printf("No se han encontrado registros de fuentes para dicho mes y año, introduzcalos de nuevo\n");
 					} 
-				} while (existe==0);
-				mediaConductividad1=fmediaCond(fuente, ndatos);
+				} while (existe==0); //pediremos datos al usuario hasta que exista una fuente de ese mes y año en la base de datos, para poder compararlo
+				//Una vez establecido que fuentes estan incluidas, guardamos los datos de las medias en variables
+				//cada funcion hace la media solo de las fuentes que tienen incluido=1
+				mediaConductividad1=fmediaCond(fuente, ndatos); 
 				mediaTurbidez1=fmediaTurb(fuente, ndatos);
 				mediaColiformes1=fmediaCol(fuente, ndatos);
 				mediaPh1=fmediaPh(fuente, ndatos);
 				reset(fuente, ndatos, 0);
-				existe=0;
+				existe=0; //volvemos a establecer el bulleano en FALSO, y repetimos el proceso para el segundo parametro a comparar
 				do {
 					printf("Introduzca el segundo mes que desea comparar\n");
 					scanf("%d", &mes2);
@@ -748,23 +763,25 @@ int main()
 				mediaTurbidez2=fmediaTurb(fuente, ndatos);
 				mediaColiformes2=fmediaCol(fuente, ndatos);
 				mediaPh2=fmediaPh(fuente, ndatos);
-				reset(fuente, ndatos, 0);
+				reset(fuente, ndatos, 0); //Una vez terminado de usar el incluido, se resetea a 0 como al principio
+				//reglas de tres para saber cuanto porcentaje han cambiado los datos para cada variable
 				diferenciaPh= (mediaPh2*100)/(mediaPh1);
 				diferenciaCol=(mediaColiformes2*100)/(mediaColiformes1);
 				diferenciaCond=(mediaConductividad2*100)/(mediaConductividad1);
 				diferenciaTurb=(mediaTurbidez2*100)/(mediaTurbidez1);
+				//IMPRIMIMOS POR PANTALLA
 				printf("Del mes %d y año %d al mes %d y año %d:\n", mes1, annyo1, mes2, annyo2);
 				//Ph
-				if(mediaPh1==mediaPh2) {
+				if(mediaPh1==mediaPh2) { //en caso de ser iguales, no ha cambiado de un mes a otro
 					printf("El ph no ha cambiado\n");
 				}
-				else if(mediaPh1==0) {
+				else if(mediaPh1==0) { //al ser 0, la formula de dispersion daria error(algo entre 0 no existe)
 					printf("No se puede saber en que cantidad ha aumentado el ph, puesto que el dato del primer mes y año es 0\n");	
 				}
-				else if(diferenciaPh>100) {
+				else if(diferenciaPh>100) { //si el porcentaje es mayor a 100, significa que ha aumentado del primer mes al segundo, la diferenci con respecto a 100 siendo en que cantidad ha aumentado
 					diferenciaPh=diferenciaPh-100;
 					printf("El ph ha aumentado un %f por ciento\n", diferenciaPh);
-				} else if (diferenciaPh<100) {
+				} else if (diferenciaPh<100) { //si el porcentaje es menor a 100 significa que ha disminuido del primer mes al segundo
 					diferenciaPh=100-diferenciaPh;
 					printf("El ph ha disminuido un %f por ciento\n", diferenciaPh);
 				} 
@@ -1064,7 +1081,7 @@ int main()
 							reset(fuente, ndatos, 0);
 							break;
 						}
-						case (3): {
+						case 3: {
 							printf("========= MEDIANA =========  \n");
 							int tipomediana, sobremdN, i,j;
 							float aux; 
@@ -1309,28 +1326,30 @@ int main()
 					}
 					} 
 				break;
-			case(8): 
+			case(8): //se desea salir del programa, no hay que hacer nada
 				break;
 			case (6): {
+				//para este caso, se usaran formulas estadisticas
 				int dato1, dato2, dato3;
 				float dt, cv, b, beta, r;
-				reset(fuente, ndatos, 0);
+				reset(fuente, ndatos, 0); //aseguramos que incluido en todas las fuentes es igual a 0
 				printf("=======================* PRONÓSTICOS *=======================\n");
 				printf("Se le dirá el pronóstico esperado de un dato en funcion de otro. ");
 				printf("Seleccione en función de que dato desea realizar el pronóstico: \n 1-Ph\n 2-Conductividad\n 3-Coliformes\n 4-turbidez\n");
 				scanf("%d", &dato1);
 				printf("Seleccione una opción:\n 1-Pronósticos para todas las fuentes.\n 2-Pronósticos para una fuente en concreto.\n");
-				scanf("%d", &dato3);
-				switch(dato1) {
+				scanf("%d", &dato3); //trabajaremos con la variable incluido. Al seleccionar 1 se reseteara el incluido de todas las fuentes a 1, si se selecciona 2, solo tendran incluido=1 las seleccionadas
+				switch(dato1) { 
 					case 1: {
 						float phEsperado;
 						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Conductividad\n 2-turbidez\n 3-Coliformes\n");
 						scanf("%d", &dato2);
-						if(dato2==1) {
+						if(dato2==1)  {
+							//Conductividad en funcion de ph
 							int ConductividadDada;
 							printf("Para qué valor de conductividad desea hacer la predicción del pH: \n");
 							scanf("%d", &ConductividadDada);
-							if(dato3==2) {
+							if(dato3==2) { 
 								int dato4, s;
 								printf("Introduzca el número de la fuente para el que desea el pronóstico: ");
 								scanf("%d", &dato4);
@@ -1342,23 +1361,24 @@ int main()
 							} else if(dato3==1) {
 								reset(fuente, ndatos, 1);	
 							}
-							dt=fmedia2cond(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaCond(fuente, ndatos));
+							dt=fmedia2cond(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaCond(fuente, ndatos)); //desviacion tipica de aquellas fuentes cuyo incluido =1
 							if(dt==0) {
 								dt=0.000001;
-							}
-							cv=fmediaCondPh(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaPh(fuente, ndatos));
-							phEsperado=((cv*(ConductividadDada-fmediaCond(fuente, ndatos)))/dt)+fmediaPh(fuente, ndatos);
+							} //no se puede dividir por 0, correccion para evitar un error.
+							cv=fmediaCondPh(fuente, ndatos)-(fmediaCond(fuente, ndatos)*fmediaPh(fuente, ndatos)); //covarianza
+							phEsperado=((cv*(ConductividadDada-fmediaCond(fuente, ndatos)))/dt)+fmediaPh(fuente, ndatos); //prediccion
 							printf("El ph esperado para este valor es %f\n", phEsperado);
-							b=cv/dt;
-							beta=cv/(fmedia2ph(fuente, ndatos)-(fmediaPh(fuente, ndatos)*fmediaPh(fuente, ndatos))+0.000001);
-							r=sqrt(b*beta);
+							b=cv/dt; 
+							beta=cv/(fmedia2ph(fuente, ndatos)-(fmediaPh(fuente, ndatos)*fmediaPh(fuente, ndatos))+0.000001); //sumamos un valor muy pequeño para evitar dividir por 0
+							r=sqrt(b*beta); //coeficiente de regresion lineal (nos dice cuanto de fiable es un dato)
 							if(r>0.5) {
 								printf("La correlación es significativa puesto que es %f\n", r);
 							} else {
 								printf("La correlación no es significativa, puesto que es %f\n", r);
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
-						} else if(dato2==2) {
+						} else if(dato2==2) { 
+							// Turbidez en funcion de ph
 							int TurbidezDada;
 							printf("Para qué valor de turbidez desea hacer la predicción del pH: \n");
 							scanf("%d", &TurbidezDada);
@@ -1391,6 +1411,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
+							//coliformes en funcion de ph
 							int ColDada;
 							printf("Para qué valor de coliformes desea hacer la predicción del pH: \n");
 							scanf("%d", &ColDada);
@@ -1429,6 +1450,7 @@ int main()
 						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-pH\n 2-turbidez\n 3-Coliformes\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
+							//Ph en funcion de conductividad
 							float PhDado;
 							printf("Para qué valor de ph desea hacer la prediccion de la conductividad: \n");
 							scanf("%f", &PhDado);
@@ -1461,6 +1483,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
+							//Turbidez en funcion de conductividad
 							int TurbidezDada;
 							printf("Para qué valor de turbidez desea hacer la predicción de conductividad: \n");
 							scanf("%d", &TurbidezDada);
@@ -1493,6 +1516,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
+							//coliformes en funcion de conductividad
 							int ColDada;
 							printf("Para qué valor de coliformes desea hacer la predicción de conductividad: \n");
 							scanf("%d", &ColDada);
@@ -1531,6 +1555,7 @@ int main()
 						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
+							//Ph en funcion de coliformes
 							float PhDado;
 							printf("Para qué valor de ph desea hacer la predicción de los coliformes: \n");
 							scanf("%f", &PhDado);
@@ -1563,6 +1588,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
+							//turbidez en funcion de coliformes
 							int TurbidezDada;
 							printf("Para qué valor de turbidez desea hacer la predicción de los coliformes: \n");
 							scanf("%d", &TurbidezDada);
@@ -1595,6 +1621,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
+							//Conductividad en funcion de coliformes
 							int ConDada;
 							printf("Para que valor de conductividad desea hacer la predicción de los coliformes: \n");
 							scanf("%d", &ConDada);
@@ -1633,6 +1660,7 @@ int main()
 						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
 						scanf("%d", &dato2);
 						if(dato2==1) {
+							//ph en funcion de turbidez
 							float PhDado;
 							printf("Para que valor de ph desea hacer la predicción de la turbidez: \n");
 							scanf("%f", &PhDado);
@@ -1664,6 +1692,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if(dato2==2) {
+							//coliformes en funcion de turbidez
 							int ColDada;
 							printf("Para que valor de coliformes desea hacer la prediccion de la turbidez: \n");
 							scanf("%d", &ColDada);
@@ -1696,6 +1725,7 @@ int main()
 							}
 							printf("El porcentaje aproximado de fiabilidad es %f\n", r*100);
 						} else if (dato2==3) {
+							//Conductividad en funcion de turbidez
 							int ConDada;
 							printf("Para que valor de conductividad desea hacer la predicción de la turbidez: \n");
 							scanf("%d", &ConDada);
@@ -1731,7 +1761,7 @@ int main()
 						break;
 					}
 				}
-				reset(fuente, ndatos, 0);
+				reset(fuente, ndatos, 0); //volvemos a resetear el incluido a 0
 				break;
 			}
 			default: {
