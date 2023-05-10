@@ -14,7 +14,8 @@ void reset(struct Tfuente[], int, int); //Funcion para resetear la variable "inc
 //Funciones comparacion
 float fcomparacionmayor (struct Tfuente[], int);
 float fcomparacionmenor (struct Tfuente[], int);
-void fcomparacionfuentes (struct Tfuente[], int); 
+void fcomparacionfuentes (struct Tfuente[], int);
+void fordenaciondatos (struct Tfuente[], int); 
 
 float fdispersionPh(int, struct Tfuente[]);
 //Funciones medias variables al cuadrado
@@ -1192,14 +1193,14 @@ int main()
 					int n;
 					printf("Has seleccionado comparar datos de pH entre fuentes \n"); 
 					do {
-						printf ("Escriba 1 si quieres el máximo valor de ph o 2 si quieres el mínimo \n"); 
-						printf("Escriba 3 si quieres comparar los datos de pH de dos fuentes en específico \n"); 
-						printf("")
+						printf ("Escribe 1 si quieres el máximo valor de ph o 2 si quieres el mínimo \n"); 
+						printf("Escribe 3 si quieres comparar los datos de pH de dos fuentes en específico \n"); 
+						printf("Escribe 4 si quieres imprimir por pantalla los datos ordenados \n"); 
 						scanf("%d", &n);
-						if(n<1 && n>3) {
+						if(n<1 && n>4) {
 							printf("Error, el valor introducido es incorrecto. Porvfavor, introdúzcalo de nuevo.");
 						}
-					} while(n!=1 && n!=2 && n!=3);
+					} while(n!=1 && n!=2 && n!=3 && n!=4);
 					if (n==1){
 						phmayor=fcomparacionmayor(fuente, ndatos); 
 						printf("El mayor valor de pH es: %.2f", phmayor);
@@ -1209,6 +1210,8 @@ int main()
 					}
 					else if (n==3){
 						fcomparacionfuentes (fuente, ndatos); 
+					}else if(n==4){
+						fordenaciondatos (fuente, ndatos);
 					}
 				break;
 			}
@@ -1316,8 +1319,9 @@ int main()
 				}
 				case (4): {
 					int i,a,b,n, mes1, mes2, annyo1,annyo2, coli1, coli2;
-					printf ("Escriba 1 si quiere el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
-					printf("Escriba 3 si quiere comparar los datos de coliformes de dos fuentes específicas  \n"); 
+					printf ("Escribe 1 si quieres el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
+					printf("Escribe 3 si quieres comparar los datos de coliformes de dos fuentes específicas  \n"); 
+					printf("Escribe 4 si quieres mostra por pantalla los datos de coliformes ordenados \n"); 
 					scanf("%d", &n);
 					if (n==1){ 
 						 for(i=0; i<ndatos; i++){
@@ -1360,6 +1364,20 @@ int main()
 						}else if (coli1==coli2) {
 							printf("Ambas fuentes tienen el mismo número de coliformes \n"); 
 						}
+					}else if(n==4){
+						int i, j; 
+						int aux=0; 
+						printf("Los datos de coliformes ordenados de mayor a menor son:\n" ); 
+						for (i=0; i<ndatos; i++){
+							for(j=i+1; j<ndatos; j++){
+								if(fuente[i].coliformes>fuente[j].coliformes){
+									aux=fuente[i].coliformes;
+									fuente[i].coliformes=fuente[j].coliformes; 
+									fuente[j].coliformes=aux;  
+								}
+							}
+							printf("%.2d \n", aux);
+						} 
 					}
 				break;
 				}
@@ -1874,6 +1892,21 @@ void fcomparacionfuentes (struct Tfuente fuente[], int ndatos) {
 	}else if (ph1==ph2) {
 		printf("Ambas fuentes tienen el mismo pH \n"); 
 	}
+}
+void fordenaciondatos (struct Tfuente fuente[], int ndatos){
+	int i, j; 
+	float aux=0; 
+	printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
+	for (i=0; i<ndatos; i++){
+		for(j=i+1; j<ndatos; j++){
+			if(fuente[i].ph>fuente[j].ph){
+				aux=fuente[i].ph;
+				fuente[i].ph=fuente[j].ph; 
+				fuente[j].ph=aux;  
+			}
+		}
+		printf("%.2f \n", aux);
+	} 
 }
 //media ph11
 void fmediaph11(struct Tfuente fuente[], int ndatos){
