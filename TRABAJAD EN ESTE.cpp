@@ -228,7 +228,7 @@ int main()
 							printf("Seleccione en función de que parámetro desea buscar el dato:\n 1-PH\n 2-Turbidez\n 3-Coliformes\n 4-Número de fuente\n 5-Conductividad\n 6-Mes\n 7-Año\n");
 							scanf("%d", &decision);
 						} while (decision<1 && decision>7);
-						//se desarrollan la variable decision a partir de un switch case
+						//se desarrolla la variable decision a partir de un switch case
 						switch(decision) {
 							case(1): {
 								float phBuscado; 
@@ -244,7 +244,7 @@ int main()
 								} while (decision2!=1 && decision2!=2);
 								switch(decision2) {
 									case(1): {
-										//Se crea la variable encontrado que permite buscar en el fichero el dato introducido.
+										//Se crea la variable encontrado. Es un bulleano que permite buscar en el fichero el dato introducido.
 										// En caso de ser verdadero (=1) se muestra por pantalla el valor. En el caso de no encontrarse dicho valor (falso-> =0) se imprime por pantalla un mensaje) 					
 										int encontrado=0;
 										printf("Introduzca el ph que desea buscar: ");
@@ -662,7 +662,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].annyo>=min && fuente[x].annyo<=max && fuente[x].incluido==1) {
 												encontrado=1;
-												printf("se encontró que la fuente %d esta en el intervalo de años buscado, con el mes %d: \n", fuente[x].numfuente, fuente[x].annyo );
+												printf("Se encontró que la fuente %d esta en el intervalo de años buscado, con el mes %d: \n", fuente[x].numfuente, fuente[x].annyo );
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Turbidez %d\t Conductividad %d\t Mes %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].turbidez, fuente[x].conductividad, fuente[x].mes);
 												printf("\n");
 											} else {
@@ -670,7 +670,7 @@ int main()
 											}
 										}
 										if(encontrado==0) {
-											printf("no se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
+											printf("No se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
 										}	
 										break;
 									}
@@ -698,10 +698,10 @@ int main()
 				float mediaPh1, mediaPh2, mediaConductividad1, mediaConductividad2, mediaTurbidez1, mediaTurbidez2, mediaColiformes1, mediaColiformes2;
 				float diferenciaPh, diferenciaCol, diferenciaCond, diferenciaTurb;
 				do {
-					printf("si desea hacer la diferencia de todas las fuentes, introduzca 1, si desea hacer la diferencia de una en concreto, introduzca 2\n");
+					printf("Si desea hacer la diferencia de todas las fuentes, introduzca 1, si desea hacer la diferencia de una en concreto, introduzca 2\n");
 					scanf("%d", &q);
 					if(q!=1 && q!=2) {
-						printf("error el valor introducido es incorrecto, introduzcalo de nuevo\n");
+						printf("Error el valor introducido es incorrecto, introduzcalo de nuevo\n");
 					}
 				} while(q!=1 && q!=2);
 				do {
