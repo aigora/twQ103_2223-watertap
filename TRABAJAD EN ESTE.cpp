@@ -863,12 +863,13 @@ int main()
 				//Se trata de una búsqueda de pH por lo que se solicita mediante la función scanf.
 				printf("=======================* DISPERSIÓN pH *=======================\n");
 				printf("Ha seleccionado medir la dispersión de los ph respecto a un ph neutro\n");
-				printf("Si desea volver al menu principal, pulse 0");		
+				printf("Si desea volver al menu principal, pulse 0\n");		
 				printf("Introduzca el numero de la fuente cuyo ph desea comparar\n");
 				miscanf("%d", &h);
 				if(h==0) {
 					break;
 				}
+				int g; 
 				//el do-while te permite evitar el error de introducir un valor incorrecto
 				do{
 					n7++;
@@ -880,12 +881,14 @@ int main()
 					printf("Introduzca de que año desea coger el dato:");
 					miscanf("%d", &A);
 					//mediante la funcion valorEncontrado se buscan en el fichero los datos introducidos. En el caso de encontrarse(verdadero) se emplean en las funciones.
-					if(fuente[h-1].annyo==A) {
-						if (fuente[h-1].mes==M) {
-							if(fuente[h-1].numfuente==h) {
-								valorEncontrado=1;	
-							} 
-						}
+					for(g=0; g<ndatos; g++) {
+						if(fuente[g].annyo==A) {
+							if (fuente[g].mes==M) {
+								if(fuente[g].numfuente==h) {
+									valorEncontrado=1;	
+								} 
+							}
+						}	
 					}
 				} while (valorEncontrado==0);
 				h--;
@@ -1510,12 +1513,12 @@ int main()
 				printf("Se le dirá el pronóstico esperado de un dato en funcion de otro. ");
 				printf("Seleccione en función de que dato desea realizar el pronóstico: \n 1-Ph\n 2-Conductividad\n 3-Coliformes\n 4-turbidez\n");
 				printf("Si desea volver al menu principal, pulse 0\n");
-				scanf("%d", &dato1);
-				printf("Seleccione una opción:\n 1-Pronósticos para todas las fuentes.\n 2-Pronósticos para una fuente en concreto.\n");
-				scanf("%d", &dato3); //trabajaremos con la variable incluido. Al seleccionar 1 se reseteara el incluido de todas las fuentes a 1, si se selecciona 2, solo tendran incluido=1 las seleccionadas
+				miscanf("%d", &dato1);
 				if(dato1==0) {
 					break;
 				}
+				printf("Seleccione una opción:\n 1-Pronósticos para todas las fuentes.\n 2-Pronósticos para una fuente en concreto.\n");
+				miscanf("%d", &dato3); //trabajaremos con la variable incluido. Al seleccionar 1 se reseteara el incluido de todas las fuentes a 1, si se selecciona 2, solo tendran incluido=1 las seleccionadas
 				switch(dato1) { 
 					case 1: {
 						float phEsperado;
