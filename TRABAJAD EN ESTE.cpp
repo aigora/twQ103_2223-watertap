@@ -1336,10 +1336,16 @@ int main()
 						break;
 					} case (2) : {
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, cond1, cond2;
-						printf("Has seleccionado comparar datos de conductividad entre fuentes \n"); 
-						printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
-						printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
-						miscanf("%d", &n);
+						do {
+							printf("Has seleccionado comparar datos de conductividad entre fuentes \n"); 
+							printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
+							printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
+							printf("Escriba 4 si quiere que se muestren por pantalla los datos ordenador de menor a mayor o 2 si, por el contrario, los quiere de mayor a menor \n"); 
+							miscanf("%d", &n);
+							if(n<1 || n>4){
+								printf("Error. Esa opción no está disponible, vuelvelo a intentar, por favor \n"); 
+							}
+						}while (n<1 || n>4); 
 						if (n==1){
 							for(i=0; i<ndatos; i++){
 								if(fuente[i].conductividad>condmayor){
@@ -1381,16 +1387,57 @@ int main()
 							}else if (cond1==cond2) {
 								printf("Ambas fuentes tienen la misma conductividad \n"); 
 							}
-						}
+						}else if (n==4){
+								int i, j, n; 
+								float aux=0; 
+								do{
+									printf("Selecciona 1 si quieres que se muestren por pantalla los datos ordenados de menor a mayor o 2 si,por el contrario, quiere imprimirlos de mayor a menor \n"); 
+									scanf("%d", &n);
+									if(n<1 || n<2) {
+										printf("Error, la opción seleccionada no está disponible. Vuelvelo a intentar por favor \n "); 
+									}
+								}while(n<1 || n>2); 
+								if (n==1){
+									printf("Los datos de pH ordenados de menor a mayor son:\n" ); 
+									for (i=0; i<ndatos; i++){
+										for(j=i+1; j<=ndatos; j++){
+											aux=fuente[i].conductividad;
+											if(fuente[i].conductividad>fuente[j].conductividad){
+											fuente[i].conductividad=fuente[j].conductividad; 
+											fuente[j].conductividad=aux;  
+											}
+										}
+										printf("%.2f \n", aux);
+									}
+								}else if (n==2){
+									printf("Los datos ordenados de mayor a menor son: \n"); 
+									for (i=0; i<ndatos; i++){
+										for(j=i+1; j<=ndatos; j++){
+												aux=fuente[i].conductividad;
+												if(fuente[i].conductividad<fuente[j].conductividad){
+													fuente[i].conductividad=fuente[j].conductividad; 
+													fuente[j].conductividad=aux;  
+												}
+											}
+											printf("%.2f \n", aux);
+										}
+									}
+								}
 						break;
 					}
 					case(3):{
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, tur1, tur2;
 						printf("Has seleccionado comparar los datos de turbidez \n"); 
-						printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
-						printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n"); 
-						miscanf("%d", &n);
-						if (n==1){
+						do {
+							printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
+							printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n"); 
+							printf("Escriba 4 si quiere que se muestren por pantalla los datos ordenados \n"); 
+							miscanf("%d", &n);
+							if (n<1 || n>4){
+								printf ("Error. La opción seleccionada no está disponible, vuelvelo a intentar por favor \n"); 
+							}
+						}while (n<1 || n>4); 
+						if(n==1){
 							for(i=0; i<ndatos; i++){
 								if(fuente[i].turbidez>turmayor){
 									turmayor=fuente[i].turbidez; 
@@ -1405,8 +1452,7 @@ int main()
 								}
 							}
 							printf("El menor valor de turbidez es: %d", turmenor);
-						}
-						else if (n==3){
+						}else if (n==3){
 							printf("Introduce el número de la fuente 1 \n"); 
 							miscanf("%d", &a); 
 							printf("Introduce de qué mes quieres comparar la fuente 1 \n"); 
@@ -1433,15 +1479,56 @@ int main()
 							}else if (tur1==tur2) {
 								printf("Ambas fuentes tienen la misma turbidez \n"); 
 							}
-						}
+						}else if (n==4){
+							int i, j, n; 
+							float aux=0; 
+							do{
+								printf("Selecciona 1 si quieres que se muestren por pantalla los datos ordenados de menor a mayor o 2 si,por el contrario, quiere imprimirlos de mayor a menor \n"); 
+								scanf("%d", &n);
+								if(n<1 || n<2) {
+									printf("Error, la opción seleccionada no está disponible. Vuelvelo a intentar por favor \n "); 
+								}
+							}while(n<1 || n>2); 
+							if (n==1){
+								printf("Los datos de pH ordenados de menor a mayor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<=ndatos; j++){
+										aux=fuente[i].turbidez;
+										if(fuente[i].turbidez>fuente[j].turbidez){
+										fuente[i].turbidez=fuente[j].turbidez; 
+										fuente[j].turbidez=aux;  
+										}									
+									}
+									printf("%.2f \n", aux);
+								}
+							}else if (n==2){
+								printf("Los datos ordenados de mayor a menor son: \n"); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos+1; j++){
+											aux=fuente[i].turbidez;
+											if(fuente[i].turbidez<fuente[j].turbidez){
+												fuente[i].turbidez=fuente[j].turbidez; 
+												fuente[j].turbidez=aux;  
+											}
+										}
+										printf("%.2f \n", aux);
+									}
+								}
+							}
 						break;  
 					}
 					case (4): {
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, coli1, coli2;
-						printf ("Escribe 1 si quieres el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
-						printf("Escribe 3 si quieres comparar los datos de coliformes de dos fuentes específicas  \n"); 
-						printf("Escribe 4 si quieres mostra por pantalla los datos de coliformes ordenados \n"); 
-						miscanf("%d", &n);
+						printf("Has seleccionado comparar los datos de coliformes \n"); 
+						do{
+							printf ("Escribe 1 si quieres el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
+							printf("Escribe 3 si quieres comparar los datos de coliformes de dos fuentes específicas  \n"); 
+							printf("Escribe 4 si quieres mostra por pantalla los datos de coliformes ordenados \n"); 
+							miscanf("%d", &n);
+							if (n<1 || n>4){
+								printf("Error. La opción seleccionada no está disponible, vuelvelo a intentar por favor \n"); 
+							}
+						}while (n<1 || n>4);
 						if (n==1){ 
 							 for(i=0; i<ndatos; i++){
 									if(fuente[i].coliformes>colimayor){
@@ -1483,25 +1570,46 @@ int main()
 							}else if (coli1==coli2) {
 								printf("Ambas fuentes tienen el mismo número de coliformes \n"); 
 							}
-						}else if(n==4){
-							int i, j; 
-							int aux=0; 
-							printf("Los datos de coliformes ordenados de mayor a menor son:\n" ); 
-							for (i=0; i<ndatos; i++){
-								for(j=i+1; j<ndatos; j++){
-									if(fuente[i].coliformes>fuente[j].coliformes){
-										aux=fuente[i].coliformes;
-										fuente[i].coliformes=fuente[j].coliformes; 
-										fuente[j].coliformes=aux;  
+						}else if (n==4){
+								int i, j, n; 
+								float aux=0; 
+								do{
+									printf("Selecciona 1 si quieres que se muestren por pantalla los datos ordenados de menor a mayor o 2 si,por el contrario, quiere imprimirlos de mayor a menor \n"); 
+									scanf("%d", &n);
+									if(n<1 || n<2) {
+										printf("Error, la opción seleccionada no está disponible. Vuelvelo a intentar por favor \n "); 
+									}
+								}while(n<1 || n>2); 
+								if (n==1){
+									printf("Los datos de pH ordenados de menor a mayor son:\n" ); 
+									for (i=0; i<ndatos; i++){
+										for(j=i+1; j<=ndatos; j++){
+											aux=fuente[i].coliformes;
+											if(fuente[i].coliformes>fuente[j].coliformes){
+											fuente[i].coliformes=fuente[j].coliformes; 
+											fuente[j].coliformes=aux;  
+											}
+										}
+										printf("%.2f \n", aux);
+									}
+								}else if (n==2){
+									printf("Los datos ordenados de mayor a menor son: \n"); 
+									for (i=0; i<ndatos; i++){
+										for(j=i+1; j<ndatos+1; j++){
+												aux=fuente[i].coliformes;
+												if(fuente[i].coliformes<fuente[j].coliformes){
+													fuente[i].coliformes=fuente[j].coliformes; 
+													fuente[j].coliformes=aux;  
+												}
+											}
+											printf("%.2f \n", aux);
+										}
 									}
 								}
-								printf("%.2d \n", aux);
-							} 
-						}
 						break;
+						}
 					}
 				}
-			}
 			case(9): //se desea salir del programa, no hay que hacer nada
 				break;
 			case (6): {
