@@ -73,7 +73,7 @@ int main()
 	printf("\n");	
 	printf("  WATERTAP TRATA DE UN PROGRAMA QUE ANALIZA LOS DATOS DE DIFERENTES FUENTES Y PROPORCIONA INFORMACIÓN ADICIONAL SOBRE SUS CARACTERÍSTICAS\n\n");
 	printf("  A PARTIR DE UN MENÚ PRINCIPAL, EL USUARIO TIENE VARIAS OPCIONES PARA QUE DECIDA QUÉ QUIERE SABER ACERCA DE DICHAS FUENTES.\n\n");
-	printf("Para un mejor uso del rpograma, recuerde que si desea poner numeros con decimales cuando sea necesario, debera hacerse usano un punto y no una coma\n\n"); 
+	printf("Para el correcto uso del programa, recuerdea que si desea poner numeros con decimales cuando sea necesario, deberá hacerse usando un punto y no una coma\n\n"); 
 	printf(" Creado por: Nayade García, Alejandra Alonso, Natalia Escribano y Marina Donalonso\n\n\n");
 
 //ALMACENAMOS DATOS DADOS
