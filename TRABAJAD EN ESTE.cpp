@@ -6,7 +6,7 @@ struct Tfuente {
 	int numfuente;
 	float ph;	
 	int conductividad, turbidez, coliformes, mes, annyo;
-	int incluido; //Sera 0 predeterminado. Si la fuente se usara para alguna estdistica, se cambiara incluido=1.
+	int incluido; //Sera 0 predeterminado. Si la fuente se usará para alguna estdística, se cambiará incluido=1.
 	int esVolatil; //Bulleano para saber si es guardado o no para todos los programas
 }; 
 
@@ -53,7 +53,7 @@ void fmedianacoliformes(struct Tfuente[],int ndatos);
 
 
 
-//Funciones para comprobar que los datos pedidos al usuario son un numero
+//Funciones para comprobar que los datos pedidos al usuario son un número
 void miscanf(const char* titulo,int* valor);
 void miscanf(const char* titulo,float* valor);
  
@@ -2041,19 +2041,40 @@ void fcomparacionfuentes (struct Tfuente fuente[], int ndatos) {
 	}
 }
 void fordenaciondatos (struct Tfuente fuente[], int ndatos){
-	int i, j; 
+	int i, j, n; 
 	float aux=0; 
-	printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
-	for (i=0; i<ndatos; i++){
-		for(j=i+1; j<ndatos; j++){
-			if(fuente[i].ph>fuente[j].ph){
-				aux=fuente[i].ph;
-				fuente[i].ph=fuente[j].ph; 
-				fuente[j].ph=aux;  
-			}
+	do{
+		printf("Selecciona 1 si quieres que se muestren por pantalla los datos ordenados de menor a mayor o 2 si,por el contrario, quiere imprimirlos de mayor a menor \n"); 
+		scanf("%d", &n);
+		if(n<1 || n<2) {
+			printf("Error, la opción seleccionada no está disponible. Vuelvelo a intentar por favor \n "); 
 		}
+	}while(n<1 || n>2); 
+	if (n==1){
+		printf("Los datos de pH ordenados de menor a mayor son:\n" ); 
+		for (i=0; i<ndatos; i++){
+			for(j=i+1; j<=ndatos; j++){
+				if(fuente[i].ph>fuente[j].ph){
+					aux=fuente[i].ph;
+					fuente[i].ph=fuente[j].ph; 
+					fuente[j].ph=aux;  
+				}
+			}
 		printf("%.2f \n", aux);
-	} 
+		}
+	}else if (n==2){
+		printf("Los datos ordenados de mayor a menor son: \n"); 
+		for (i=0; i<ndatos; i++){
+			for(j=i+1; j<ndatos+1; j++){
+				aux=fuente[i].ph;
+				if(fuente[i].ph<fuente[j].ph){
+					fuente[i].ph=fuente[j].ph; 
+					fuente[j].ph=aux;  
+				}
+			}
+		printf("%.2f \n", aux);
+		}
+	}
 }
 void fordenacionfecha (struct Tfuente fuente[], int ndatos){
 	int i, j, k, p, aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
