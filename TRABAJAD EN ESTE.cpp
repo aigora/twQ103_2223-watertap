@@ -941,8 +941,8 @@ int main()
 							else if(est==2) {
 								int a;
 								do{
-									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
-									miscanf("d", &a);
+									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0\n");
+									miscanf("%d", &a);
 									fuente[a-1].incluido=1;
 								}while(a!=0);
 								
@@ -2355,15 +2355,37 @@ void fmediacoliformes2(struct Tfuente fuente[],int ndatos){
 }
 void fmedianaph(struct Tfuente fuente[], int ndatos){
 	int z,i,j;
-	float aux;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
+	float aux2;
 	float m;
 	if(fuente[z].incluido ==1){
 		for(i = 0; i < ndatos; i++){
     		for(j = i+1; j < ndatos; j++){
        			if(fuente[i].ph > fuente[j].ph){
-           			aux = fuente[i].ph;
-           			fuente[i].ph = fuente[j].ph;
-    				fuente[j].ph = aux;
+           			aux1=fuente[i].numfuente;
+					aux2=fuente[i].ph;
+					aux3=fuente[i].coliformes;
+					aux4=fuente[i].turbidez;
+					aux5=fuente[i].conductividad;
+					aux6=fuente[i].mes;
+					aux7=fuente[i].annyo;
+					aux8=fuente[i].esVolatil;
+					fuente[i].numfuente=fuente[j].numfuente; 
+					fuente[i].ph=fuente[j].ph;
+					fuente[i].conductividad=fuente[j].conductividad;
+					fuente[i].turbidez=fuente[j].turbidez;
+					fuente[i].mes=fuente[j].mes;
+					fuente[i].annyo=fuente[j].annyo;
+					fuente[i].coliformes=fuente[j].coliformes;
+					fuente[i].esVolatil=fuente[j].esVolatil;
+					fuente[j].numfuente=aux1; 
+					fuente[j].ph=aux2;
+					fuente[j].coliformes=aux3;
+					fuente[j].turbidez=aux4;
+					fuente[j].conductividad=aux5;
+					fuente[j].mes=aux6;
+					fuente[j].esVolatil=aux8;
+					fuente[j].annyo=aux7;
        			}//fin if
     		}//fin for
   		}//fin for
@@ -2381,15 +2403,38 @@ void fmedianaph(struct Tfuente fuente[], int ndatos){
 
 
 void fmedianacond(struct Tfuente fuente[], int ndatos){
-	int z,i,j,aux;
+	int z,i,j;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
+	float aux2; 
 	int m;
 	if(fuente[z].incluido ==1){
 		for(i = 0; i < ndatos; i++){
 			for(j = i+1; j < ndatos; j++){
       			if(fuente[i].conductividad > fuente[j].conductividad){
-       				aux = fuente[i].ph;
-       				fuente[i].conductividad = fuente[j].conductividad;
-					fuente[j].conductividad = aux;
+       				aux1=fuente[i].numfuente;
+					aux2=fuente[i].ph;
+					aux3=fuente[i].coliformes;
+					aux4=fuente[i].turbidez;
+					aux5=fuente[i].conductividad;
+					aux6=fuente[i].mes;
+					aux7=fuente[i].annyo;
+					aux8=fuente[i].esVolatil;
+					fuente[i].numfuente=fuente[j].numfuente; 
+					fuente[i].ph=fuente[j].ph;
+					fuente[i].conductividad=fuente[j].conductividad;
+					fuente[i].turbidez=fuente[j].turbidez;
+					fuente[i].mes=fuente[j].mes;
+					fuente[i].annyo=fuente[j].annyo;
+					fuente[i].coliformes=fuente[j].coliformes;
+					fuente[i].esVolatil=fuente[j].esVolatil;
+					fuente[j].numfuente=aux1; 
+					fuente[j].ph=aux2;
+					fuente[j].coliformes=aux3;
+					fuente[j].turbidez=aux4;
+					fuente[j].conductividad=aux5;
+					fuente[j].mes=aux6;
+					fuente[j].esVolatil=aux8;
+					fuente[j].annyo=aux7;
    				}//fin if
     		}//fin for
   		}//fin for
@@ -2406,15 +2451,38 @@ void fmedianacond(struct Tfuente fuente[], int ndatos){
 }
 	
 void fmedianaturbidez(struct Tfuente fuente[], int ndatos){
-	int z,i,j,aux;
+	int z,i,j;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
+	float aux2; 
 	int m;
 	if(fuente[z].incluido ==1){
 		for(i = 0; i < ndatos; i++){
    			for(j = i+1; j < ndatos; j++){
        			if(fuente[i].turbidez > fuente[j].turbidez){
-           			aux = fuente[i].turbidez;
-           			fuente[i].turbidez = fuente[j].turbidez;
-    				fuente[j].turbidez = aux;
+           			aux1=fuente[i].numfuente;
+					aux2=fuente[i].ph;
+					aux3=fuente[i].coliformes;
+					aux4=fuente[i].turbidez;
+					aux5=fuente[i].conductividad;
+					aux6=fuente[i].mes;
+					aux7=fuente[i].annyo;
+					aux8=fuente[i].esVolatil;
+					fuente[i].numfuente=fuente[j].numfuente; 
+					fuente[i].ph=fuente[j].ph;
+					fuente[i].conductividad=fuente[j].conductividad;
+					fuente[i].turbidez=fuente[j].turbidez;
+					fuente[i].mes=fuente[j].mes;
+					fuente[i].annyo=fuente[j].annyo;
+					fuente[i].coliformes=fuente[j].coliformes;
+					fuente[i].esVolatil=fuente[j].esVolatil;
+					fuente[j].numfuente=aux1; 
+					fuente[j].ph=aux2;
+					fuente[j].coliformes=aux3;
+					fuente[j].turbidez=aux4;
+					fuente[j].conductividad=aux5;
+					fuente[j].mes=aux6;
+					fuente[j].esVolatil=aux8;
+					fuente[j].annyo=aux7;
        			}//fin if
     		}//fin for
   		}//fin for
@@ -2430,21 +2498,44 @@ void fmedianaturbidez(struct Tfuente fuente[], int ndatos){
 	}
 }
 void fmedianacoliformes(struct Tfuente fuente[], int ndatos){
-	int z,i,j,aux;
+	int z,i,j;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
+	float aux2; 
 	int m;
 	if(fuente[z].incluido ==1){
 		for(i = 0; i < ndatos; i++){
     		for(j = i+1; j < ndatos; j++){
        			if(fuente[i].coliformes > fuente[j].coliformes){
-           			aux = fuente[i].coliformes;
-           			fuente[i].coliformes = fuente[j].coliformes;
-    				fuente[j].coliformes = aux;
+           			aux1=fuente[i].numfuente;
+					aux2=fuente[i].ph;
+					aux3=fuente[i].coliformes;
+					aux4=fuente[i].turbidez;
+					aux5=fuente[i].conductividad;
+					aux6=fuente[i].mes;
+					aux7=fuente[i].annyo;
+					aux8=fuente[i].esVolatil;
+					fuente[i].numfuente=fuente[j].numfuente; 
+					fuente[i].ph=fuente[j].ph;
+					fuente[i].conductividad=fuente[j].conductividad;
+					fuente[i].turbidez=fuente[j].turbidez;
+					fuente[i].mes=fuente[j].mes;
+					fuente[i].annyo=fuente[j].annyo;
+					fuente[i].coliformes=fuente[j].coliformes;
+					fuente[i].esVolatil=fuente[j].esVolatil;
+					fuente[j].numfuente=aux1; 
+					fuente[j].ph=aux2;
+					fuente[j].coliformes=aux3;
+					fuente[j].turbidez=aux4;
+					fuente[j].conductividad=aux5;
+					fuente[j].mes=aux6;
+					fuente[j].esVolatil=aux8;
+					fuente[j].annyo=aux7;
        			}//fin if
     		}//fin for
   		}//fin for
   		float m;
   		if(ndatos%2==0){
-  			m=float((fuente[ndatos/2].coliformes+fuente[(ndatos/2)+1].coliformes)/2);
+  			m=(float(fuente[ndatos/2].coliformes)+fuente[(ndatos/2)+1].coliformes)/2;
   			printf("La mediana es: %f",m);
 		}
 		if(ndatos%2!=0){
@@ -2452,7 +2543,7 @@ void fmedianacoliformes(struct Tfuente fuente[], int ndatos){
 			printf("La mediana es: %f\n", m);
 		}
 	}
-
+}
 void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
 	int i, j, k, p; 
 	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
