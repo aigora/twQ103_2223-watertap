@@ -73,7 +73,7 @@ int main()
 	printf("\n");	
 	printf("  WATERTAP TRATA DE UN PROGRAMA QUE ANALIZA LOS DATOS DE DIFERENTES FUENTES Y PROPORCIONA INFORMACIÓN ADICIONAL SOBRE SUS CARACTERÍSTICAS\n\n");
 	printf("  A PARTIR DE UN MENÚ PRINCIPAL, EL USUARIO TIENE VARIAS OPCIONES PARA QUE DECIDA QUÉ QUIERE SABER ACERCA DE DICHAS FUENTES.\n\n");
-	printf("Para un mejor uso del rpograma, recuerde que si desea poner numeros con decimales cuando sea necesario, debera hacerse usano un punto y no una coma\n\n"); 
+	printf("  Para el correcto uso del programa, recuerde que si desea poner numeros con decimales cuando sea necesario, deberá hacerse usando un punto y no una coma\n\n"); 
 	printf(" Creado por: Nayade García, Alejandra Alonso, Natalia Escribano y Marina Donalonso\n\n\n");
 
 //ALMACENAMOS DATOS DADOS
@@ -930,16 +930,17 @@ int main()
 							} while (est!=1 && est!=2 && est!=3);
 							if(est==1) {
 								reset(fuente, ndatos, 1);
+								printf("MEDIA\n");
 								printf("La media de pH %.2f\n", fmediaPh(fuente, ndatos));
 								printf("La media de conductividad %.2f\n", fmediaCond(fuente, ndatos));
 								printf("La media de turbidez %.2f\n", fmediaTurb(fuente, ndatos));
 								printf("La media de coliformes %.2f\n", fmediaCol(fuente, ndatos));
-								/*
-								printf("El pH maximo es: %.2f\n", phMax);
-								printf("La conductividad maxima es: %.2f\n", condMax);
-								printf("La turbidez maxima es: %.2f\n", turMax);
-								printf("El coliforme maximo es: %.2f\n", coliMax);*/
-									
+								printf("MEDIANA\n");
+								fmedianaph(fuente, ndatos);
+								fmedianacond(fuente,ndatos);
+								fmedianaturbidez(fuente, ndatos);
+								fmedianacoliformes(fuente, ndatos);
+								printf("\n");
 							}
 							else if(est==2) {
 								int a;
@@ -947,17 +948,44 @@ int main()
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0\n");
 									miscanf("%d", &a);
 									fuente[a-1].incluido=1;
-								}while(a!=0);
+								} while(a!=0);
+								printf("MEDIA\n");
+								fmediaph11(fuente, ndatos);
+								fmediacond2(fuente, ndatos);
+								fmediaturb2(fuente, ndatos);
+								fmedia2colif(fuente, ndatos);
+								printf("MEDIANA\n");
+								fmedianaph(fuente, ndatos);
+								fmedianacond(fuente,ndatos);
+								fmedianaturbidez(fuente, ndatos);
+								fmedianacoliformes(fuente, ndatos);
+								printf("\n");
 								
-								/*printf("La media de pH %.2f\n", media / cantidad);
-								printf("La media de conductividad %.2f\n", media / cantidad);
-								printf("La media de turbidez %.2f\n", media / cantidad);
-								printf("La media de coliformes %.2f\n", media / cantidad);
-								printf("El pH maximo es: %.2f\n", phMax);
-								printf("La conductividad maxima es: %.2f\n", condMax);
-								printf("La turbidez maxima es: %.2f\n", turMax);
-								printf("El coliforme maximo es: %.2f\n", coliMax);
-								*/
+							} else if(est==3) {
+								int min,max;
+								do {
+									printf("Introduzca el numero de la fuente mínima del intervalo que desea buscar:");
+									miscanf("%d", &min);
+									printf("Introduzca el  numero de la fuente máximo del intervalo que desea buscar: ");
+									miscanf("%d", &max);
+									if (max<min) {
+										printf("ERROR, el mínimo tiene que ser menor que el máximo \n");
+									}
+								} while (max<min);
+								for (i=min-1; i<max; i++) {
+									fuente[i].incluido=1;									
+								}
+								printf("MEDIA\n");
+								fmediaph11(fuente, ndatos);
+								fmediacond2(fuente, ndatos);
+								fmediaturb2(fuente, ndatos);
+								fmediacoliformes2(fuente, ndatos);
+								printf("MEDIANA\n");
+								fmedianaph(fuente, ndatos);
+								fmedianacond(fuente,ndatos);
+								fmedianaturbidez(fuente, ndatos);
+								fmedianacoliformes(fuente, ndatos);	
+								printf("\n");							
 							}								
 							break;
 						case (2): {
@@ -1277,6 +1305,7 @@ int main()
 							printf("Ha salido de estadísticas\n");
 							break;
 						default:{
+							//en el caso de poner un caso no determinado
 							printf("ERROR, la opción no es valida\n");
 							break;
 						}
@@ -2416,11 +2445,11 @@ void fmedianaph(struct Tfuente fuente[], int ndatos){
   		float m;
   		if(ndatos%2==0){
   			m=float((fuente[ndatos/2].ph+fuente[(ndatos/2)+1].ph)/2);
-  			printf("La mediana es: %f",m);
+  			printf("La mediana de pH es: %f",m);
 	   	}
 		if(ndatos%2!=0){
 			m=float(fuente[(ndatos/2)].ph);
-			printf("La mediana es: %f\n", m);
+			printf("La mediana de pH es: %f\n", m);
 		}
 	}
 }
@@ -2465,11 +2494,11 @@ void fmedianacond(struct Tfuente fuente[], int ndatos){
   		float m;
   		if(ndatos%2==0){
   			m=float((fuente[ndatos/2].conductividad+fuente[(ndatos/2)+1].conductividad)/2);
-  			printf("La mediana es: %f",m);
+  			printf("La mediana de conductividad es: %f",m);
 		   }
 		if(ndatos%2!=0){
 			m=float (fuente[(ndatos/2)].conductividad);
-			printf("La mediana es: %f\n", m);
+			printf("La mediana de conductividad es: %f\n", m);
 		}
 	}
 }
@@ -2513,11 +2542,11 @@ void fmedianaturbidez(struct Tfuente fuente[], int ndatos){
   		float m;
   		if(ndatos%2==0){
   			m=float((fuente[ndatos/2].turbidez+fuente[(ndatos/2)+1].turbidez)/2);
-  			printf("La mediana es: %f",m);
+  			printf("La mediana de turbidez es: %f",m);
 		}
 		if(ndatos%2!=0){
 			m=float(fuente[(ndatos/2)].turbidez);
-			printf("La mediana es: %f\n", m);
+			printf("La mediana de turbidez es: %f\n", m);
 		}
 	}
 }
@@ -2560,11 +2589,11 @@ void fmedianacoliformes(struct Tfuente fuente[], int ndatos){
   		float m;
   		if(ndatos%2==0){
   			m=(float(fuente[ndatos/2].coliformes)+fuente[(ndatos/2)+1].coliformes)/2;
-  			printf("La mediana es: %f",m);
+  			printf("La mediana de coliformes es: %f",m);
 		}
 		if(ndatos%2!=0){
 			m=float (fuente[(ndatos/2)].coliformes);
-			printf("La mediana es: %f\n", m);
+			printf("La mediana de coliformes es: %f\n", m);
 		}
 	}
 }
