@@ -43,13 +43,22 @@ void fmediaph11(struct Tfuente[],int ndatos);
 void fmediacond2(struct Tfuente[],int ndatos);
 void fmediaturb2(struct Tfuente[], int ndatos);
 void fmediacoliformes2(struct Tfuente[],int ndatos);
-
+//Funciones minimo para estadisticas
+void fminimoph(struct Tfuente[],int ndatos);
+void fminimoconductividad(struct Tfuente[],int ndatos);
+void fminimoturbidez(struct Tfuente[], int ndatos);
+void fminimocoliformes(struct Tfuente[],int ndatos);
+//Funciones máximo para estadisticas
+void fmaximoph(struct Tfuente[],int ndatos);
+void fmaximoconductividad(struct Tfuente[],int ndatos);
+void fmaximoturbidez(struct Tfuente[], int ndatos);
+void fmaximocoliformes(struct Tfuente[],int ndatos);
 
 //funciones para la mediana
-void fmedianaph(struct Tfuente[],int ndatos);
-void fmedianacond(struct Tfuente[],int ndatos);
-void fmedianaturbidez(struct Tfuente[],int ndatos);
-void fmedianacoliformes(struct Tfuente[],int ndatos);
+void fmedianaph(struct Tfuente[],int ndatos, int);
+void fmedianacond(struct Tfuente[],int ndatos, int);
+void fmedianaturbidez(struct Tfuente[],int ndatos, int);
+void fmedianacoliformes(struct Tfuente[],int ndatos, int);
 
 
 
@@ -915,6 +924,8 @@ int main()
     				printf("1: Ver todas las estadísticas\n");
     				printf("2: Media \n");
     				printf("3: Mediana \n");
+    				printf("4: Mínimo \n");
+    				printf("5: Máximo \n");
     				printf("4: Salir de estadísticas.\n");
     				miscanf("%d", &opcion);
 					
@@ -928,42 +939,27 @@ int main()
 									printf("El valor intruducido es incorrecto, por favor introduzcalo de nuevo");
 								}
 							} while (est!=1 && est!=2 && est!=3);
+							int cuenta=0;
 							if(est==1) {
 								reset(fuente, ndatos, 1);
-								printf("MEDIA\n");
-								printf("La media de pH %.2f\n", fmediaPh(fuente, ndatos));
-								printf("La media de conductividad %.2f\n", fmediaCond(fuente, ndatos));
-								printf("La media de turbidez %.2f\n", fmediaTurb(fuente, ndatos));
-								printf("La media de coliformes %.2f\n", fmediaCol(fuente, ndatos));
-								printf("MEDIANA\n");
-								fmedianaph(fuente, ndatos);
-								fmedianacond(fuente,ndatos);
-								fmedianaturbidez(fuente, ndatos);
-								fmedianacoliformes(fuente, ndatos);
-								printf("\n");
+								cuenta=ndatos;
 							}
 							else if(est==2) {
 								reset(fuente, ndatos, 0);
-								int a;
+								int a, m;
 								do{
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0\n");
 									miscanf("%d", &a);
-									fuente[a-1].incluido=1;
+									for(m=0; m<ndatos; m++) {
+										if(fuente[m].numfuente==a) {
+											fuente[m].incluido=1;
+											cuenta++;
+										}
+									}
 								} while(a!=0);
-								printf("MEDIA\n");
-								fmediaph11(fuente, ndatos);
-								fmediacond2(fuente, ndatos);
-								fmediaturb2(fuente, ndatos);
-								fmedia2colif(fuente, ndatos);
-								printf("MEDIANA\n");
-								fmedianaph(fuente, ndatos);
-								fmedianacond(fuente,ndatos);
-								fmedianaturbidez(fuente, ndatos);
-								fmedianacoliformes(fuente, ndatos);
-								printf("\n");	
 							} else if(est==3) {
 								reset(fuente, ndatos, 0);
-								int min,max;
+								int min,max, m;
 								do {
 									printf("Introduzca el numero de la fuente mínima del intervalo que desea buscar:");
 									miscanf("%d", &min);
@@ -973,21 +969,35 @@ int main()
 										printf("ERROR, el mínimo tiene que ser menor que el máximo \n");
 									}
 								} while (max<min);
-								for (i=min-1; i<max; i++) {
-									fuente[i].incluido=1;									
+								for(m=0; m<ndatos; m++) {
+									if(fuente[m].numfuente>=min && fuente[m].numfuente<=max) {
+										fuente[m].incluido=1;
+										cuenta++;
+									}
 								}
-								printf("MEDIA\n");
-								fmediaph11(fuente, ndatos);
-								fmediacond2(fuente, ndatos);
-								fmediaturb2(fuente, ndatos);
-								fmediacoliformes2(fuente, ndatos);
-								printf("MEDIANA\n");
-								fmedianaph(fuente, ndatos);
-								fmedianacond(fuente,ndatos);
-								fmedianaturbidez(fuente, ndatos);
-								fmedianacoliformes(fuente, ndatos);	
-								printf("\n");							
-							}								
+							}
+							printf("MEDIA\n");
+							fmediaph11(fuente, ndatos);
+							fmediacond2(fuente, ndatos);
+							fmediaturb2(fuente, ndatos);
+							fmediacoliformes2(fuente, ndatos);
+							printf("MEDIANA\n");
+							fmedianaph(fuente, ndatos, cuenta);
+							fmedianacond(fuente,ndatos, cuenta);
+							fmedianaturbidez(fuente, ndatos, cuenta);
+							fmedianacoliformes(fuente, ndatos, cuenta);
+							printf("MÍNIMO\n");
+							fminimocoliformes(fuente, ndatos);
+							fminimoconductividad(fuente,ndatos);
+							fminimoph(fuente, ndatos);
+							fminimoturbidez(fuente, ndatos);
+							printf("MÁXIMO\n");
+							fmaximocoliformes(fuente, ndatos);
+							fmaximoconductividad(fuente,ndatos);
+							fmaximoph(fuente, ndatos);
+							fmaximoturbidez(fuente, ndatos);	
+							printf("\n");
+							reset(fuente, ndatos, 0);															
 							break;
 						case (2): {
 							//dentro de la media decides primero sobre que fuentes y seguido sobre qué dato
@@ -1169,10 +1179,12 @@ int main()
 								printf("Puede calcular la MEDIANA de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
 								miscanf("%d", &sobremdN);
 							} while (sobremdN!=1 && sobremdN!=2 && sobremdN!=3 && sobremdN!=4);
+							int cuenta=0;
 							//pH 1
 							if(tipomediana == 1 && sobremdN == 1) {
 								reset(fuente, ndatos, 1);
-								fmedianaph(fuente, ndatos);
+								cuenta=ndatos;
+								fmedianaph(fuente, ndatos, cuenta);
 							}
 							//pH 2
 							if(tipomediana == 2 && sobremdN == 1) {
@@ -1181,9 +1193,10 @@ int main()
 									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
+										cuenta++;
 									}
 								}while(a!=0);
-								fmedianaph(fuente, ndatos);
+								fmedianaph(fuente, ndatos, cuenta);
 							}
 							//pH 3
 							if(tipomediana == 3 && sobremdN == 1) {
@@ -1198,14 +1211,16 @@ int main()
 									}
 								} while (max<min);
 								for (i=min; i<max; i++) {
-									fuente[i].incluido=1;									
+									fuente[i].incluido=1;
+									cuenta++;									
 								}
-								fmedianaph(fuente, ndatos);
+								fmedianaph(fuente, ndatos, cuenta);
 							}
 							//cond 1
 							if(tipomediana==1 &&sobremdN==2){
 								reset(fuente,ndatos,1);
-								fmedianacond(fuente,ndatos);
+								cuenta=ndatos;
+								fmedianacond(fuente,ndatos, cuenta);
 							}
 							//conduct 2
 							if(tipomediana == 2 && sobremdN == 2) {
@@ -1214,9 +1229,10 @@ int main()
 									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
+										cuenta++;
 									}
 								}while(a!=0);
-								fmedianacond(fuente, ndatos);
+								fmedianacond(fuente, ndatos, cuenta);
 							}
 							//cond 3
 							if(tipomediana == 3 && sobremdN == 2) {
@@ -1231,14 +1247,16 @@ int main()
 									}
 								} while (max<min);
 								for (i=min; i<max; i++) {
-									fuente[i].incluido=1;									
+									fuente[i].incluido=1;
+									cuenta++;									
 								}
-								fmedianacond(fuente, ndatos);
+								fmedianacond(fuente, ndatos, cuenta);
 							}
 							//turb 1
 							if(tipomediana==1 &&sobremdN==3){
 								reset(fuente,ndatos,1);
-								fmedianaturbidez(fuente,ndatos);
+								cuenta=ndatos;
+								fmedianaturbidez(fuente,ndatos, cuenta);
 							}
 							//turb 2
 							if(tipomediana == 2 && sobremdN == 3) {
@@ -1247,9 +1265,10 @@ int main()
 									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
+										cuenta++;
 									}
 								}while(a!=0);
-								fmedianaturbidez(fuente, ndatos);
+								fmedianaturbidez(fuente, ndatos, cuenta);
 							}
 							//turb 3
 							if(tipomediana == 3 && sobremdN == 3) {
@@ -1264,14 +1283,16 @@ int main()
 									}
 								} while (max<min);
 								for (i=min; i<max; i++) {
-									fuente[i].incluido=1;									
+									fuente[i].incluido=1;
+									cuenta++;									
 								}
-								fmedianaturbidez(fuente, ndatos);
+								fmedianaturbidez(fuente, ndatos, cuenta);
 							}
 							//coliformes 1
 							if(tipomediana==1 &&sobremdN==4){
 								reset(fuente,ndatos,1);
-								fmedianacoliformes(fuente,ndatos);
+								cuenta=ndatos;
+								fmedianacoliformes(fuente,ndatos, cuenta);
 							}
 							//coliformes 2
 							if(tipomediana == 2 && sobremdN == 4) {
@@ -1280,9 +1301,10 @@ int main()
 									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
+										cuenta++;
 									}
 								}while(a!=0);
-								fmedianacoliformes(fuente, ndatos);
+								fmedianacoliformes(fuente, ndatos, cuenta);
 							}
 							//coliformes 3
 							if(tipomediana == 3 && sobremdN == 4) {
@@ -1297,13 +1319,140 @@ int main()
 									}
 								} while (max<min);
 								for (i=min; i<max; i++) {
-									fuente[i].incluido=1;									
+									fuente[i].incluido=1;
+									cuenta++;									
 								}
-								fmedianacoliformes(fuente, ndatos);
+								fmedianacoliformes(fuente, ndatos, cuenta);
 							}
 							break;
 						}
-						case 4:
+						case 4:{
+							reset(fuente, ndatos, 0);
+							printf("========= MÍNIMO =========  \n");
+							int c1=0, c2=0;
+							do {
+								c1++;
+								if(c1>1) {
+									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+								}
+								printf("Puede ver el mínimo de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
+								miscanf("%d", &md);
+							} while (md!=1 && md!=2 && md!=3);
+							do {
+								c2++;
+								if(c2>1) {
+									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+								}
+								printf("Puede calcular el mínimo de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
+								miscanf("%d", &sobremd);
+							} while (sobremd!=1 && sobremd!=2 && sobremd!=3 && sobremd!=4);
+							//está organizado por datos y seguido el numero que indica sobre qué fuentes se trata.
+							//caso1 
+							if(md == 1) {
+								reset(fuente, ndatos, 1);
+							}//caso2
+							else if(md == 2) {
+								do{
+									printf("Introduzca el número de la fuente seleccionada, si no desea añadir más introduzca 0");
+									miscanf("%d", &a);
+									if(a!=0) {
+										fuente[a-1].incluido=1;	
+									}
+								}while(a!=0);
+							}
+							//caso3
+							else if(md == 3) {
+								int min, max;
+								do {
+									printf("Introduzca el numero de la fuente minima del intervalo que desea buscar:");
+									miscanf("%d", &min);
+									printf("Introduzca el  numero de la fuente maximo del intervalo que desea buscar: ");
+									miscanf("%d", &max);
+									if (max<min) {
+										printf("ERROR, el min tiene que ser menor que el máximo \n");
+									}
+								} while (max<min);
+								for (i=min-1; i<max; i++) {
+									fuente[i].incluido=1;									
+								}	
+							}
+							//If en funcion de que parametro
+							if(sobremd==1) {
+								fminimoph(fuente, ndatos);
+							} else if(sobremd==2) {
+								fminimoconductividad(fuente, ndatos);
+							} else if(sobremd==3) {
+								fminimoturbidez(fuente, ndatos);	
+							} else if(sobremd==4) {
+								fminimocoliformes(fuente, ndatos);
+							}
+							reset(fuente, ndatos, 0);
+							break;
+						}
+						case 5: {
+							reset(fuente, ndatos, 0);
+							printf("========= MÁXIMO =========  \n");
+							int c1=0, c2=0;
+							do {
+								c1++;
+								if(c1>1) {
+									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+								}
+								printf("Puede ver el máximo de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
+								miscanf("%d", &md);
+							} while (md!=1 && md!=2 && md!=3);
+							do {
+								c2++;
+								if(c2>1) {
+									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
+								}
+								printf("Puede calcular el máximo de ph (1), conductividad (2), turbidez (3), coliformes (4)  \n");
+								miscanf("%d", &sobremd);
+							} while (sobremd!=1 && sobremd!=2 && sobremd!=3 && sobremd!=4);
+							//If en funcion de cuantas fuentes
+							//caso1 
+							if(md == 1) {
+								reset(fuente, ndatos, 1);
+							}//caso2
+							else if(md == 2) {
+								do{
+									printf("Introduzca el número de la fuente seleccionada, si no desea añadir más introduzca 0");
+									miscanf("%d", &a);
+									if(a!=0) {
+										fuente[a-1].incluido=1;	
+									}
+								}while(a!=0);
+							}
+							//caso3
+							else if(md == 3) {
+								int min, max;
+								do {
+									printf("Introduzca el numero de la fuente minima del intervalo que desea buscar:");
+									miscanf("%d", &min);
+									printf("Introduzca el  numero de la fuente maximo del intervalo que desea buscar: ");
+									miscanf("%d", &max);
+									if (max<min) {
+										printf("ERROR, el min tiene que ser menor que el máximo \n");
+									}
+								} while (max<min);
+								for (i=min-1; i<max; i++) {
+									fuente[i].incluido=1;									
+								}	
+							}
+							//If en funcion de que parametro
+							if(sobremd==1) {
+								fmaximoph(fuente, ndatos);
+							} else if(sobremd==2) {
+								fmaximoconductividad(fuente, ndatos);
+							} else if(sobremd==3) {
+								fmaximoturbidez(fuente, ndatos);	
+							} else if(sobremd==4) {
+								fmaximocoliformes(fuente, ndatos);
+							}
+							reset(fuente, ndatos, 0);	
+							break;
+						}
+						case 6:
 							printf("Ha salido de estadísticas\n");
 							break;
 						default:{
@@ -1312,7 +1461,7 @@ int main()
 							break;
 						}
 					}
-				} while (opcion != 4);
+				} while (opcion != 6);
 				
 					//scanf("%d", &b);	
 					break;
@@ -2176,18 +2325,14 @@ void fordenacionfecha (struct Tfuente fuente[], int ndatos){
 //media ph11
 void fmediaph11(struct Tfuente fuente[], int ndatos){
 	int z; 
-	float phMax=0, media=0, cantidad=0;
+	float media=0, cantidad=0;
 	for(z=0; z<ndatos; z++) {
 		if(fuente[z].incluido==1){
 			cantidad++;
-			media+=fuente[z].ph;
-			if (fuente[z].ph > phMax) {
-				phMax = fuente[z].ph;
-			}	
+			media+=fuente[z].ph;	
 		}		
 	}
-	printf("La media de pH es: %.2f\n", media / cantidad);
-	printf("El pH máximo es: %.2f\n", phMax);	
+	printf("La media de pH es: %.2f\n", media / cantidad);	
 }
 
 float fdispersionPh(int n, struct Tfuente fuente[]) {
@@ -2362,241 +2507,420 @@ float fmediaCol(struct Tfuente fuente[], int ndatos) {
 void fmediacond2(struct Tfuente fuente[],int ndatos){
 	int z; 
 	float cantidad=0;
-	int condMax=0, media=0;	
+	int media=0;	
 	for(z=0; z<ndatos; z++) {
 		if (fuente[z].incluido==1) {
 			cantidad++;
 			media+=fuente[z].conductividad;
-			if (fuente[z].conductividad > condMax) {
-				condMax = fuente[z].conductividad;
-			}	
 		}	
 	}
 	printf("La media de conductividad es: %.2f\n", media / cantidad);
-	printf("La conductividad máxima es: %d\n", condMax);
 }
 
 void fmediaturb2(struct Tfuente fuente[],int ndatos){
 	int z; 
 	float cantidad=0;	
-	int turMax=0, media=0;
+	int media=0;
 	for(z=0; z<ndatos; z++) {
 		if (fuente[z].incluido==1) {
 			cantidad++;
-			media+=fuente[z].turbidez;
-			if (fuente[z].turbidez > turMax) {
-				turMax = fuente[z].turbidez;
-			}	
+			media+=fuente[z].turbidez;	
 		}	
 	}
 	printf("La media de turbidez es: %.2f\n", media / cantidad);
-	printf("La turbidez máxima es: %d\n", turMax);
 	
 }
-
-void fmediacoliformes2(struct Tfuente fuente[],int ndatos){
+void fminimocoliformes(struct Tfuente fuente[],int ndatos){
 	int z; 
-	float cantidad=0;
-	int coliMax=0, media=0;	
+	int coliMin=100000;	
 	for(z=0; z<ndatos; z++) {
 		if (fuente[z].incluido==1) {
-			cantidad++;
-			media+=fuente[z].coliformes;
+			if (fuente[z].coliformes < coliMin) {
+				coliMin = fuente[z].coliformes;
+			}	
+		}	
+	}
+	printf("El coliforme mínimo es: %d\n", coliMin);
+}
+void fminimoconductividad(struct Tfuente fuente[],int ndatos){
+	int z; 
+	int condMin=100000;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			if (fuente[z].conductividad < condMin) {
+				condMin = fuente[z].conductividad;
+			}	
+		}	
+	}
+	printf("La conductividad mínima es: %d\n", condMin);
+}
+void fminimoturbidez(struct Tfuente fuente[],int ndatos){
+	int z; 
+	int turbMin=100000;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			if (fuente[z].turbidez < turbMin) {
+				turbMin = fuente[z].turbidez;
+			}	
+		}	
+	}
+	printf("La turbidez mínima es: %d\n", turbMin);
+}
+void fminimoph(struct Tfuente fuente[],int ndatos){
+	int z; 
+	float phMin=100000;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			if (fuente[z].ph < phMin) {
+				phMin = fuente[z].ph;
+			}	
+		}	
+	}
+	printf("El ph mínimo es: %f\n", phMin);
+}
+void fmaximoturbidez(struct Tfuente fuente[],int ndatos){
+	int z; 
+	int turbMax=0;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			if (fuente[z].turbidez > turbMax) {
+				turbMax = fuente[z].turbidez;
+			}	
+		}	
+	}
+	printf("La turbidez máxima es: %d\n", turbMax);
+}
+void fmaximoconductividad(struct Tfuente fuente[],int ndatos){
+	int z; 
+	int condMax=0;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			if (fuente[z].conductividad > condMax) {
+				condMax = fuente[z].conductividad;
+			}	
+		}	
+	}
+	printf("La conductividad máxima es: %d\n", condMax);
+}
+void fmaximocoliformes(struct Tfuente fuente[],int ndatos){
+	int z; 
+	int coliMax=0;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
 			if (fuente[z].coliformes > coliMax) {
 				coliMax = fuente[z].coliformes;
 			}	
 		}	
 	}
+	printf("Los coliformes máximos son: %d\n", coliMax);
+}
+void fmaximoph(struct Tfuente fuente[],int ndatos){
+	int z; 
+	float phMax=0;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			if (fuente[z].ph > phMax) {
+				phMax = fuente[z].ph;
+				printf("%d", fuente[z].numfuente);
+			}	
+		}	
+	}
+	printf("El ph máximo es: %f\n", phMax);
+}
+void fmediacoliformes2(struct Tfuente fuente[],int ndatos){
+	int z; 
+	float cantidad=0;
+	int media=0;	
+	for(z=0; z<ndatos; z++) {
+		if (fuente[z].incluido==1) {
+			cantidad++;
+			media+=fuente[z].coliformes;	
+		}	
+	}
 	printf("La media de coliformes es: %.2f\n", media / cantidad);
-	printf("El coliforme máximo es: %d\n", coliMax);
 	
 }
-void fmedianaph(struct Tfuente fuente[], int ndatos){
-	int z,i,j;
-	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
-	float aux2;
-	float m;
-	if(fuente[z].incluido ==1){
-		for(i = 0; i < ndatos; i++){
-    		for(j = i+1; j < ndatos; j++){
-       			if(fuente[i].ph > fuente[j].ph){
-           			aux1=fuente[i].numfuente;
-					aux2=fuente[i].ph;
-					aux3=fuente[i].coliformes;
-					aux4=fuente[i].turbidez;
-					aux5=fuente[i].conductividad;
-					aux6=fuente[i].mes;
-					aux7=fuente[i].annyo;
-					aux8=fuente[i].esVolatil;
-					fuente[i].numfuente=fuente[j].numfuente; 
-					fuente[i].ph=fuente[j].ph;
-					fuente[i].conductividad=fuente[j].conductividad;
-					fuente[i].turbidez=fuente[j].turbidez;
-					fuente[i].mes=fuente[j].mes;
-					fuente[i].annyo=fuente[j].annyo;
-					fuente[i].coliformes=fuente[j].coliformes;
-					fuente[i].esVolatil=fuente[j].esVolatil;
-					fuente[j].numfuente=aux1; 
-					fuente[j].ph=aux2;
-					fuente[j].coliformes=aux3;
-					fuente[j].turbidez=aux4;
-					fuente[j].conductividad=aux5;
-					fuente[j].mes=aux6;
-					fuente[j].esVolatil=aux8;
-					fuente[j].annyo=aux7;
-       			}//fin if
-    		}//fin for
-  		}//fin for
-  		if(ndatos%2==0){
-  			m=(fuente[ndatos/2].ph+fuente[(ndatos/2)+1].ph)/2;
-  			printf("La mediana de pH es: %f",m);
-	   	}
-		if(ndatos%2!=0){
-			m=fuente[(ndatos/2)].ph;
-			printf("La mediana de pH es: %f\n", m);
+void fmedianaph(struct Tfuente fuente[], int ndatos, int numeroF){
+	int i,j, z, d, q;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8, aux9, aux10, contador=0, contador2; 
+	float aux2, dato3; 
+	for(i = 0; i < ndatos; i++){
+		for(j = i+1; j < ndatos; j++){
+   			if(fuente[i].ph > fuente[j].ph &&fuente[i].incluido==1 &&fuente[j].incluido==1){
+       			aux1=fuente[i].numfuente;
+				aux2=fuente[i].ph;
+				aux3=fuente[i].coliformes;
+				aux4=fuente[i].turbidez;
+				aux5=fuente[i].conductividad;
+				aux6=fuente[i].mes;
+				aux7=fuente[i].annyo;
+				aux8=fuente[i].esVolatil;
+				aux9=fuente[i].incluido; 
+				fuente[i].numfuente=fuente[j].numfuente; 
+				fuente[i].ph=fuente[j].ph;
+				fuente[i].conductividad=fuente[j].conductividad;
+				fuente[i].turbidez=fuente[j].turbidez;
+				fuente[i].mes=fuente[j].mes;
+				fuente[i].annyo=fuente[j].annyo;
+				fuente[i].coliformes=fuente[j].coliformes;
+				fuente[i].esVolatil=fuente[j].esVolatil;
+				fuente[i].incluido=fuente[j].incluido;
+				fuente[j].numfuente=aux1; 
+				fuente[j].ph=aux2;
+				fuente[j].coliformes=aux3;
+				fuente[j].turbidez=aux4;
+				fuente[j].conductividad=aux5;
+				fuente[j].mes=aux6;
+				fuente[j].esVolatil=aux8;
+				fuente[j].annyo=aux7;
+				fuente[j].incluido=aux9;
+   			}
 		}
 	}
+	if(numeroF%2==0){
+  		d=0;
+  		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=numeroF/2);
+		q=0;
+		contador2=0;
+		do {
+			q++; 
+			if(fuente[q].incluido==1) {
+				contador2++;
+			}
+		}while(contador2!=(numeroF/2)+1);
+		dato3=(fuente[d].ph+fuente[q].ph)/2.0;	
+	}
+	else if(numeroF%2!=0){
+		d=0;
+		contador=0;
+		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=(numeroF/2 +1));;
+		dato3= fuente[d].ph/1.0;
+	}
+	printf("La mediana de ph es: %f",dato3);
 }
 
 
-void fmedianacond(struct Tfuente fuente[], int ndatos){
-	int z,i,j;
-	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
-	float aux2; 
-	int m;
-	if(fuente[z].incluido ==1){
-		for(i = 0; i < ndatos; i++){
-			for(j = i+1; j < ndatos; j++){
-      			if(fuente[i].conductividad > fuente[j].conductividad){
-       				aux1=fuente[i].numfuente;
-					aux2=fuente[i].ph;
-					aux3=fuente[i].coliformes;
-					aux4=fuente[i].turbidez;
-					aux5=fuente[i].conductividad;
-					aux6=fuente[i].mes;
-					aux7=fuente[i].annyo;
-					aux8=fuente[i].esVolatil;
-					fuente[i].numfuente=fuente[j].numfuente; 
-					fuente[i].ph=fuente[j].ph;
-					fuente[i].conductividad=fuente[j].conductividad;
-					fuente[i].turbidez=fuente[j].turbidez;
-					fuente[i].mes=fuente[j].mes;
-					fuente[i].annyo=fuente[j].annyo;
-					fuente[i].coliformes=fuente[j].coliformes;
-					fuente[i].esVolatil=fuente[j].esVolatil;
-					fuente[j].numfuente=aux1; 
-					fuente[j].ph=aux2;
-					fuente[j].coliformes=aux3;
-					fuente[j].turbidez=aux4;
-					fuente[j].conductividad=aux5;
-					fuente[j].mes=aux6;
-					fuente[j].esVolatil=aux8;
-					fuente[j].annyo=aux7;
-   				}//fin if
-    		}//fin for
-  		}//fin for
-  		if(ndatos%2==0){
-  			m=(fuente[ndatos/2].conductividad+fuente[(ndatos/2)+1].conductividad)/2;
-  			printf("La mediana de conductividad es: %d",m);
-		   }
-		if(ndatos%2!=0){
-			m=fuente[(ndatos/2)].conductividad;
-			printf("La mediana de conductividad es: %d\n", m);
+void fmedianacond(struct Tfuente fuente[], int ndatos, int numeroF){
+	int i,j, z, d, q;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8, aux9, aux10, contador=0, contador2; 
+	float aux2, dato3; 
+	for(i = 0; i < ndatos; i++){
+		for(j = i+1; j < ndatos; j++){
+   			if(fuente[i].conductividad > fuente[j].conductividad &&fuente[i].incluido==1 &&fuente[j].incluido==1){
+       			aux1=fuente[i].numfuente;
+				aux2=fuente[i].ph;
+				aux3=fuente[i].coliformes;
+				aux4=fuente[i].turbidez;
+				aux5=fuente[i].conductividad;
+				aux6=fuente[i].mes;
+				aux7=fuente[i].annyo;
+				aux8=fuente[i].esVolatil;
+				aux9=fuente[i].incluido; 
+				fuente[i].numfuente=fuente[j].numfuente; 
+				fuente[i].ph=fuente[j].ph;
+				fuente[i].conductividad=fuente[j].conductividad;
+				fuente[i].turbidez=fuente[j].turbidez;
+				fuente[i].mes=fuente[j].mes;
+				fuente[i].annyo=fuente[j].annyo;
+				fuente[i].coliformes=fuente[j].coliformes;
+				fuente[i].esVolatil=fuente[j].esVolatil;
+				fuente[i].incluido=fuente[j].incluido;
+				fuente[j].numfuente=aux1; 
+				fuente[j].ph=aux2;
+				fuente[j].coliformes=aux3;
+				fuente[j].turbidez=aux4;
+				fuente[j].conductividad=aux5;
+				fuente[j].mes=aux6;
+				fuente[j].esVolatil=aux8;
+				fuente[j].annyo=aux7;
+				fuente[j].incluido=aux9;
+   			}
 		}
 	}
+	if(numeroF%2==0){
+  		d=0;
+  		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=numeroF/2);
+		q=0;
+		contador2=0;
+		do {
+			q++; 
+			if(fuente[q].incluido==1) {
+				contador2++;
+			}
+		}while(contador2!=(numeroF/2)+1);
+		dato3=(fuente[d].conductividad+fuente[q].conductividad)/2.0;	
+	}
+	else if(numeroF%2!=0){
+		d=0;
+		contador=0;
+		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=(numeroF/2 +1));
+		printf("%d", d);
+		printf("%d", contador);
+		dato3= fuente[d].conductividad/1.0;
+	}
+	printf("La mediana de conductividad es: %f",dato3);
 }
 	
-void fmedianaturbidez(struct Tfuente fuente[], int ndatos){
-	int z,i,j;
-	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
-	float aux2; 
-	int m;
-	if(fuente[z].incluido ==1){
-		for(i = 0; i < ndatos; i++){
-   			for(j = i+1; j < ndatos; j++){
-       			if(fuente[i].turbidez > fuente[j].turbidez){
-           			aux1=fuente[i].numfuente;
-					aux2=fuente[i].ph;
-					aux3=fuente[i].coliformes;
-					aux4=fuente[i].turbidez;
-					aux5=fuente[i].conductividad;
-					aux6=fuente[i].mes;
-					aux7=fuente[i].annyo;
-					aux8=fuente[i].esVolatil;
-					fuente[i].numfuente=fuente[j].numfuente; 
-					fuente[i].ph=fuente[j].ph;
-					fuente[i].conductividad=fuente[j].conductividad;
-					fuente[i].turbidez=fuente[j].turbidez;
-					fuente[i].mes=fuente[j].mes;
-					fuente[i].annyo=fuente[j].annyo;
-					fuente[i].coliformes=fuente[j].coliformes;
-					fuente[i].esVolatil=fuente[j].esVolatil;
-					fuente[j].numfuente=aux1; 
-					fuente[j].ph=aux2;
-					fuente[j].coliformes=aux3;
-					fuente[j].turbidez=aux4;
-					fuente[j].conductividad=aux5;
-					fuente[j].mes=aux6;
-					fuente[j].esVolatil=aux8;
-					fuente[j].annyo=aux7;
-       			}//fin if
-    		}//fin for
-  		}//fin for
-  		if(ndatos%2==0){
-  			m=(fuente[ndatos/2].turbidez+fuente[(ndatos/2)+1].turbidez/2);
-  			printf("La mediana de turbidez es: %d",m);
-		}
-		if(ndatos%2!=0){
-			m=fuente[(ndatos/2)].turbidez;
-			printf("La mediana de turbidez es: %d\n", m);
+void fmedianaturbidez(struct Tfuente fuente[], int ndatos, int numeroF){
+	int i,j, z, d, q;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8, aux9, aux10, contador=0, contador2; 
+	float aux2, dato3; 
+	for(i = 0; i < ndatos; i++){
+		for(j = i+1; j < ndatos; j++){
+   			if(fuente[i].turbidez > fuente[j].turbidez &&fuente[i].incluido==1 &&fuente[j].incluido==1){
+       			aux1=fuente[i].numfuente;
+				aux2=fuente[i].ph;
+				aux3=fuente[i].coliformes;
+				aux4=fuente[i].turbidez;
+				aux5=fuente[i].conductividad;
+				aux6=fuente[i].mes;
+				aux7=fuente[i].annyo;
+				aux8=fuente[i].esVolatil;
+				aux9=fuente[i].incluido; 
+				fuente[i].numfuente=fuente[j].numfuente; 
+				fuente[i].ph=fuente[j].ph;
+				fuente[i].conductividad=fuente[j].conductividad;
+				fuente[i].turbidez=fuente[j].turbidez;
+				fuente[i].mes=fuente[j].mes;
+				fuente[i].annyo=fuente[j].annyo;
+				fuente[i].coliformes=fuente[j].coliformes;
+				fuente[i].esVolatil=fuente[j].esVolatil;
+				fuente[i].incluido=fuente[j].incluido;
+				fuente[j].numfuente=aux1; 
+				fuente[j].ph=aux2;
+				fuente[j].coliformes=aux3;
+				fuente[j].turbidez=aux4;
+				fuente[j].conductividad=aux5;
+				fuente[j].mes=aux6;
+				fuente[j].esVolatil=aux8;
+				fuente[j].annyo=aux7;
+				fuente[j].incluido=aux9;
+   			}
 		}
 	}
+	if(numeroF%2==0){
+  		d=0;
+  		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=numeroF/2);
+		q=0;
+		contador2=0;
+		do {
+			q++; 
+			if(fuente[q].incluido==1) {
+				contador2++;
+			}
+		}while(contador2!=(numeroF/2)+1);
+		dato3=(fuente[d].turbidez+fuente[q].turbidez)/2.0;	
+	}
+	else if(numeroF%2!=0){
+		d=0;
+		contador=0;
+		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=(numeroF/2 +1));
+		printf("%d", d);
+		printf("%d", contador);
+		dato3= fuente[d].turbidez/1.0;
+	}
+	printf("La mediana de turbidez es: %f",dato3);
 }
-void fmedianacoliformes(struct Tfuente fuente[], int ndatos){
-	int z,i,j;
-	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
-	float aux2; 
-	int m;
-	if(fuente[z].incluido ==1){
-		for(i = 0; i < ndatos; i++){
-    		for(j = i+1; j < ndatos; j++){
-       			if(fuente[i].coliformes > fuente[j].coliformes){
-           			aux1=fuente[i].numfuente;
-					aux2=fuente[i].ph;
-					aux3=fuente[i].coliformes;
-					aux4=fuente[i].turbidez;
-					aux5=fuente[i].conductividad;
-					aux6=fuente[i].mes;
-					aux7=fuente[i].annyo;
-					aux8=fuente[i].esVolatil;
-					fuente[i].numfuente=fuente[j].numfuente; 
-					fuente[i].ph=fuente[j].ph;
-					fuente[i].conductividad=fuente[j].conductividad;
-					fuente[i].turbidez=fuente[j].turbidez;
-					fuente[i].mes=fuente[j].mes;
-					fuente[i].annyo=fuente[j].annyo;
-					fuente[i].coliformes=fuente[j].coliformes;
-					fuente[i].esVolatil=fuente[j].esVolatil;
-					fuente[j].numfuente=aux1; 
-					fuente[j].ph=aux2;
-					fuente[j].coliformes=aux3;
-					fuente[j].turbidez=aux4;
-					fuente[j].conductividad=aux5;
-					fuente[j].mes=aux6;
-					fuente[j].esVolatil=aux8;
-					fuente[j].annyo=aux7;
-       			}//fin if
-    		}//fin for
-  		}//fin for
-  		if(ndatos%2==0){
-  			m=(fuente[ndatos/2].coliformes +fuente[(ndatos/2)+1].coliformes)/2;
-  			printf("La mediana de coliformes es: %d",m);
-		}
-		if(ndatos%2!=0){
-			m=fuente[ndatos/2].coliformes;
-			printf("La mediana de coliformes es: %d\n", m);
+void fmedianacoliformes(struct Tfuente fuente[], int ndatos, int numeroF){
+	int i,j, z, d, q;
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8, aux9, aux10, contador=0, contador2; 
+	float aux2, dato3; 
+	for(i = 0; i < ndatos; i++){
+		for(j = i+1; j < ndatos; j++){
+   			if(fuente[i].coliformes > fuente[j].coliformes &&fuente[i].incluido==1 &&fuente[j].incluido==1){
+       			aux1=fuente[i].numfuente;
+				aux2=fuente[i].ph;
+				aux3=fuente[i].coliformes;
+				aux4=fuente[i].turbidez;
+				aux5=fuente[i].conductividad;
+				aux6=fuente[i].mes;
+				aux7=fuente[i].annyo;
+				aux8=fuente[i].esVolatil;
+				aux9=fuente[i].incluido; 
+				fuente[i].numfuente=fuente[j].numfuente; 
+				fuente[i].ph=fuente[j].ph;
+				fuente[i].conductividad=fuente[j].conductividad;
+				fuente[i].turbidez=fuente[j].turbidez;
+				fuente[i].mes=fuente[j].mes;
+				fuente[i].annyo=fuente[j].annyo;
+				fuente[i].coliformes=fuente[j].coliformes;
+				fuente[i].esVolatil=fuente[j].esVolatil;
+				fuente[i].incluido=fuente[j].incluido;
+				fuente[j].numfuente=aux1; 
+				fuente[j].ph=aux2;
+				fuente[j].coliformes=aux3;
+				fuente[j].turbidez=aux4;
+				fuente[j].conductividad=aux5;
+				fuente[j].mes=aux6;
+				fuente[j].esVolatil=aux8;
+				fuente[j].annyo=aux7;
+				fuente[j].incluido=aux9;
+   			}
 		}
 	}
+	if(numeroF%2==0){
+  		d=0;
+  		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=numeroF/2);
+		q=0;
+		contador2=0;
+		do {
+			q++; 
+			if(fuente[q].incluido==1) {
+				contador2++;
+			}
+		}while(contador2!=(numeroF/2)+1);
+		dato3=(fuente[d].coliformes+fuente[q].coliformes)/2.0;	
+	}
+	else if(numeroF%2!=0){
+		d=0;
+		contador=0;
+		do {
+			d++; 
+			if(fuente[d].incluido==1) {
+				contador++;
+			}
+		}while(contador!=(numeroF/2 +1));
+		printf("%d", d);
+		printf("%d", contador);
+		dato3= fuente[d].coliformes/1.0;
+	}
+	printf("La mediana de coliformes es: %f",dato3);
+
 }
 void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
 	int i, j, k, p; 
