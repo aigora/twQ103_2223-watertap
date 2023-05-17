@@ -943,6 +943,7 @@ int main()
 								printf("\n");
 							}
 							else if(est==2) {
+								reset(fuente, ndatos, 0);
 								int a;
 								do{
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0\n");
@@ -959,9 +960,9 @@ int main()
 								fmedianacond(fuente,ndatos);
 								fmedianaturbidez(fuente, ndatos);
 								fmedianacoliformes(fuente, ndatos);
-								printf("\n");
-								
+								printf("\n");	
 							} else if(est==3) {
+								reset(fuente, ndatos, 0);
 								int min,max;
 								do {
 									printf("Introduzca el numero de la fuente mínima del intervalo que desea buscar:");
@@ -999,7 +1000,7 @@ int main()
 									printf("El dato introducido es incorrecto, por favor introduzcalo de nuevo\n");
 								}
 								printf("Puede ver la MEDIA de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), en un intervalo (Introduzca 3)\n");
-								scanf("%d", &md);
+								miscanf("%d", &md);
 							} while (md!=1 && md!=2 && md!=3);
 							do {
 								c2++;
@@ -1147,6 +1148,7 @@ int main()
 							break;
 						}
 						case 3: {
+							reset(fuente, ndatos, 0);
 							printf("========= MEDIANA =========  \n");
 							int tipomediana, sobremdN, i,j;
 							float aux; 
@@ -1176,7 +1178,7 @@ int main()
 							if(tipomediana == 2 && sobremdN == 1) {
 								do{
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
-									scanf("%d", &a);
+									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
 									}
@@ -1188,9 +1190,9 @@ int main()
 								int min, max;
 								do {
 									printf("Introduzca el minimo del intervalo que desea buscar:");
-									scanf("%d", &min);
+									miscanf("%d", &min);
 									printf("Introduzca el maximo del intervalo que desea buscar: ");
-									scanf("%d", &max);
+									miscanf("%d", &max);
 									if (max<min) {
 										printf("ERROR, el min tiene que ser menor que el máximo \n");
 									}
@@ -1209,7 +1211,7 @@ int main()
 							if(tipomediana == 2 && sobremdN == 2) {
 								do{
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
-									scanf("%d", &a);
+									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
 									}
@@ -1221,9 +1223,9 @@ int main()
 								int min, max;
 								do {
 									printf("Introduzca el minimo del intervalo que desea buscar:");
-									scanf("%d", &min);
+									miscanf("%d", &min);
 									printf("Introduzca el maximo del intervalo que desea buscar: ");
-									scanf("%d", &max);
+									miscanf("%d", &max);
 									if (max<min) {
 										printf("ERROR, el min tiene que ser menor que el máximo \n");
 									}
@@ -1242,7 +1244,7 @@ int main()
 							if(tipomediana == 2 && sobremdN == 3) {
 								do{
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
-									scanf("%d", &a);
+									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
 									}
@@ -1254,9 +1256,9 @@ int main()
 								int min, max;
 								do {
 									printf("Introduzca el minimo del intervalo que desea buscar:");
-									scanf("%d", &min);
+									miscanf("%d", &min);
 									printf("Introduzca el maximo del intervalo que desea buscar: ");
-									scanf("%d", &max);
+									miscanf("%d", &max);
 									if (max<min) {
 										printf("ERROR, el min tiene que ser menor que el máximo \n");
 									}
@@ -1275,7 +1277,7 @@ int main()
 							if(tipomediana == 2 && sobremdN == 4) {
 								do{
 									printf("Introduzca un número de la fuente seleccionada, si no desea añadir más introduzca 0");
-									scanf("%d", &a);
+									miscanf("%d", &a);
 									if(a!=0) {
 										fuente[a-1].incluido=1;
 									}
@@ -1287,9 +1289,9 @@ int main()
 								int min, max;
 								do {
 									printf("Introduzca el minimo del intervalo que desea buscar:");
-									scanf("%d", &min);
+									miscanf("%d", &min);
 									printf("Introduzca el maximo del intervalo que desea buscar: ");
-									scanf("%d", &max);
+									miscanf("%d", &max);
 									if (max<min) {
 										printf("ERROR, el min tiene que ser menor que el máximo \n");
 									}
