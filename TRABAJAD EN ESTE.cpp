@@ -239,7 +239,7 @@ int main()
 				do {
 						int n=0, n1=0, n2=0, n3=0;
 						printf("Ha seleccionado la opción de busqueda de datos.\n");
-						printf("=======================* BUSQUEDA DE DATOS *=======================\n");
+						printf("=======================* BÚSQUEDA DE DATOS *=======================\n");
 						do {
 							n++;
 							if(n>1) {
