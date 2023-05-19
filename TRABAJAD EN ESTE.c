@@ -2221,7 +2221,7 @@ void fcomparacionfuentes (struct Tfuente fuente[], int ndatos) {
 	}
 }
 void fordenaciondatos (struct Tfuente fuente[], int ndatos){
-	int i, j; 
+	int i, j, z; 
 	float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8; 
 	printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
 	for (i=0; i<ndatos; i++){
@@ -2253,8 +2253,10 @@ void fordenaciondatos (struct Tfuente fuente[], int ndatos){
 				fuente[j].annyo=aux7;  
 			}
 		}
-		printf("%.2f \n", aux2);
 	} 
+	for(z=0; z<ndatos; z++) {
+		printf("Fuente %d, PH %.2f\n", fuente[z].numfuente, fuente[z].ph);
+	}
 }
 void fordenacionfecha (struct Tfuente fuente[], int ndatos){
 	int i, j, k, p, aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
