@@ -2706,7 +2706,7 @@ void fmedianaph(struct Tfuente fuente[], int ndatos, int numeroF){
 		}while(contador!=(numeroF/2 +1));;
 		dato3= fuente[d].ph/1.0;
 	}
-	printf("La mediana de ph es: %f",dato3);
+	printf("La mediana de ph es: %f\n",dato3);
 }
 
 
@@ -2774,11 +2774,9 @@ void fmedianacond(struct Tfuente fuente[], int ndatos, int numeroF){
 				contador++;
 			}
 		}while(contador!=(numeroF/2 +1));
-		printf("%d", d);
-		printf("%d", contador);
 		dato3= fuente[d].conductividad/1.0;
 	}
-	printf("La mediana de conductividad es: %f",dato3);
+	printf("La mediana de conductividad es: %f\n",dato3);
 }
 	
 void fmedianaturbidez(struct Tfuente fuente[], int ndatos, int numeroF){
@@ -2845,11 +2843,9 @@ void fmedianaturbidez(struct Tfuente fuente[], int ndatos, int numeroF){
 				contador++;
 			}
 		}while(contador!=(numeroF/2 +1));
-		printf("%d", d);
-		printf("%d", contador);
 		dato3= fuente[d].turbidez/1.0;
 	}
-	printf("La mediana de turbidez es: %f",dato3);
+	printf("La mediana de turbidez es: %f\n",dato3);
 }
 void fmedianacoliformes(struct Tfuente fuente[], int ndatos, int numeroF){
 	int i,j, z, d, q;
@@ -2915,11 +2911,9 @@ void fmedianacoliformes(struct Tfuente fuente[], int ndatos, int numeroF){
 				contador++;
 			}
 		}while(contador!=(numeroF/2 +1));
-		printf("%d", d);
-		printf("%d", contador);
 		dato3= fuente[d].coliformes/1.0;
 	}
-	printf("La mediana de coliformes es: %f",dato3);
+	printf("La mediana de coliformes es: %f\n",dato3);
 
 }
 void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
