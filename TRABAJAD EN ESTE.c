@@ -726,6 +726,9 @@ int main()
 				break;
 			}
 			case 7: {
+				printf("Ha seleccionado la opción de cambios entre meses\n");
+				printf("=======================* CAMBIOS ENTRE MESES *=======================\n");
+				printf("En esta opción podrá comparar una fuente o varias para saber si sus parametros han cambiado de un mes para otro y su porcentaje de cambio.\n");
 				reset(fuente, ndatos, 0); //Como precaución, reseteamos a incluido=0 todas las fuentes, puesto que vamos a trabjar con ello
 				int mes1, mes2, annyo1, annyo2, j, existe=0, q, r; //existe es un bulleano para saber si la fuente del mes y año que se desea comparar se encuentra en la base de datos
 				float mediaPh1, mediaPh2, mediaConductividad1, mediaConductividad2, mediaTurbidez1, mediaTurbidez2, mediaColiformes1, mediaColiformes2;
