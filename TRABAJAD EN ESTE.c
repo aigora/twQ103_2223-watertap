@@ -130,7 +130,7 @@ int main()
 						printf("El valor intoducido es incorrecto, por favor introdúzcalo de nuevo\n");
 					}
 					printf("Ha seleccionado añadir nuevos datos, se le crearan nuevos documentos de texto para almacenar estos datos.\n\n");
-					printf("Puede decidir si quiere guardar los datos para la próxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): 0 \nkim");
+					printf("Puede decidir si quiere guardar los datos para la próxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): ");
 					printf("Si desea volver al menu principal, pulse 0\n");
 					miscanf("%d", &b);
 				} while (b!=1 && b!=2 && b!=0); 
@@ -927,7 +927,7 @@ int main()
     				printf("3: Mediana \n");
     				printf("4: Mínimo \n");
     				printf("5: Máximo \n");
-    				printf("6: Salir de estadísticas.\n");
+    				printf("4: Salir de estadísticas.\n");
     				miscanf("%d", &opcion);
 					
 					switch (opcion) {
@@ -937,7 +937,7 @@ int main()
 								printf("Puede ser de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3) \n");
 								miscanf("%d", &est);
 								if(est<1 || est>3) {
-									printf("El valor introducido es incorrecto, por favor introduzcalo de nuevo");
+									printf("El valor intruducido es incorrecto, por favor introduzcalo de nuevo");
 								}
 							} while (est!=1 && est!=2 && est!=3);
 							int cuenta=0;
@@ -1462,12 +1462,14 @@ int main()
 							break;
 						}
 					}
-				} while (opcion != 6);	
+				} while (opcion != 6);
+				
+					//scanf("%d", &b);	
 					break;
 				
 				break;
 			}
-			case (5): { 
+			case (5): { //comienza la opción de comparar datos 
 				printf ("Has seleccionado la opción de comparar datos \n");
 				int fuente1, fuente2, opcion;
 				float phmayor, phmenor; 
@@ -1475,7 +1477,7 @@ int main()
 	
 		// menu de opciones para seleccionar que tipo de dato queremos comparar
 				do{
-					printf("=======================* COMPARACIONES *=======================\n");
+					printf("=======================* COMPARACIONES *=======================\n"); 
 					printf("Selecciona qué datos quiere comparar: \n 1: pH\n 2: conductividad \n 3: turbidez\n 4: coliformes\n");
 					printf("Si desea volver al menu principal, pulse 0\n"); 
 					miscanf("%d", &opcion); 
@@ -1486,7 +1488,7 @@ int main()
 				if(opcion==0) {
 					break;
 				}
-		//menu de opciones para seleccionar qué quiere hacer el usuario 
+		//menu de opciones para seleccionar qué quiere hacer el usuario una vez elegido el dato a comparar
 				switch (opcion)  {
 					case (1): {
 						int n;
@@ -1501,14 +1503,14 @@ int main()
 							}
 						} while(n!=1 && n!=2 && n!=3 && n!=4);
 						if (n==1){
-							phmayor=fcomparacionmayor(fuente, ndatos); 
+							phmayor=fcomparacionmayor(fuente, ndatos); //función para selecccionar el máximo de pH 
 							printf("El mayor valor de pH es: %.2f", phmayor);
 						} 
 						else if(n==2) {
-							printf("El menor valor de pH es: %.2f",fcomparacionmenor(fuente, ndatos) );
+							printf("El menor valor de pH es: %.2f",fcomparacionmenor(fuente, ndatos) ); //función para seleccionar el mínimo d pH
 						}
 						else if (n==3){
-							fcomparacionfuentes (fuente, ndatos); 
+							fcomparacionfuentes (fuente, ndatos); //llamada a la función para comparar datos de dos fuentes especificas a elegir
 						}else if(n==4){
 							do{
 								printf("Si quieres ver por pantalla los datos ordenados de menor a mayor, escribe 1, si quieres verlos ordenados de mayor a menor, escribe 2 \n"); 
@@ -1518,12 +1520,13 @@ int main()
 								}
 							}while(a<1 || a>2);
 							if(a==1){
-			                  fordenaciondatos (fuente, ndatos);
+			                  fordenaciondatos (fuente, ndatos); //llamada a la función que ordena los datos de menor a mayor
 						    }else if(a==2){
-							fordenaciondatos2(fuente, ndatos);
+							fordenaciondatos2(fuente, ndatos);//llamada a la función que ordena los datos de mayor a menor
 							}
 						}
 						break;
+						//todos los casos hacen lo mismo, solo cambia el dato del fichero a comparar 
 					} case (2) : {
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, cond1, cond2;
 						printf("Has seleccionado comparar datos de conductividad entre fuentes \n"); 
@@ -1944,7 +1947,7 @@ int main()
 				switch(dato1) { 
 					case 1: {
 						float phEsperado;
-						printf("De qué dato desea hacer la predicción:\n 1-Conductividad\n 2-Turbidez\n 3-Coliformes\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Conductividad\n 2-turbidez\n 3-Coliformes\n");
 						miscanf("%d", &dato2);
 						if(dato2==1)  {
 							//Conductividad en funcion de ph
@@ -2049,7 +2052,7 @@ int main()
 						break;
 					} case 2: {
 						float CondEsperado;
-						printf("De qué dato desea hacer la predicción:\n 1-pH\n 2-turbidez\n 3-Coliformes\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-pH\n 2-turbidez\n 3-Coliformes\n");
 						miscanf("%d", &dato2);
 						if(dato2==1) {
 							//Ph en funcion de conductividad
@@ -2154,7 +2157,7 @@ int main()
 						break;
 					} case 3: {
 						float ColEsperado;
-						printf("De qué dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
 						miscanf("%d", &dato2);
 						if(dato2==1) {
 							//Ph en funcion de coliformes
@@ -2259,7 +2262,7 @@ int main()
 						break; 
 					} case 4: {
 						float TurEsperado;
-						printf("De qué dato desea hacer la predicción:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
+						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
 						miscanf("%d", &dato2);
 						if(dato2==1) {
 							//ph en funcion de turbidez
@@ -2903,6 +2906,7 @@ void fmaximoph(struct Tfuente fuente[],int ndatos){
 		if (fuente[z].incluido==1) {
 			if (fuente[z].ph > phMax) {
 				phMax = fuente[z].ph;
+				printf("%d", fuente[z].numfuente);
 			}	
 		}	
 	}
