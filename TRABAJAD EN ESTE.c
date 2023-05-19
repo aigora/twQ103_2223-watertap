@@ -129,7 +129,7 @@ int main()
 						printf("El valor intoducido es incorrecto, por favor introdúzcalo de nuevo\n");
 					}
 					printf("Ha seleccionado añadir nuevos datos, se le crearan nuevos documentos de texto para almacenar estos datos.\n\n");
-					printf("Puede decidir si quiere guardar los datos para la próxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): ");
+					printf("Puede decidir si quiere guardar los datos para la próxima vez que abra el programa (Introduzca 1), o no, y solo trabajar con ellos esta vez(Introduzca 2): 0 \nkim");
 					printf("Si desea volver al menu principal, pulse 0\n");
 					miscanf("%d", &b);
 				} while (b!=1 && b!=2 && b!=0); 
@@ -926,7 +926,7 @@ int main()
     				printf("3: Mediana \n");
     				printf("4: Mínimo \n");
     				printf("5: Máximo \n");
-    				printf("4: Salir de estadísticas.\n");
+    				printf("6: Salir de estadísticas.\n");
     				miscanf("%d", &opcion);
 					
 					switch (opcion) {
@@ -936,7 +936,7 @@ int main()
 								printf("Puede ser de todas las fuentes (Introduzca 1), de fuentes seleccionadas (Introduzca 2), o en un intervalo (Introduzca 3) \n");
 								miscanf("%d", &est);
 								if(est<1 || est>3) {
-									printf("El valor intruducido es incorrecto, por favor introduzcalo de nuevo");
+									printf("El valor introducido es incorrecto, por favor introduzcalo de nuevo");
 								}
 							} while (est!=1 && est!=2 && est!=3);
 							int cuenta=0;
@@ -1461,9 +1461,7 @@ int main()
 							break;
 						}
 					}
-				} while (opcion != 6);
-				
-					//scanf("%d", &b);	
+				} while (opcion != 6);	
 					break;
 				
 				break;
@@ -1702,7 +1700,7 @@ int main()
 				switch(dato1) { 
 					case 1: {
 						float phEsperado;
-						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Conductividad\n 2-turbidez\n 3-Coliformes\n");
+						printf("De qué dato desea hacer la predicción:\n 1-Conductividad\n 2-Turbidez\n 3-Coliformes\n");
 						miscanf("%d", &dato2);
 						if(dato2==1)  {
 							//Conductividad en funcion de ph
@@ -1807,7 +1805,7 @@ int main()
 						break;
 					} case 2: {
 						float CondEsperado;
-						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-pH\n 2-turbidez\n 3-Coliformes\n");
+						printf("De qué dato desea hacer la predicción:\n 1-pH\n 2-turbidez\n 3-Coliformes\n");
 						miscanf("%d", &dato2);
 						if(dato2==1) {
 							//Ph en funcion de conductividad
@@ -1912,7 +1910,7 @@ int main()
 						break;
 					} case 3: {
 						float ColEsperado;
-						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
+						printf("De qué dato desea hacer la predicción:\n 1-Ph\n 2-turbidez\n 3-Conductividad\n");
 						miscanf("%d", &dato2);
 						if(dato2==1) {
 							//Ph en funcion de coliformes
@@ -2017,7 +2015,7 @@ int main()
 						break; 
 					} case 4: {
 						float TurEsperado;
-						printf("Seleccione en función de que dato desea hacer la predicción:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
+						printf("De qué dato desea hacer la predicción:\n 1-Ph\n 2-Coliformes\n 3-Conductividad\n");
 						miscanf("%d", &dato2);
 						if(dato2==1) {
 							//ph en funcion de turbidez
@@ -2621,7 +2619,6 @@ void fmaximoph(struct Tfuente fuente[],int ndatos){
 		if (fuente[z].incluido==1) {
 			if (fuente[z].ph > phMax) {
 				phMax = fuente[z].ph;
-				printf("%d", fuente[z].numfuente);
 			}	
 		}	
 	}
