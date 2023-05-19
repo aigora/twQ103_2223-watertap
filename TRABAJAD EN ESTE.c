@@ -1519,6 +1519,7 @@ int main()
 						printf("Has seleccionado comparar datos de conductividad entre fuentes \n"); 
 						printf ("Escriba 1 si quiere ver el mayor valor de conductividad o 2 si quiere ver el menor valor de conductividad  \n"); 
 						printf("Escriba 3 si quiere comparar los datos de conductividad por años \n"); 
+						printf("Escribe 4 si quieres imprimir por pantalla los datos ordenados \n");
 						miscanf("%d", &n);
 						if (n==1){
 							for(i=0; i<ndatos; i++){
@@ -1568,7 +1569,8 @@ int main()
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, tur1, tur2;
 						printf("Has seleccionado comparar los datos de turbidez \n"); 
 						printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
-						printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n"); 
+						printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n");
+						printf("Escribe 4 si quieres imprimir por pantalla los datos ordenados \n");
 						miscanf("%d", &n);
 						if (n==1){
 							for(i=0; i<ndatos; i++){
@@ -1613,7 +1615,44 @@ int main()
 							}else if (tur1==tur2) {
 								printf("Ambas fuentes tienen la misma turbidez \n"); 
 							}
-						}
+						}else if (n==4){
+								int i, j, z; 
+								float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8; 
+								printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+								for(j=i+1; j<ndatos; j++){
+								if(fuente[i].ph>fuente[j].ph){
+								aux1=fuente[i].numfuente;
+								aux2=fuente[i].ph;
+								aux3=fuente[i].coliformes;
+								aux4=fuente[i].turbidez;
+								aux5=fuente[i].conductividad;
+								aux6=fuente[i].mes;
+								aux7=fuente[i].annyo;
+								aux8=fuente[i].esVolatil;
+								fuente[i].numfuente=fuente[j].numfuente; 
+								fuente[i].ph=fuente[j].ph;
+								fuente[i].conductividad=fuente[j].conductividad;
+								fuente[i].turbidez=fuente[j].turbidez;
+								fuente[i].mes=fuente[j].mes;
+								fuente[i].annyo=fuente[j].annyo;
+								fuente[i].coliformes=fuente[j].coliformes;
+								fuente[i].esVolatil=fuente[j].esVolatil;
+								fuente[j].numfuente=aux1; 
+								fuente[j].ph=aux2;
+								fuente[j].coliformes=aux3;
+								fuente[j].turbidez=aux4;
+								fuente[j].conductividad=aux5;
+								fuente[j].mes=aux6;
+								fuente[j].esVolatil=aux8;
+								fuente[j].annyo=aux7;  
+								}
+							}
+						} 
+						for(z=0; z<ndatos; z++) {
+							printf("Fuente %d, PH %.2f\n", fuente[z].numfuente, fuente[z].ph);
+						}		
+					}
 						break;  
 					}
 					case (4): {
