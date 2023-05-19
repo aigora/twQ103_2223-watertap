@@ -930,7 +930,7 @@ int main()
     				printf("3: Mediana \n");
     				printf("4: Mínimo \n");
     				printf("5: Máximo \n");
-    				printf("4: Salir de estadísticas.\n");
+    				printf("6: Salir de estadísticas.\n");
     				miscanf("%d", &opcion);
 					
 					switch (opcion) {
@@ -2387,7 +2387,7 @@ int main()
 					fordenacionNumeroFuente(fuente, ndatos);
 				}
 				for(f=0; f<ndatos; f++) {
-					printf("Fuente %d\t\t Ph %f\t\t Conductividad %d \t\t Turbidez %d\t\t Coliformes%d \t\t Mes %d\t\t Año %d\t\t\n",fuente[f].numfuente, fuente[f].ph, fuente[f].conductividad, fuente[f].turbidez, fuente[f].coliformes, fuente[f].mes, fuente[f].annyo );
+					printf("Fuente %d\t\t Ph %f\t\t Conductividad %d \t\t Turbidez %d\t\t Coliformes %d \t\t Mes %d\t\t Año %d\t\t\n",fuente[f].numfuente, fuente[f].ph, fuente[f].conductividad, fuente[f].turbidez, fuente[f].coliformes, fuente[f].mes, fuente[f].annyo );
 				}
 				break;
 				int i;
