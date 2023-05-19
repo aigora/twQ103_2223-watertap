@@ -16,6 +16,7 @@ float fcomparacionmayor (struct Tfuente[], int);
 float fcomparacionmenor (struct Tfuente[], int);
 void fcomparacionfuentes (struct Tfuente[], int);
 void fordenaciondatos (struct Tfuente[], int); 
+void fordenaciondatos2 (struct Tfuente[], int);
 void fordenacionfecha (struct Tfuente[], int); 
 void fordenacionNumeroFuente (struct Tfuente[], int); 
 
@@ -1512,7 +1513,18 @@ int main()
 						else if (n==3){
 							fcomparacionfuentes (fuente, ndatos); 
 						}else if(n==4){
-							fordenaciondatos (fuente, ndatos);
+							do{
+								printf("Si quieres ver por pantalla los datos ordenados de menor a mayor, escribe 1, si quieres verlos ordenados de mayor a menor, escribe 2 \n"); 
+								miscanf("%d", &a);
+								if(a<1 || a>2){
+									printf("Error. Esa opción no es correcta, vuelve a intentarlo \n");
+								}
+							}while(a<1 || a>2);
+							if(a==1){
+			                  fordenaciondatos (fuente, ndatos);
+						    }else if(a==2){
+							fordenaciondatos2(fuente, ndatos);
+							}
 						}
 						break;
 					} case (2) : {
@@ -1557,22 +1569,107 @@ int main()
 								}
 							}
 							if(cond1>cond2){
-								printf("La conductividad de la fuente 1 es mayor que la de la fuente 2 ");
+								printf("La conductividad de la fuente 1 es mayor que la de la fuente 2 \n ");
 							}else if(cond1<cond2){
-								printf("La conductividad de la fuente 2 es mayor que la de la fuente 1"); 
+								printf("La conductividad de la fuente 1 es mayor que la de la fuente 2 \n"); 
 							}else if (cond1==cond2) {
 								printf("Ambas fuentes tienen la misma conductividad \n"); 
+							}
+						}else if (n==4){
+								int a,i, j, z; 
+								float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8;
+							do{
+								printf("Escribe 1 si quieres ver los datos ordenados de menor a mayor\n"); 
+								printf("Escribe 2 si quieres ver los datos ordenados de mayor a menor \n"); 
+								miscanf("%d", &a);
+								if(a<1 || a>2){
+									printf("Error. Esa opcion no está disponible. Vuelvelo a intentar \n"); 
+								}
+							}while(a<1 || a>2);
+							if(a==1){
+								printf("Los datos turbidez ordenados de menor a mayor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos; j++){
+										if(fuente[i].conductividad>fuente[j].conductividad){
+											aux1=fuente[i].numfuente;
+											aux2=fuente[i].ph;
+											aux3=fuente[i].coliformes;
+											aux4=fuente[i].turbidez;
+											aux5=fuente[i].conductividad;
+											aux6=fuente[i].mes;
+											aux7=fuente[i].annyo;
+											aux8=fuente[i].esVolatil;
+											fuente[i].numfuente=fuente[j].numfuente; 
+											fuente[i].ph=fuente[j].ph;
+											fuente[i].conductividad=fuente[j].conductividad;
+											fuente[i].turbidez=fuente[j].turbidez;
+											fuente[i].mes=fuente[j].mes;
+											fuente[i].annyo=fuente[j].annyo;
+											fuente[i].coliformes=fuente[j].coliformes;
+											fuente[i].esVolatil=fuente[j].esVolatil;
+											fuente[j].numfuente=aux1; 
+											fuente[j].ph=aux2;
+											fuente[j].coliformes=aux3;
+											fuente[j].turbidez=aux4;
+											fuente[j].conductividad=aux5;
+											fuente[j].mes=aux6;
+											fuente[j].esVolatil=aux8;
+											fuente[j].annyo=aux7;  
+										}
+									}
+								}for(z=0; z<ndatos; z++) {
+								printf("Fuente %d: CONDUCTIVIDAD %d\n", fuente[z].numfuente, fuente[z].conductividad);
+								} 
+							}else if(a==2){
+								printf("Los datos turbidez ordenados de mayor a menor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos; j++){
+										if(fuente[i].conductividad<fuente[j].conductividad){
+											aux1=fuente[j].numfuente;
+											aux2=fuente[j].ph;
+											aux3=fuente[j].coliformes;
+											aux4=fuente[j].turbidez;
+											aux5=fuente[j].conductividad;
+											aux6=fuente[j].mes;
+											aux7=fuente[j].annyo;
+											aux8=fuente[j].esVolatil;
+											fuente[j].numfuente=fuente[i].numfuente; 
+											fuente[j].ph=fuente[i].ph;
+											fuente[j].conductividad=fuente[i].conductividad;
+											fuente[j].turbidez=fuente[i].turbidez;
+											fuente[j].mes=fuente[i].mes;
+											fuente[j].annyo=fuente[i].annyo;
+											fuente[j].coliformes=fuente[i].coliformes;
+											fuente[j].esVolatil=fuente[i].esVolatil;
+											fuente[i].numfuente=aux1; 
+											fuente[i].ph=aux2;
+											fuente[i].coliformes=aux3;
+											fuente[i].turbidez=aux4;
+											fuente[i].conductividad=aux5;
+											fuente[i].mes=aux6;
+											fuente[i].esVolatil=aux8;
+											fuente[i].annyo=aux7;  
+										}
+									}
+								}for(z=0; z<ndatos; z++) {
+								printf("Fuente %d: CONDUCTIVIDAD %d\n", fuente[z].numfuente, fuente[z].conductividad);
+								}
 							}
 						}
 						break;
 					}
 					case(3):{
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, tur1, tur2;
-						printf("Has seleccionado comparar los datos de turbidez \n"); 
-						printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
-						printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n");
-						printf("Escribe 4 si quieres imprimir por pantalla los datos ordenados \n");
-						miscanf("%d", &n);
+						do{
+							printf("Has seleccionado comparar los datos de turbidez \n"); 
+							printf ("Escriba 1 si quiere el valor máximo de turbidez o 2 si quiere el mínimo\n"); 
+							printf("Escriba 3 si quiere comparar los datos de turbidez de dos fuentes específicas \n");
+							printf("Escribe 4 si quieres imprimir por pantalla los datos ordenados \n");
+							miscanf("%d", &n);
+							if(n<1 || n>4){
+								printf("Error. Esa opción no está disponible, vuelva a intentarlo \n"); 
+							}
+						}while(n<1 || n>4); 
 						if (n==1){
 							for(i=0; i<ndatos; i++){
 								if(fuente[i].turbidez>turmayor){
@@ -1588,8 +1685,7 @@ int main()
 								}
 							}
 							printf("El menor valor de turbidez es: %d", turmenor);
-						}
-						else if (n==3){
+						}else if (n==3){
 							printf("Introduce el número de la fuente 1 \n"); 
 							miscanf("%d", &a); 
 							printf("Introduce de qué mes quieres comparar la fuente 1 \n"); 
@@ -1617,64 +1713,107 @@ int main()
 								printf("Ambas fuentes tienen la misma turbidez \n"); 
 							}
 						}else if (n==4){
-								int i, j, z; 
-								float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8; 
-								printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
-								for (i=0; i<ndatos; i++){
-								for(j=i+1; j<ndatos; j++){
-								if(fuente[i].ph>fuente[j].ph){
-								aux1=fuente[i].numfuente;
-								aux2=fuente[i].ph;
-								aux3=fuente[i].coliformes;
-								aux4=fuente[i].turbidez;
-								aux5=fuente[i].conductividad;
-								aux6=fuente[i].mes;
-								aux7=fuente[i].annyo;
-								aux8=fuente[i].esVolatil;
-								fuente[i].numfuente=fuente[j].numfuente; 
-								fuente[i].ph=fuente[j].ph;
-								fuente[i].conductividad=fuente[j].conductividad;
-								fuente[i].turbidez=fuente[j].turbidez;
-								fuente[i].mes=fuente[j].mes;
-								fuente[i].annyo=fuente[j].annyo;
-								fuente[i].coliformes=fuente[j].coliformes;
-								fuente[i].esVolatil=fuente[j].esVolatil;
-								fuente[j].numfuente=aux1; 
-								fuente[j].ph=aux2;
-								fuente[j].coliformes=aux3;
-								fuente[j].turbidez=aux4;
-								fuente[j].conductividad=aux5;
-								fuente[j].mes=aux6;
-								fuente[j].esVolatil=aux8;
-								fuente[j].annyo=aux7;  
+								int a,i, j, z; 
+								float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8;
+							do{
+								printf("Escribe 1 si quieres ver los datos ordenados de menor a mayor\n"); 
+								printf("Escribe 2 si quieres ver los datos ordenados de mayor a menor \n"); 
+								miscanf("%d", &a);
+								if(a<1 || a>2){
+									printf("Error. Esa opcion no está disponible. Vuelvelo a intentar \n"); 
 								}
-							}
-						} 
-						for(z=0; z<ndatos; z++) {
-							printf("Fuente %d, PH %.2f\n", fuente[z].numfuente, fuente[z].ph);
-						}		
-					}
+							}while(a<1 || a>2);
+							if(a==1){
+								printf("Los datos turbidez ordenados de menor a mayor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos; j++){
+										if(fuente[i].turbidez>fuente[j].turbidez){
+											aux1=fuente[i].numfuente;
+											aux2=fuente[i].ph;
+											aux3=fuente[i].coliformes;
+											aux4=fuente[i].turbidez;
+											aux5=fuente[i].conductividad;
+											aux6=fuente[i].mes;
+											aux7=fuente[i].annyo;
+											aux8=fuente[i].esVolatil;
+											fuente[i].numfuente=fuente[j].numfuente; 
+											fuente[i].ph=fuente[j].ph;
+											fuente[i].conductividad=fuente[j].conductividad;
+											fuente[i].turbidez=fuente[j].turbidez;
+											fuente[i].mes=fuente[j].mes;
+											fuente[i].annyo=fuente[j].annyo;
+											fuente[i].coliformes=fuente[j].coliformes;
+											fuente[i].esVolatil=fuente[j].esVolatil;
+											fuente[j].numfuente=aux1; 
+											fuente[j].ph=aux2;
+											fuente[j].coliformes=aux3;
+											fuente[j].turbidez=aux4;
+											fuente[j].conductividad=aux5;
+											fuente[j].mes=aux6;
+											fuente[j].esVolatil=aux8;
+											fuente[j].annyo=aux7;  
+										}
+									}
+								}for(z=0; z<ndatos; z++) {
+								printf("Fuente %d: TURBIDEZ %d\n", fuente[z].numfuente, fuente[z].turbidez);
+								} 
+							}else if(a==2){
+								printf("Los datos turbidez ordenados de mayor a menor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos; j++){
+										if(fuente[i].turbidez<fuente[j].turbidez){
+											aux1=fuente[j].numfuente;
+											aux2=fuente[j].ph;
+											aux3=fuente[j].coliformes;
+											aux4=fuente[j].turbidez;
+											aux5=fuente[j].conductividad;
+											aux6=fuente[j].mes;
+											aux7=fuente[j].annyo;
+											aux8=fuente[j].esVolatil;
+											fuente[j].numfuente=fuente[i].numfuente; 
+											fuente[j].ph=fuente[i].ph;
+											fuente[j].conductividad=fuente[i].conductividad;
+											fuente[j].turbidez=fuente[i].turbidez;
+											fuente[j].mes=fuente[i].mes;
+											fuente[j].annyo=fuente[i].annyo;
+											fuente[j].coliformes=fuente[i].coliformes;
+											fuente[j].esVolatil=fuente[i].esVolatil;
+											fuente[i].numfuente=aux1; 
+											fuente[i].ph=aux2;
+											fuente[i].coliformes=aux3;
+											fuente[i].turbidez=aux4;
+											fuente[i].conductividad=aux5;
+											fuente[i].mes=aux6;
+											fuente[i].esVolatil=aux8;
+											fuente[i].annyo=aux7;  
+										}
+									}
+								}for(z=0; z<ndatos; z++) {
+								printf("Fuente %d: TURBIDEZ %d\n", fuente[z].numfuente, fuente[z].turbidez);
+								}
+							}		
+						}
 						break;  
 					}
 					case (4): {
 						int i,a,b,n, mes1, mes2, annyo1,annyo2, coli1, coli2;
 						printf ("Escribe 1 si quieres el máximo f valor de coliformes o 2 si quiere el mínimo \n"); 
 						printf("Escribe 3 si quieres comparar los datos de coliformes de dos fuentes específicas  \n"); 
-						printf("Escribe 4 si quieres mostra por pantalla los datos de coliformes ordenados \n"); 
+						printf("Escribe 4 si quieres mostrar por pantalla los datos de coliformes ordenados \n"); 
 						miscanf("%d", &n);
 						if (n==1){ 
 							 for(i=0; i<ndatos; i++){
-									if(fuente[i].coliformes>colimayor){
-										colimayor=fuente[i].coliformes; 
-									}
+								if(fuente[i].coliformes>colimayor){
+									colimayor=fuente[i].coliformes; 
 								}
+							}
 							printf("El mayor valor de coliformes es: %d", colimayor);
 						}else if(n==2) {
 							for(i=0; i<ndatos; i++){
-									if(fuente[i].coliformes<colimenor){
-										colimenor=fuente[i].coliformes; 
-									}
+								if(fuente[i].coliformes<colimenor){
+									colimenor=fuente[i].coliformes; 
 								}
+							}
 							printf("El menor valor de coliformes es: %d", colimenor);
 						}else if (n==3){
 							printf("Introduce el número de la fuente 1 \n"); 
@@ -1704,19 +1843,85 @@ int main()
 								printf("Ambas fuentes tienen el mismo número de coliformes \n"); 
 							}
 						}else if(n==4){
-							int i, j; 
-							int aux=0; 
-							printf("Los datos de coliformes ordenados de mayor a menor son:\n" ); 
-							for (i=0; i<ndatos; i++){
-								for(j=i+1; j<ndatos; j++){
-									if(fuente[i].coliformes>fuente[j].coliformes){
-										aux=fuente[i].coliformes;
-										fuente[i].coliformes=fuente[j].coliformes; 
-										fuente[j].coliformes=aux;  
-									}
+							int a,i, j, z; 
+								float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8;
+							do{
+								printf("Escribe 1 si quieres ver los datos ordenados de menor a mayor\n"); 
+								printf("Escribe 2 si quieres ver los datos ordenados de mayor a menor \n"); 
+								miscanf("%d", &a);
+								if(a<1 || a>2){
+									printf("Error. Esa opcion no está disponible. Vuelvelo a intentar \n"); 
 								}
-								printf("%.2d \n", aux);
-							} 
+							}while(a<1 || a>2);
+							if(a==1){
+								printf("Los datos de coliformes ordenados de menor a mayor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos; j++){
+										if(fuente[i].coliformes>fuente[j].coliformes){
+											aux1=fuente[i].numfuente;
+											aux2=fuente[i].ph;
+											aux3=fuente[i].coliformes;
+											aux4=fuente[i].turbidez;
+											aux5=fuente[i].conductividad;
+											aux6=fuente[i].mes;
+											aux7=fuente[i].annyo;
+											aux8=fuente[i].esVolatil;
+											fuente[i].numfuente=fuente[j].numfuente; 
+											fuente[i].ph=fuente[j].ph;
+											fuente[i].conductividad=fuente[j].conductividad;
+											fuente[i].turbidez=fuente[j].turbidez;
+											fuente[i].mes=fuente[j].mes;
+											fuente[i].annyo=fuente[j].annyo;
+											fuente[i].coliformes=fuente[j].coliformes;
+											fuente[i].esVolatil=fuente[j].esVolatil;
+											fuente[j].numfuente=aux1; 
+											fuente[j].ph=aux2;
+											fuente[j].coliformes=aux3;
+											fuente[j].turbidez=aux4;
+											fuente[j].conductividad=aux5;
+											fuente[j].mes=aux6;
+											fuente[j].esVolatil=aux8;
+											fuente[j].annyo=aux7;  
+										}
+									}
+								}for(z=0; z<ndatos; z++) {
+								printf("Fuente %d: COLIFORMES %d\n", fuente[z].numfuente, fuente[z].coliformes);
+								} 
+							}else if(a==2){
+								printf("Los datos de coliformes ordenados de mayor a menor son:\n" ); 
+								for (i=0; i<ndatos; i++){
+									for(j=i+1; j<ndatos; j++){
+										if(fuente[i].coliformes<fuente[j].coliformes){
+											aux1=fuente[j].numfuente;
+											aux2=fuente[j].ph;
+											aux3=fuente[j].coliformes;
+											aux4=fuente[j].turbidez;
+											aux5=fuente[j].conductividad;
+											aux6=fuente[j].mes;
+											aux7=fuente[j].annyo;
+											aux8=fuente[j].esVolatil;
+											fuente[j].numfuente=fuente[i].numfuente; 
+											fuente[j].ph=fuente[i].ph;
+											fuente[j].conductividad=fuente[i].conductividad;
+											fuente[j].turbidez=fuente[i].turbidez;
+											fuente[j].mes=fuente[i].mes;
+											fuente[j].annyo=fuente[i].annyo;
+											fuente[j].coliformes=fuente[i].coliformes;
+											fuente[j].esVolatil=fuente[i].esVolatil;
+											fuente[i].numfuente=aux1; 
+											fuente[i].ph=aux2;
+											fuente[i].coliformes=aux3;
+											fuente[i].turbidez=aux4;
+											fuente[i].conductividad=aux5;
+											fuente[i].mes=aux6;
+											fuente[i].esVolatil=aux8;
+											fuente[i].annyo=aux7;  
+										}
+									}
+								}for(z=0; z<ndatos; z++) {
+								printf("Fuente %d: COLIFORMES %d\n", fuente[z].numfuente, fuente[z].coliformes);
+								}
+							}		
 						}
 						break;
 					}
@@ -2261,6 +2466,44 @@ void fcomparacionfuentes (struct Tfuente fuente[], int ndatos) {
 	}
 }
 void fordenaciondatos (struct Tfuente fuente[], int ndatos){
+	int i, j, z; 
+	float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8; 
+	printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
+	for (i=0; i<ndatos; i++){
+		for(j=i+1; j<ndatos; j++){
+			if(fuente[i].ph>fuente[j].ph){
+				aux1=fuente[i].numfuente;
+				aux2=fuente[i].ph;
+				aux3=fuente[i].coliformes;
+				aux4=fuente[i].turbidez;
+				aux5=fuente[i].conductividad;
+				aux6=fuente[i].mes;
+				aux7=fuente[i].annyo;
+				aux8=fuente[i].esVolatil;
+				fuente[i].numfuente=fuente[j].numfuente; 
+				fuente[i].ph=fuente[j].ph;
+				fuente[i].conductividad=fuente[j].conductividad;
+				fuente[i].turbidez=fuente[j].turbidez;
+				fuente[i].mes=fuente[j].mes;
+				fuente[i].annyo=fuente[j].annyo;
+				fuente[i].coliformes=fuente[j].coliformes;
+				fuente[i].esVolatil=fuente[j].esVolatil;
+				fuente[j].numfuente=aux1; 
+				fuente[j].ph=aux2;
+				fuente[j].coliformes=aux3;
+				fuente[j].turbidez=aux4;
+				fuente[j].conductividad=aux5;
+				fuente[j].mes=aux6;
+				fuente[j].esVolatil=aux8;
+				fuente[j].annyo=aux7;  
+			}
+		}
+	} 
+	for(z=0; z<ndatos; z++) {
+		printf("Fuente %d, PH %.2f\n", fuente[z].numfuente, fuente[z].ph);
+	}
+}
+void fordenaciondatos2 (struct Tfuente fuente[], int ndatos){
 	int i, j, z; 
 	float aux1, aux2, aux3, aux4, aux5, aux6, aux7, aux8; 
 	printf("Los datos de pH ordenados de mayor a menor son:\n" ); 
