@@ -247,7 +247,7 @@ int main()
 				int decision, valor=1;
 				reset(fuente, ndatos, 1);
 				do {
-						int n=0, n1=0, n2=0, n3=0;
+						int n=0, n1=0, n2=0, n3=0, numEncontrado=0;
 						printf("Ha seleccionado la opción de busqueda de datos.\n");
 						printf("=======================* BÚSQUEDA DE DATOS *=======================\n");
 						do {
@@ -287,6 +287,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].ph==phBuscado && fuente[a].incluido==1) {
 												encontrado=1; 
+												numEncontrado++;
 												printf("Se encontró que la fuente %d tiene el ph buscado %.2f: \n", fuente[a].numfuente, phBuscado);
 												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Año %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
@@ -296,6 +297,9 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicho Ph");
+										}
+										else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -317,6 +321,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].ph>=min && fuente[x].ph<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("Se encontró que la fuente %d esta en el intervalo de ph buscado, con un ph %.2f: \n", fuente[x].numfuente, fuente[x].ph );
 												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Año %d\t", fuente[x].numfuente, fuente[x].turbidez, fuente[x].coliformes, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
@@ -326,6 +331,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con un ph entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -352,6 +359,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].turbidez==turbidezBuscada && fuente[a].incluido==1) {
 												encontrado=1; 
+												numEncontrado++;
 												printf("Se encontró que la fuente %d tiene la turbidez buscada %d: \n", fuente[a].numfuente, turbidezBuscada);
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Conductividad %d\t Mes %d\t Año %d\t", fuente[a].numfuente, fuente[a].ph, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
@@ -361,6 +369,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicha Turbidez");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -380,6 +390,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].turbidez>=min && fuente[x].turbidez<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("Se encontró que la fuente %d esta en el intervalo de turbidez buscado, con una turbidez %d: \n", fuente[x].numfuente, fuente[x].turbidez );
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Conductividad %d\t Mes %d\t Año %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
@@ -389,6 +400,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con una turbidez entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -414,7 +427,8 @@ int main()
 										miscanf("%d", &ColBuscado);
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].coliformes==ColBuscado && fuente[a].incluido==1) {
-												encontrado=1; 
+												encontrado=1;
+												numEncontrado++; 
 												printf("Se encontró que la fuente %d tiene los coliformes buscados %d: \n", fuente[a].numfuente, ColBuscado);
 												printf("\tFuente %d\t Turbidez %d\t Ph %.2f\t Conductividad %d\t Mes %d\t Año %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].ph, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
@@ -424,6 +438,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicho número de coliformes");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -443,6 +459,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].coliformes>=min && fuente[x].coliformes<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("se encontró que la fuente %d esta en el intervalo de coliformes buscado, con unos coliformes %d: \n", fuente[x].numfuente, fuente[x].coliformes );
 												printf("\tFuente %d\t Ph %.2f\t Turbidez %d\t Conductividad %d\t Mes %d\t Año %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].turbidez, fuente[x].conductividad, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
@@ -452,6 +469,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con coliformes entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}	
@@ -479,6 +498,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].numfuente==numBuscado && fuente[a].incluido==1) {
 												encontrado=1; 
+												numEncontrado++;
 												printf("Se encontró que la fuente %d\n", fuente[a].numfuente);
 												printf("\tFuente %d\t Ph %.2f\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Año %d\t", fuente[a].numfuente, fuente[a].ph, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
@@ -488,6 +508,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente\n");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;		
 									}
@@ -507,6 +529,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].numfuente>=min && fuente[x].numfuente<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("Se encontró la fuente %d en el intervalo buscado\n", fuente[x].numfuente );
 												printf("\tFuente %d\t Ph %.2f\t coliformes %d\t Conductividad %d\t Turbidez %d\t Mes %d\t Año %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].conductividad, fuente[x].turbidez, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
@@ -516,6 +539,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}	
@@ -541,7 +566,8 @@ int main()
 										miscanf("%d", &conBuscado);
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].conductividad==conBuscado && fuente[a].incluido==1) {
-												encontrado=1; 
+												encontrado=1;
+												numEncontrado++; 
 												printf("Se encontro que la fuente %d tiene la conductividad buscada %d: \n", fuente[a].numfuente, conBuscado);
 												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Ph %.2f\t Mes %d\t Año %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].ph, fuente[a].mes, fuente[a].annyo);
 												printf("\n");
@@ -551,6 +577,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicha conductividad");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}	
 										break;
 									}
@@ -570,6 +598,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].conductividad>=min && fuente[x].conductividad<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("Se encontró que la fuente %d esta en el intervalo de conducctividad buscado, con una conductividad %d: \n", fuente[x].numfuente, fuente[x].conductividad );
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Turbidez %d\t Mes %d\t Año %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].turbidez, fuente[x].mes, fuente[x].annyo);
 												printf("\n");
@@ -579,6 +608,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -605,6 +636,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].mes==mesBuscado && fuente[a].incluido==1) {
 												encontrado=1; 
+												numEncontrado++;
 												printf("se encontró que la fuente %d es del mes buscado %d: \n", fuente[a].numfuente, mesBuscado);
 												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Ph %.2f\t Año %d\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].ph, fuente[a].annyo);
 												printf("\n");
@@ -614,6 +646,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente perteneciente a dicho mes");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -633,6 +667,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].mes>=min && fuente[x].mes<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("se encontró que la fuente %d está en el intervalo de meses buscado, con el mes %d: \n", fuente[x].numfuente, fuente[x].mes );
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Turbidez %d\t Conductividad %d\t Año %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].turbidez, fuente[x].conductividad, fuente[x].annyo);
 												printf("\n");
@@ -642,6 +677,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("no se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}	
 										break;
 									}	
@@ -667,6 +704,7 @@ int main()
 										for(a=0; a<ndatos; a++) {
 											if(fuente[a].annyo==annyoBuscado && fuente[a].incluido==1) {
 												encontrado=1; 
+												numEncontrado++;
 												printf("se encontró que la fuente %d pertenece al annyo buscado %d: \n", fuente[a].numfuente, annyoBuscado);
 												printf("\tFuente %d\t Turbidez %d\t Coliformes %d\t Conductividad %d\t Mes %d\t Ph %.2f\t", fuente[a].numfuente, fuente[a].turbidez, fuente[a].coliformes, fuente[a].conductividad, fuente[a].mes, fuente[a].ph);
 												printf("\n");
@@ -676,6 +714,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicho Ph");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -695,6 +735,7 @@ int main()
 										for(x=0; x<ndatos; x++) {
 											if(fuente[x].annyo>=min && fuente[x].annyo<=max && fuente[x].incluido==1) {
 												encontrado=1;
+												numEncontrado++;
 												printf("Se encontró que la fuente %d esta en el intervalo de años buscado, con el mes %d: \n", fuente[x].numfuente, fuente[x].annyo );
 												printf("\tFuente %d\t Ph %.2f\t Coliformes %d\t Turbidez %d\t Conductividad %d\t Mes %d\t", fuente[x].numfuente, fuente[x].ph, fuente[x].coliformes, fuente[x].turbidez, fuente[x].conductividad, fuente[x].mes);
 												printf("\n");
@@ -704,6 +745,8 @@ int main()
 										}
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
+										}else {
+											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
 										}	
 										break;
 									}
