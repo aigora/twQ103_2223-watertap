@@ -210,6 +210,7 @@ int main()
 				fclose(fsalida);
 				/*Solo si han seleccionado que se guarden los datos para la proxima vez, guardaremos los 
 				nuevos datos (junto con los antiguos) en el mismo fichero que abre el programa nada más comenzar*/
+				fordenacionNumeroFuente(fuente, ndatos);
 				for(k=0;k<ndatos; k++) {
 					if(fuente[k].esVolatil==0) {
 						numeroDatos++;//numero de datos NO volatiles (que necesitan ser guardados en el fichero principal)
@@ -273,7 +274,7 @@ int main()
 									if(n1>1) {
 										printf("Error, el valor introducido es incorrecto. Por favor, introdúzcalo de nuevo.\n");
 									}
-									printf("si desea buscar un dato específico introduzca 1, si desea buscar un intervalo de datos, introduzca 2:");
+									printf("Si desea:\n \t-Buscar un dato específico: introduzca 1\n \tBuscar un intervalo de datos: introduzca 2:");
 									miscanf("%d", &decision2);
 								} while (decision2!=1 && decision2!=2);
 								switch(decision2) {
@@ -299,7 +300,7 @@ int main()
 											printf("No se ha encontrado ninguna fuente con dicho Ph");
 										}
 										else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -332,7 +333,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con un ph entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -370,7 +371,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicha Turbidez");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -401,7 +402,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con una turbidez entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -439,7 +440,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicho número de coliformes");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -470,7 +471,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con coliformes entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}	
@@ -509,7 +510,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente\n");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;		
 									}
@@ -540,7 +541,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}	
@@ -578,7 +579,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicha conductividad");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}	
 										break;
 									}
@@ -609,7 +610,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -647,7 +648,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente perteneciente a dicho mes");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -678,7 +679,7 @@ int main()
 										if(encontrado==0) {
 											printf("no se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}	
 										break;
 									}	
@@ -715,7 +716,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con dicho Ph");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}
 										break;
 									}
@@ -746,7 +747,7 @@ int main()
 										if(encontrado==0) {
 											printf("No se ha encontrado ninguna fuente con la conductividad entre los valores indicados");
 										}else {
-											printf("\n\nSe han encontrado %d datos\n\n", numEncontrado);
+											printf("\n\nSe han encontrado %d fuentes\n\n", numEncontrado);
 										}	
 										break;
 									}
@@ -760,11 +761,31 @@ int main()
 							printf("Error, el valor introducido es incorrecto. Por favor, introdúzcalo de nuevo\n");
 						}
 						// Si desea hacer otra búsqueda con lo valores ya seleccionados la función incluida se queda guardada y se realizan nuevas busquedas a partir de dichos valores
-						printf("\nSi desea realizar una búsqueda dentro de la ya hecha, introduzca 1, si desea por el contrario volver al menú principal introduzca 0: ");
+						printf("\nSi desea:\n \t\t-Realizar una búsqueda dentro de la ya hecha, introduzca 1\n\t\t-El número de las fuentes encontradas, introduzca 2\n\t\t-Volver al menú principal, introduzca 0\n ");
 						miscanf("%d", &valor);
-					} while (valor!=1 && valor!=0);
+					} while (valor!=1 && valor!=0 &&valor!=2);
+					if(valor==2) {
+						int f; 
+						fordenacionNumeroFuente(fuente, ndatos);
+						printf("La búsqueda que ha hecho ha encontrado las siguientes fuentes: \n");
+						for(f=0; f<ndatos; f++){
+							if(fuente[f].numfuente!=fuente[f+1].numfuente && fuente[f].incluido==1) {
+								printf("Fuente %d\n", fuente[f].numfuente);
+							}
+						}
+						int n10=0;
+						do {
+							n10++;
+							if(n3>1) {
+								printf("Error, el valor introducido es incorrecto. Por favor, introdúzcalo de nuevo\n");
+							}
+							// Si desea hacer otra búsqueda con lo valores ya seleccionados la función incluida se queda guardada y se realizan nuevas busquedas a partir de dichos valores
+							printf("\nSi desea:\n \t\t-Realizar una búsqueda dentro de la ya hecha, introduzca 1\n\t\t-Volver al menú principal, introduzca 0\n ");
+							miscanf("%d", &valor);
+						} while (valor!=1 && valor!=0);
+					}
 				//En el caso de querer volver al menú principal se resetean los que tienen la funcion incluido y el break le devuelve al menú.
-				}while(valor!=0);
+				}while(valor!=0 &&valor!=2);
 				reset(fuente, ndatos, 0);
 				break;
 			}
@@ -3249,7 +3270,7 @@ void fmedianacoliformes(struct Tfuente fuente[], int ndatos, int numeroF){
 }
 void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
 	int i, j, k, p; 
-	int aux1, aux3, aux4, aux5, aux6, aux7, aux8; 
+	int aux1, aux3, aux4, aux5, aux6, aux7, aux8, aux9; 
 	float aux2; 
 	for (i=0; i<ndatos; i++){
 		for(j=i+1; j<ndatos; j++){
@@ -3262,6 +3283,7 @@ void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
 				aux6=fuente[i].mes;
 				aux7=fuente[i].annyo;
 				aux8=fuente[i].esVolatil;
+				aux9=fuente[i].incluido;
 				fuente[i].numfuente=fuente[j].numfuente; 
 				fuente[i].ph=fuente[j].ph;
 				fuente[i].conductividad=fuente[j].conductividad;
@@ -3270,6 +3292,7 @@ void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
 				fuente[i].annyo=fuente[j].annyo;
 				fuente[i].coliformes=fuente[j].coliformes;
 				fuente[i].esVolatil=fuente[j].esVolatil;
+				fuente[i].incluido=fuente[j].incluido;
 				fuente[j].numfuente=aux1; 
 				fuente[j].ph=aux2;
 				fuente[j].coliformes=aux3;
@@ -3278,6 +3301,7 @@ void fordenacionNumeroFuente (struct Tfuente fuente[], int ndatos) {
 				fuente[j].mes=aux6;
 				fuente[j].esVolatil=aux8;
 				fuente[j].annyo=aux7; 
+				fuente[j].incluido=aux9;
 			}
 		}
 	} 
