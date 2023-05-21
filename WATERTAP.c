@@ -1551,6 +1551,9 @@ int main()
 					if (opcion<0 || opcion>4) {
 						printf(" ERROR. Esa opción no está disponible, pruebe otra vez por favor \n"); 
 					}
+					if (opcion==0){
+						printf("Has salido de la opción de comparaciones \n"); 
+					}
 				}while(opcion<0 || opcion>4); 
 				if(opcion==0) {
 					break;
